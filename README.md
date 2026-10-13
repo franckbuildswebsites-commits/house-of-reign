@@ -15,7 +15,7 @@ npm run preview  # serve the production build locally
 | --- | --- |
 | Name, email, phone, Instagram (hidden while empty), form key, site URL | `src/config.js` |
 | Case studies ("Recent work") | `src/data/projects.js` |
-| Case-study screenshots (WebP, plus the Token Forge "before") | `public/portfolio/` |
+| Case-study screenshots (WebP, including before/after images) | `public/portfolio/` |
 | Design services ("More than websites": cards, text, illustrations) | `src/components/DesignServices.jsx` |
 | Hero animation (the three fictional businesses, timing) | `src/components/BuildScene.jsx` |
 | Services & pricing ("Perfect for" lines) | `src/data/services.js` |

@@ -18,6 +18,23 @@
 
 export const projects = [
   {
+    id: "ppf-comics",
+    name: "Past Present Future Comics",
+    description: "A concept site for a two-location comic shop.",
+    tag: "Concept",
+    url: "",
+    address: "concept preview",
+    desktop: "/portfolio/ppf-comics-desktop.webp",
+    before: "/portfolio/ppf-before.webp",
+    mobile: "/portfolio/ppf-comics-mobile.webp",
+    bullets: [
+      "Comic-era timeline hero with an animated UFO mascot",
+      "“Wall Books” grails showcase the owner updates from their phone",
+      "Events with one-tap Google & Apple Calendar buttons",
+    ],
+    published: true,
+  },
+  {
     id: "token-forge",
     name: "Token Forge",
     description: "Trading card shop — a mobile-first rebuild of their old site-builder page.",
@@ -25,7 +42,6 @@ export const projects = [
     url: "https://www.tokenforgecgc.com",
     desktop: "/portfolio/token-forge-desktop.webp",
     mobile: "/portfolio/token-forge-mobile.webp",
-    before: "/portfolio/tokenforge-before.png",
     bullets: [
       "Events calendar they update from a Google Sheet",
       "Mobile-first redesign replacing a GoDaddy builder site",
@@ -39,7 +55,8 @@ export const projects = [
     description: "Nonprofit youth sports camps site, rebuilt to drive donations & sponsorships.",
     tag: "Client",
     url: "https://champions4character.org",
-    desktop: "/portfolio/champions4character-desktop.webp",
+    desktop: "/portfolio/c4c-after.webp",
+    before: "/portfolio/c4c-before.webp",
     mobile: "/portfolio/champions4character-mobile.webp",
     bullets: ["[CONFIRM: what you built #1]", "[CONFIRM: what you built #2]", "[CONFIRM: what you built #3]"],
     published: true,
@@ -53,22 +70,6 @@ export const projects = [
     desktop: "/portfolio/mm-casino-party-desktop.webp",
     mobile: "/portfolio/mm-casino-party-mobile.webp",
     bullets: ["[CONFIRM: what you built #1]", "[CONFIRM: what you built #2]", "[CONFIRM: what you built #3]"],
-    published: true,
-  },
-  {
-    id: "ppf-comics",
-    name: "Past Present Future Comics",
-    description: "A concept site for a two-location comic shop.",
-    tag: "Concept",
-    url: "",
-    address: "concept preview",
-    desktop: "/portfolio/ppf-comics-desktop.webp",
-    mobile: "/portfolio/ppf-comics-mobile.webp",
-    bullets: [
-      "Comic-era timeline hero with an animated UFO mascot",
-      "“Wall Books” grails showcase the owner updates from their phone",
-      "Events with one-tap Google & Apple Calendar buttons",
-    ],
     published: true,
   },
   {

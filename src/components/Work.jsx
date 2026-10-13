@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import ContactCTA from "./ContactCTA";
@@ -20,8 +20,26 @@ const lift = "transition-transform duration-500 ease-[var(--ease-spring)]";
 // Drag (or use arrow keys) to compare the old site with the new one.
 function BeforeAfter({ before, after, name }) {
   const [pos, setPos] = useState(50);
+  const dragging = useRef(false);
+  // Pointer events drive dragging (mouse, touch and pen alike); the hidden range input handles the keyboard.
+  const moveTo = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setPos(Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100))));
+  };
   return (
-    <div className="relative aspect-[16/10] select-none overflow-hidden bg-sand">
+    <div
+      className="relative aspect-[16/10] cursor-ew-resize select-none overflow-hidden bg-sand [&_img]:pointer-events-none"
+      onDragStart={(e) => e.preventDefault()}
+      style={{ touchAction: "pan-y" }}
+      onPointerDown={(e) => {
+        dragging.current = true;
+        e.currentTarget.setPointerCapture(e.pointerId);
+        moveTo(e);
+      }}
+      onPointerMove={(e) => dragging.current && moveTo(e)}
+      onPointerUp={() => (dragging.current = false)}
+      onPointerCancel={() => (dragging.current = false)}
+    >
       <Photo
         src={after}
         alt={`${name}'s new site`}
@@ -52,8 +70,7 @@ function BeforeAfter({ before, after, name }) {
         value={pos}
         onChange={(e) => setPos(Number(e.target.value))}
         aria-label={`Compare ${name}'s old site (left) with the new one (right)`}
-        className="peer absolute inset-0 z-10 h-full w-full cursor-ew-resize opacity-0"
-        style={{ touchAction: "pan-y" }}
+        className="peer pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0"
       />
       {/* Divider + handle, moved with a transform */}
       <div
