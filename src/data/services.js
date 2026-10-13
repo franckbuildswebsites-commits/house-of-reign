@@ -1,0 +1,32 @@
+export const services = [
+  {
+    name: "Launch Page",
+    perfectFor: "New businesses & single offers.",
+    priceLabel: "Starting at",
+    price: "$750",
+    unit: "",
+    features: ["One-page site", "Mobile-ready", "Contact form", "2 revision rounds"],
+    timeline: "~1 week",
+    highlight: false,
+  },
+  {
+    name: "Business Site",
+    perfectFor: "Established businesses that need bookings or donations.",
+    priceLabel: "Starting at",
+    price: "$1,200",
+    unit: "",
+    features: ["Up to 5 sections/pages", "Booking or donation links", "Basic SEO", "2 revision rounds"],
+    timeline: "~2 weeks",
+    highlight: true,
+  },
+  {
+    name: "Site Care",
+    perfectFor: "Anyone who'd rather not touch their website.",
+    priceLabel: "Monthly",
+    price: "$125",
+    unit: "/month",
+    features: ["Hosting oversight", "Monthly updates (events, photos, text)", "Up to 2 update rounds per month"],
+    timeline: "Ongoing",
+    highlight: false,
+  },
+];

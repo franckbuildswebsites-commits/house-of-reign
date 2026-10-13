@@ -1,0 +1,66 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import * as config from "./src/config.js";
+
+const isPlaceholder = (v) => !v || /^\[.*\]$/.test(String(v).trim());
+const esc = (s) =>
+  String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// Injects <title>, SEO and Open Graph tags into index.html from src/config.js,
+// so the studio name is never hardcoded in the HTML.
+function siteMeta() {
+  return {
+    name: "site-meta",
+    transformIndexHtml(html) {
+      const { STUDIO_NAME, OWNER, SITE_DESCRIPTION, SITE_URL, EMAIL, PHONE } = config;
+      const url = isPlaceholder(SITE_URL) ? "" : SITE_URL.replace(/\/$/, "");
+      const title = `${STUDIO_NAME} | Web Design for Event Businesses & Local Brands`;
+      const ogImage = `${url}/og-image.jpg`;
+
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        name: STUDIO_NAME,
+        description: SITE_DESCRIPTION,
+        founder: { "@type": "Person", name: OWNER },
+        knowsLanguage: ["en", "es"],
+        ...(url && { url, image: ogImage }),
+        ...(!isPlaceholder(EMAIL) && { email: EMAIL }),
+        ...(!isPlaceholder(PHONE) && { telephone: PHONE }),
+      };
+
+      const tags = [
+        `<title>${esc(title)}</title>`,
+        `<meta name="description" content="${esc(SITE_DESCRIPTION)}" />`,
+        `<meta name="robots" content="index, follow" />`,
+        `<meta name="author" content="${esc(OWNER)}" />`,
+        url && `<link rel="canonical" href="${esc(url)}/" />`,
+        `<meta property="og:type" content="website" />`,
+        `<meta property="og:site_name" content="${esc(STUDIO_NAME)}" />`,
+        `<meta property="og:title" content="${esc(title)}" />`,
+        `<meta property="og:description" content="${esc(SITE_DESCRIPTION)}" />`,
+        url && `<meta property="og:url" content="${esc(url)}/" />`,
+        `<meta property="og:image" content="${esc(ogImage)}" />`,
+        `<meta property="og:image:width" content="1200" />`,
+        `<meta property="og:image:height" content="630" />`,
+        `<meta property="og:image:alt" content="${esc(STUDIO_NAME)}" />`,
+        `<meta property="og:locale" content="en_US" />`,
+        `<meta property="og:locale:alternate" content="es_US" />`,
+        `<meta name="twitter:card" content="summary_large_image" />`,
+        `<meta name="twitter:title" content="${esc(title)}" />`,
+        `<meta name="twitter:description" content="${esc(SITE_DESCRIPTION)}" />`,
+        `<meta name="twitter:image" content="${esc(ogImage)}" />`,
+        `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>`,
+      ]
+        .filter(Boolean)
+        .join("\n    ");
+
+      return html.replace("<!--site-meta-->", tags);
+    },
+  };
+}
+
+export default defineConfig({
+  plugins: [react(), tailwindcss(), siteMeta()],
+});
