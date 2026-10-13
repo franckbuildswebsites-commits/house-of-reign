@@ -57,7 +57,7 @@ export const projects = [
     url: "https://champions4character.org",
     desktop: "/portfolio/c4c-after.webp",
     before: "/portfolio/c4c-before.webp",
-    mobile: "/portfolio/champions4character-mobile.webp",
+    mobile: "/portfolio/c4c-after-mobile.webp",
     bullets: ["[CONFIRM: what you built #1]", "[CONFIRM: what you built #2]", "[CONFIRM: what you built #3]"],
     published: true,
   },

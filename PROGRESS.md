@@ -25,5 +25,4 @@ Hero (animated "website being built" scene) → Trust strip → Marquee → A no
 - MM Casino Party: 3 bullets.
 - Reign: bullets 2 and 3.
 - Past Present Future "before" screenshot: replace the placeholder `public/portfolio/ppf-before.webp`.
-- Champions4Character "after" screenshot (the new site): replace the placeholder `public/portfolio/c4c-after.webp`. The phone mockup still shows their current site (`champions4character-mobile.webp`).
 - Still needed from earlier: `public/me.jpg` (your photo), `public/og-image.jpg` (1200×630 share image), `SITE_URL` in `src/config.js` after deploying.
