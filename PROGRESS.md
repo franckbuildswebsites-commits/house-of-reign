@@ -21,8 +21,4 @@ Hero (animated "website being built" scene) → Trust strip → Marquee → A no
 
 ## Open items ([CONFIRM])
 
-- Champions4Character: 3 bullets (`src/data/projects.js`).
-- MM Casino Party: 3 bullets.
-- Reign: bullets 2 and 3.
-- Past Present Future "before" screenshot: replace the placeholder `public/portfolio/ppf-before.webp`.
 - Still needed from earlier: `public/me.jpg` (your photo), `public/og-image.jpg` (1200×630 share image), `SITE_URL` in `src/config.js` after deploying.

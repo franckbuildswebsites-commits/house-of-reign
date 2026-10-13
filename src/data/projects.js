@@ -58,7 +58,11 @@ export const projects = [
     desktop: "/portfolio/c4c-after.webp",
     before: "/portfolio/c4c-before.webp",
     mobile: "/portfolio/c4c-after-mobile.webp",
-    bullets: ["[CONFIRM: what you built #1]", "[CONFIRM: what you built #2]", "[CONFIRM: what you built #3]"],
+    bullets: [
+      "Full website build: design, development and launch",
+      "Donate and sponsor buttons on every page",
+      "Camps, programs and family pages that read well on a phone",
+    ],
     published: true,
   },
   {
@@ -69,7 +73,11 @@ export const projects = [
     url: "https://mmcasinoparty.com",
     desktop: "/portfolio/mm-casino-party-desktop.webp",
     mobile: "/portfolio/mm-casino-party-mobile.webp",
-    bullets: ["[CONFIRM: what you built #1]", "[CONFIRM: what you built #2]", "[CONFIRM: what you built #3]"],
+    bullets: [
+      "Full website build: design, development and launch",
+      "Quote requests and tap-to-call front and center",
+      "Games, gallery and how-it-works pages that sell the night",
+    ],
     published: true,
   },
   {
@@ -80,7 +88,11 @@ export const projects = [
     url: "https://takereign.com",
     desktop: "/portfolio/reign-desktop.webp",
     mobile: "/portfolio/reign-mobile.webp",
-    bullets: ["Quote-to-deposit booking flow for event vendors", "[CONFIRM: what you built #2]", "[CONFIRM: what you built #3]"],
+    bullets: [
+      "Full software build: design, front end and back end",
+      "Quote-to-deposit booking flow for event vendors",
+      "Every booking tracked from inquiry to contract to deposit",
+    ],
     published: true,
   },
 ];
