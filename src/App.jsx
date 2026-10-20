@@ -33,9 +33,9 @@ export default function App() {
         <Note />
         <Services />
         <Work />
+        <Testimonials />
         <DesignServices />
         <Process />
-        <Testimonials />
         <FAQ />
         <CallToAction />
         <Contact />
