@@ -6,6 +6,7 @@
 //   original   – optional original-language quote; adds a "View original" toggle
 //   originalLang – language name for the toggle label, e.g. "Spanish"
 //   name, role, business
+//   project    – optional project id; shows the quote inside that case study instead of here
 //   url        – optional link to the client's site (leave "" to hide)
 
 export const testimonials = [
@@ -19,6 +20,7 @@ export const testimonials = [
     name: "Jason Núñez",
     role: "Founder & CEO",
     business: "Go Digital Hero",
+    project: "go-digital-hero",
     url: "",
   },
 ];

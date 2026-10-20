@@ -3,7 +3,7 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import { testimonials } from "../data/testimonials";
 
-function Testimonial({ t, i }) {
+export function Testimonial({ t, i = 0, className = "" }) {
   const [showOriginal, setShowOriginal] = useState(false);
   const original = showOriginal && t.original;
   const business = t.url ? (
@@ -15,7 +15,7 @@ function Testimonial({ t, i }) {
   );
 
   return (
-    <Reveal as="figure" delay={(i % 3) * 80} className="flex flex-col rounded-card bg-white p-7 shadow-soft sm:p-8">
+    <Reveal as="figure" delay={(i % 3) * 80} className={`flex flex-col rounded-card bg-white p-7 shadow-soft sm:p-8 ${className}`}>
       <blockquote lang={original ? t.originalLangCode : undefined} className="text-lg leading-relaxed">
         “{original ? t.original : t.quote}”
       </blockquote>
@@ -46,9 +46,12 @@ function Testimonial({ t, i }) {
   );
 }
 
-// Hidden entirely until there's at least one real testimonial.
+// Quotes tied to a project show inside that case study instead.
+const standalone = testimonials.filter((t) => !t.project);
+
+// Hidden entirely until there's at least one standalone testimonial.
 export default function Testimonials() {
-  if (!testimonials.length) return null;
+  if (!standalone.length) return null;
 
   return (
     <section id="testimonials" className="px-5 py-24 sm:px-8 sm:py-32">
@@ -56,10 +59,10 @@ export default function Testimonials() {
         <SectionHeading eyebrow="Kind words" title="What clients say." />
         <div
           className={`mt-12 grid gap-5 sm:mt-16 sm:gap-6 ${
-            testimonials.length === 1 ? "max-w-3xl" : "md:grid-cols-2 lg:grid-cols-3"
+            standalone.length === 1 ? "max-w-3xl" : "md:grid-cols-2 lg:grid-cols-3"
           }`}
         >
-          {testimonials.map((t, i) => (
+          {standalone.map((t, i) => (
             <Testimonial key={`${t.name}-${i}`} t={t} i={i} />
           ))}
         </div>

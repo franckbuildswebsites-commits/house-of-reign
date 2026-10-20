@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import ContactCTA from "./ContactCTA";
+import FeaturedCaseStudy from "./FeaturedCaseStudy";
 import Photo from "./Photo";
 import { BrowserFrame, PhoneFrame } from "./Devices";
 import { ArrowUpRight, Check } from "./Icons";
@@ -169,7 +170,11 @@ export default function Work() {
           Custom sites for local shops — built fast, built to sell.
         </SectionHeading>
 
-        <div className="mt-14 flex flex-col gap-20 sm:mt-20 sm:gap-28">
+        <div className="mt-14 sm:mt-20">
+          <FeaturedCaseStudy />
+        </div>
+
+        <div className="mt-20 flex flex-col gap-20 sm:mt-28 sm:gap-28">
           {visible.map((p, i) => (
             <CaseStudy key={p.id} project={p} index={i} />
           ))}

@@ -96,3 +96,34 @@ export const projects = [
     published: true,
   },
 ];
+
+// Flagship case study shown above everything else in "Recent work".
+//   url        live site; "" hides the "View live site" button
+//   address    text for the browser bar
+//   screens    desktop: 1440×900, mobile: 390×844 (WebP in /public/portfolio/)
+//   Its testimonial lives in testimonials.js with project: "go-digital-hero".
+export const featured = {
+  id: "go-digital-hero",
+  name: "Go Digital Hero",
+  description:
+    "One website for three brands: a virtual assistant agency, an event planning company, and a volunteer organization. Fully bilingual.",
+  url: "",
+  address: "godigitalhero.com",
+  screens: {
+    desktop: { src: "/portfolio/gdh-home-desktop.webp", alt: "Go Digital Hero home page" },
+    mobile: { src: "/portfolio/gdh-home-mobile.webp", alt: "Go Digital Hero home page on a phone" },
+    mobileAlt: { src: "/portfolio/gdh-es-mobile.webp", alt: "Go Digital Hero home page in Spanish on a phone" },
+    pages: [
+      { src: "/portfolio/gdh-event-desktop.webp", label: "Event Hero", alt: "Event Hero page" },
+      { src: "/portfolio/gdh-volunteer-desktop.webp", label: "Volunteer Hero", alt: "Volunteer Hero page" },
+    ],
+  },
+  highlights: [
+    "3 brands, 1 site: each division gets its own page and color theme",
+    "Full English + Spanish with a language toggle",
+    "Smart contact form that routes each inquiry to the right division",
+    "Booking and newsletter kept working through the client's existing tools",
+    "Built from scratch, mobile-first",
+  ],
+  published: true,
+};
