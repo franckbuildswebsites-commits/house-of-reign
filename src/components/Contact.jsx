@@ -1,12 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import { ArrowRight, ArrowUpRight, Chat, Check, ChevronDown } from "./Icons";
 import { STUDIO_NAME, EMAIL, PHONE, WEB3FORMS_KEY } from "../config";
-import { firstName, isPlaceholder, showInstagram, instagramHandle, instagramUrl, smsHref } from "../lib/utils";
+import {
+  firstName,
+  isPlaceholder,
+  showInstagram,
+  instagramHandle,
+  instagramUrl,
+  smsHref,
+  PROJECT_EVENT,
+} from "../lib/utils";
 
-const NEEDS = ["New website", "Redesign", "Landing page", "Not sure yet"];
+const CUSTOM = "Custom Build";
+const NEEDS = ["New website", "Redesign", "Landing page", CUSTOM, "Not sure yet"];
 const BUDGETS = ["Under $1k", "$1–2k", "$2k+"];
+
+// Extra questions shown only for a Custom Build.
+const CUSTOM_PAGES = ["6–10", "11–20", "20+", "Not sure yet"];
+const CUSTOM_FEATURES = ["Online ordering", "Booking", "Payments", "Memberships", "Other"];
+const CUSTOM_BUDGETS = ["$2,500–$5k", "$5k–$10k", "$10k+", "Not sure yet"];
+const CUSTOM_TIMELINES = ["As soon as possible", "Within 1 month", "1–3 months", "Flexible"];
 
 function Field({ label, id, optional, children }) {
   return (
@@ -19,10 +34,11 @@ function Field({ label, id, optional, children }) {
   );
 }
 
-function Select({ id, name, options, required }) {
+function Select({ id, name, options, required, value, onChange }) {
+  const valueProps = value === undefined ? { defaultValue: "" } : { value, onChange };
   return (
     <div className="relative">
-      <select id={id} name={name} required={required} defaultValue="" className="field appearance-none pr-11">
+      <select id={id} name={name} required={required} {...valueProps} className="field appearance-none pr-11">
         <option value="" disabled>
           Choose one
         </option>
@@ -53,11 +69,21 @@ function ContactLink({ label, href, external, size = "text-2xl sm:text-3xl", chi
 export default function Contact() {
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [error, setError] = useState("");
+  const [need, setNeed] = useState("");
+  const custom = need === CUSTOM;
+
+  // Pricing cards (e.g. "Request a quote" on Custom Build) pre-select the project type.
+  useEffect(() => {
+    const onSelect = (e) => setNeed(e.detail);
+    window.addEventListener(PROJECT_EVENT, onSelect);
+    return () => window.removeEventListener(PROJECT_EVENT, onSelect);
+  }, []);
 
   async function onSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form));
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
     if (data.botcheck) return; // honeypot
 
     if (isPlaceholder(WEB3FORMS_KEY)) {
@@ -81,6 +107,11 @@ export default function Contact() {
           "Business name": data.business || "(not provided)",
           "What do you need help with": data.need,
           Budget: data.budget || "(not provided)",
+          ...(custom && {
+            "Number of pages": data.pages || "(not provided)",
+            "Features needed": formData.getAll("features").join(", ") || "(not provided)",
+            Timeline: data.timeline || "(not provided)",
+          }),
           message: data.message,
         }),
       });
@@ -88,6 +119,7 @@ export default function Contact() {
       if (!res.ok || !json.success) throw new Error(json.message || "Something went wrong sending your message.");
       setStatus("success");
       form.reset();
+      setNeed("");
     } catch (err) {
       setStatus("error");
       setError(err.message || "Something went wrong sending your message.");
@@ -131,11 +163,37 @@ export default function Contact() {
                   </Field>
                 </div>
                 <Field label="What do you need help with?" id="need">
-                  <Select id="need" name="need" options={NEEDS} required />
+                  <Select id="need" name="need" options={NEEDS} required value={need} onChange={(e) => setNeed(e.target.value)} />
                 </Field>
-                <Field label="Rough budget" id="budget" optional>
-                  <Select id="budget" name="budget" options={BUDGETS} />
+                <Field label={custom ? "Budget range" : "Rough budget"} id="budget" optional>
+                  <Select key={custom} id="budget" name="budget" options={custom ? CUSTOM_BUDGETS : BUDGETS} />
                 </Field>
+                {custom && (
+                  <>
+                    <Field label="How many pages?" id="pages" optional>
+                      <Select id="pages" name="pages" options={CUSTOM_PAGES} />
+                    </Field>
+                    <Field label="Timeline" id="timeline" optional>
+                      <Select id="timeline" name="timeline" options={CUSTOM_TIMELINES} />
+                    </Field>
+                    <fieldset className="sm:col-span-2">
+                      <legend className="text-[0.95rem] font-semibold">
+                        Features needed <span className="font-normal text-muted">(optional)</span>
+                      </legend>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {CUSTOM_FEATURES.map((f) => (
+                          <label
+                            key={f}
+                            className="flex cursor-pointer items-center gap-2 rounded-full border border-line px-4 py-2 transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-peach"
+                          >
+                            <input type="checkbox" name="features" value={f} className="h-4 w-4 accent-brand" />
+                            {f}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  </>
+                )}
                 <div className="sm:col-span-2">
                   <Field label="Tell me about your project" id="message">
                     <textarea

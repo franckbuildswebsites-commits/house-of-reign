@@ -8,6 +8,10 @@ export const faq = [
     a: "We revise it. And if it's still not right for you, you walk away and owe nothing.",
   },
   {
+    q: "How many revisions do I get?",
+    a: "1 revision round included (one list of changes, up to 2 hours). Extra changes $75/hr.",
+  },
+  {
     q: "Do I own my site and domain?",
     a: "Yes. Your site and domain are always in your name. You're never locked in.",
   },

@@ -12,7 +12,7 @@ export const steps = [
     title: "Build",
     timing: "~1–2 weeks",
     you: "Approve the mockup and send your logo, photos, and info.",
-    me: "Build your site, mobile-first, with two rounds of revisions.",
+    me: "Build your site, mobile-first, with one revision round included.",
   },
   {
     n: "03",
