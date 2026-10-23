@@ -211,7 +211,10 @@ export default function Work() {
           <FilterTabs active={tab} onChange={choose} />
         </div>
 
-        <ul ref={gridRef} className="work-grid mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
+        <ul
+          ref={gridRef}
+          className="work-grid mt-10 flex flex-wrap justify-center gap-x-6 gap-y-10 sm:mt-12 lg:gap-x-8 lg:gap-y-12 [&>li]:w-full sm:[&>li]:w-[calc((100%-1.5rem)/2)] lg:[&>li]:w-[calc((100%-4rem)/3)]"
+        >
           {shown.map((p) => (
             <ProjectCard key={p.id} project={p} cardRef={refFor(p.id)} />
           ))}

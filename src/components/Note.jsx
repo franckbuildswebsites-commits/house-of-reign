@@ -3,9 +3,8 @@ import Photo from "./Photo";
 import { Crown } from "./Logo";
 import { STUDIO_NAME, OWNER } from "../config";
 import { firstName } from "../lib/utils";
-import { projects } from "../data/projects";
 
-const reign = projects.find((p) => p.id === "reign");
+const REIGN_URL = "https://takereign.com"; // my own booking software, linked in the P.S.
 
 // "A note from me": the About section (keeps the #about anchor used by the nav).
 export default function Note() {
@@ -66,10 +65,10 @@ export default function Note() {
               <p className="mt-2 text-sm font-medium text-muted">Founder, {STUDIO_NAME}</p>
             </div>
 
-            {reign && (
+            {REIGN_URL && (
               <p className="mt-8 border-t border-sand pt-6 text-base text-muted">
                 <span className="font-semibold text-ink">P.S.</span> We also built{" "}
-                <a href={reign.url} target="_blank" rel="noopener noreferrer" className="link-underline font-semibold text-brand-ink">
+                <a href={REIGN_URL} target="_blank" rel="noopener noreferrer" className="link-underline font-semibold text-brand-ink">
                   Reign
                 </a>
                 , our own booking platform for event vendors, so we know what makes a site actually bring in clients.

@@ -25,6 +25,15 @@ const full = (id, height) => ({ src: `/portfolio/${id}-full.webp`, width: 720, h
 
 export const projects = [
   {
+    id: "wicked-bread",
+    name: "Wicked Bread Co.",
+    category: "food",
+    tag: "Concept",
+    url: "https://wicked-bread-co.pages.dev",
+    full: full("wicked-bread", 2595),
+    published: true,
+  },
+  {
     id: "ppf-comics",
     name: "Past Present Future Comics",
     category: "retail",
@@ -58,24 +67,6 @@ export const projects = [
     tag: "Client",
     url: "https://mmcasinoparty.com",
     full: full("mm-casino-party", 4443),
-    published: true,
-  },
-  {
-    id: "reign",
-    name: "Reign",
-    category: "professional",
-    tag: "Product",
-    url: "https://takereign.com",
-    full: full("reign", 2440),
-    published: true,
-  },
-  {
-    id: "wicked-bread",
-    name: "Wicked Bread Co.",
-    category: "food",
-    tag: "Concept",
-    url: "https://wicked-bread-co.pages.dev",
-    full: full("wicked-bread", 2595),
     published: true,
   },
 ];
