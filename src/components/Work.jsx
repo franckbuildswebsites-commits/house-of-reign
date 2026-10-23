@@ -1,151 +1,186 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { Testimonial } from "./Testimonials";
-import { BrowserFrame, PhoneFrame, hostname } from "./Screens";
-import { ArrowUpRight } from "./Icons";
-import { categories, projects } from "../data/projects";
-import { testimonials } from "../data/testimonials";
+import ContactCTA from "./ContactCTA";
+import FeaturedCaseStudy from "./FeaturedCaseStudy";
+import Photo from "./Photo";
+import { BrowserFrame, PhoneFrame } from "./Devices";
+import { ArrowUpRight, Check } from "./Icons";
+import { projects } from "../data/projects";
 
-const groups = categories
-  .map((c) => ({ ...c, items: projects.filter((p) => p.published && p.category === c.id) }))
-  .filter((g) => g.items.length);
+const visible = projects.filter((p) => p.published);
 
-function Tag({ tag }) {
-  const live = tag !== "Concept";
+const tagStyles = {
+  Client: "bg-white text-ink",
+  Concept: "bg-sand text-ink",
+  Product: "bg-ink text-white",
+};
+
+const lift = "transition-transform duration-500 ease-[var(--ease-spring)]";
+
+// Drag (or use arrow keys) to compare the old site with the new one.
+function BeforeAfter({ before, after, name }) {
+  const [pos, setPos] = useState(50);
+  const dragging = useRef(false);
+  // Pointer events drive dragging (mouse, touch and pen alike); the hidden range input handles the keyboard.
+  const moveTo = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setPos(Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100))));
+  };
   return (
-    <span
-      className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-        live ? "bg-ink text-paper" : "border border-ink/25 text-ink"
-      }`}
+    <div
+      className="relative aspect-[16/10] cursor-ew-resize select-none overflow-hidden bg-sand [&_img]:pointer-events-none"
+      onDragStart={(e) => e.preventDefault()}
+      style={{ touchAction: "pan-y" }}
+      onPointerDown={(e) => {
+        dragging.current = true;
+        e.currentTarget.setPointerCapture(e.pointerId);
+        moveTo(e);
+      }}
+      onPointerMove={(e) => dragging.current && moveTo(e)}
+      onPointerUp={() => (dragging.current = false)}
+      onPointerCancel={() => (dragging.current = false)}
     >
-      {tag}
-    </span>
-  );
-}
-
-// Desktop screenshot with the phone screenshot overlapping its corner.
-// With an old-site screenshot, a toggle swaps the desktop view to the old site.
-function Shots({ p, showOld }) {
-  return (
-    <div className="relative pb-6 pr-8 sm:pb-8 sm:pr-12">
-      <BrowserFrame
-        src={showOld ? p.before : p.desktop}
-        alt={showOld ? `${p.name}'s old website` : `${p.name} website on a laptop`}
-        address={p.url ? hostname(p.url) : "concept preview"}
+      <Photo
+        src={after}
+        alt={`${name}'s new site`}
+        loading="lazy"
+        decoding="async"
+        width="1440"
+        height="900"
+        className="absolute inset-0 h-full w-full object-cover object-top"
       />
-      {!showOld && (
-        <PhoneFrame
-          src={p.mobile}
-          alt={`${p.name} website on a phone`}
-          className="absolute bottom-0 right-0 w-[21%] max-w-[150px]"
+      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+        <Photo
+          src={before}
+          alt={`${name}'s old site`}
+          loading="lazy"
+          decoding="async"
+          width="1440"
+          height="900"
+          className="absolute inset-0 h-full w-full object-cover object-top"
+          fallback={<div className="absolute inset-0 bg-[#E9E3DA]" />}
         />
-      )}
+      </div>
+      <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-ink/85 px-2.5 py-1 text-xs font-semibold text-white">Before</span>
+      <span className="pointer-events-none absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-ink">After</span>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value={pos}
+        onChange={(e) => setPos(Number(e.target.value))}
+        aria-label={`Compare ${name}'s old site (left) with the new one (right)`}
+        className="peer pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0"
+      />
+      {/* Divider + handle, moved with a transform */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-10 peer-focus-visible:[&_.handle]:ring-4 peer-focus-visible:[&_.handle]:ring-brand-ink"
+        style={{ transform: `translateX(${pos - 50}%)` }}
+      >
+        <span className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-white shadow-[0_0_8px_rgb(43_29_20/0.35)]" />
+        <span className="handle absolute left-1/2 top-1/2 grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-ink shadow-lift">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+            <path d="m8 7-5 5 5 5M16 7l5 5-5 5" />
+          </svg>
+        </span>
+      </div>
     </div>
   );
 }
 
-function Details({ p, showOld, setShowOld, large }) {
+// Desktop screenshot in a browser window, with the phone screenshot overlapping a bottom corner.
+function Screens({ project, flip }) {
+  const { name, url, address, desktop, mobile, before } = project;
   return (
-    <div>
-      <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted">
-        <Tag tag={p.tag} />
-        {p.kind}
-      </p>
-      <h4
-        className={`mt-3 font-display font-semibold leading-tight tracking-[-0.005em] ${
-          large ? "text-[clamp(1.75rem,3vw,2.25rem)]" : "text-[1.625rem]"
+    <div className="group relative pb-[9%]">
+      <div className={`${lift} motion-safe:group-hover:-translate-y-1.5`}>
+        <BrowserFrame url={url} label={address} className="shadow-lift">
+          {before ? (
+            <BeforeAfter before={before} after={desktop} name={name} />
+          ) : (
+            <div className="relative aspect-[16/10] bg-sand">
+              <Photo
+                src={desktop}
+                alt={`${name} website on a laptop screen`}
+                loading="lazy"
+                decoding="async"
+                width="1440"
+                height="900"
+                className="absolute inset-0 h-full w-full object-cover object-top"
+              />
+            </div>
+          )}
+        </BrowserFrame>
+      </div>
+      <div
+        className={`absolute bottom-0 z-20 w-[23%] ${lift} motion-safe:group-hover:-translate-y-3 right-[-1%] ${
+          flip ? "lg:left-[-4%] lg:right-auto" : "lg:right-[-4%]"
         }`}
       >
-        {p.name}
-      </h4>
-      <p className="mt-3 text-muted">{p.description}</p>
-      <ul className="mt-5 space-y-2 border-t border-line pt-5">
-        {p.facts.map((f) => (
-          <li key={f} className="flex gap-3">
-            <span aria-hidden="true" className="mt-[0.8em] h-px w-3 shrink-0 bg-brand" />
-            {f}
-          </li>
-        ))}
-      </ul>
-      {(p.url || p.before) && (
-        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-          {p.url && (
-            <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-link inline-flex items-center gap-1 text-brand-ink">
-              {p.tag === "Concept" ? "View the concept" : `Visit ${hostname(p.url)}`}
-              <ArrowUpRight className="h-4 w-4" />
-              <span className="sr-only">(opens in a new tab)</span>
-            </a>
-          )}
-          {p.before && (
-            <button type="button" aria-pressed={showOld} onClick={() => setShowOld((v) => !v)} className="text-link text-ink">
-              {showOld ? "Back to the new site" : "See the old site"}
-            </button>
-          )}
-        </div>
-      )}
+        <PhoneFrame src={mobile} alt={`${name} website on a phone`} />
+      </div>
     </div>
   );
 }
 
-// `wide` lays screenshots and text side by side (featured project, or alone in its category).
-function Project({ p, wide }) {
-  const [showOld, setShowOld] = useState(false);
-  const quote = p.featured && testimonials.find((t) => t.project === p.id);
-
+function CaseStudy({ project, index }) {
+  const flip = index % 2 === 1;
+  const { name, description, tag, url, bullets } = project;
   return (
-    <Reveal as="article">
-      <div className={wide ? "grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-12 lg:items-center lg:gap-14" : "flex flex-col gap-8"}>
-        <div className={wide ? "lg:col-span-7" : ""}>
-          <Shots p={p} showOld={showOld} />
-        </div>
-        <div className={wide ? "lg:col-span-5" : ""}>
-          <Details p={p} showOld={showOld} setShowOld={setShowOld} large={wide} />
-        </div>
+    <Reveal
+      as="article"
+      className={`grid items-center gap-10 lg:gap-16 ${
+        flip ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]" : "lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
+      }`}
+    >
+      <div className={flip ? "lg:order-2" : ""}>
+        <Screens project={project} flip={flip} />
       </div>
-      {quote && <Testimonial t={quote} dark className="mt-12 rounded-2xl bg-ink p-7 text-paper sm:mt-16 sm:p-12" />}
+      <div className={flip ? "lg:order-1" : ""}>
+        <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold shadow-soft ${tagStyles[tag] ?? tagStyles.Client}`}>{tag}</span>
+        <h3 className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] font-semibold leading-none tracking-[-0.03em]">{name}</h3>
+        <p className="mt-3 text-lg text-muted">{description}</p>
+        <ul className="mt-6 space-y-3">
+          {bullets.map((b) => (
+            <li key={b} className="flex gap-3">
+              <Check className="mt-1 h-5 w-5 shrink-0 text-brand-ink" />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+        {url && (
+          <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn-secondary group/visit mt-8">
+            Visit site
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/visit:-translate-y-0.5 group-hover/visit:translate-x-0.5" />
+            <span className="sr-only">{`${name} (opens in a new tab)`}</span>
+          </a>
+        )}
+      </div>
     </Reveal>
   );
 }
 
 export default function Work() {
   return (
-    <section id="work" className="border-t border-line px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Work" title="Sites I've designed and built.">
-          Live sites are linked so you can try them on your phone. Concepts are redesigns I made for real businesses.
+    <section id="work" className="bg-peach px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading eyebrow="Work" title="Recent work.">
+          Custom sites for local shops — built fast, built to sell.
         </SectionHeading>
 
-        <Reveal as="nav" aria-label="Work by industry" className="mt-8 flex flex-wrap gap-2">
-          {groups.map((g) => (
-            <a
-              key={g.id}
-              href={`#work-${g.id}`}
-              className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition-colors hover:border-ink"
-            >
-              {g.name}
-            </a>
-          ))}
-        </Reveal>
-
-        <div className="mt-16 space-y-24 sm:mt-20 sm:space-y-32">
-          {groups.map((g) => {
-            const wide = g.items.length === 1;
-            return (
-              <div key={g.id} id={`work-${g.id}`}>
-                <div className="flex flex-col gap-1 border-t-2 border-ink pt-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                  <h3 className="font-display text-xl font-semibold tracking-normal sm:text-2xl">{g.name}</h3>
-                  <p className="text-muted">{g.blurb}</p>
-                </div>
-                <div className={`mt-10 sm:mt-12 ${wide ? "" : "grid gap-x-12 gap-y-20 md:grid-cols-2"}`}>
-                  {g.items.map((p) => (
-                    <Project key={p.id} p={p} wide={wide || p.featured} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+        <div className="mt-14 sm:mt-20">
+          <FeaturedCaseStudy />
         </div>
+
+        <div className="mt-20 flex flex-col gap-20 sm:mt-28 sm:gap-28">
+          {visible.map((p, i) => (
+            <CaseStudy key={p.id} project={p} index={i} />
+          ))}
+        </div>
+
+        <ContactCTA title="Want one for your business?" className="mt-24 sm:mt-28" />
       </div>
     </section>
   );

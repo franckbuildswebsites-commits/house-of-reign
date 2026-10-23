@@ -1,11 +1,19 @@
+import Cursor from "./components/Cursor";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
+import TrustStrip from "./components/TrustStrip";
+import Marquee from "./components/Marquee";
 import Work from "./components/Work";
+import DesignServices from "./components/DesignServices";
+import Note from "./components/Note";
 import Services from "./components/Services";
 import Process from "./components/Process";
-import About from "./components/About";
+import Testimonials from "./components/Testimonials";
+import FAQ from "./components/FAQ";
+import CallToAction from "./components/CallToAction";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import FloatingContact from "./components/FloatingContact";
 
 export default function App() {
   return (
@@ -16,16 +24,24 @@ export default function App() {
       >
         Skip to content
       </a>
+      <Cursor />
       <Nav />
       <main id="main">
         <Hero />
-        <Work />
+        <TrustStrip />
+        <Marquee />
+        <Note />
         <Services />
+        <Work />
+        <Testimonials />
+        <DesignServices />
         <Process />
-        <About />
+        <FAQ />
+        <CallToAction />
         <Contact />
       </main>
       <Footer />
+      <FloatingContact />
     </>
   );
 }
