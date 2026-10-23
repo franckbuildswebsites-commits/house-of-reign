@@ -8,7 +8,7 @@ Vite + React 19 + Tailwind v4, single page. `npm run build` prerenders the page 
 
 ## Page order
 
-Hero (animated "website being built" scene) → Trust strip → Marquee → A note from me (About) → Services & pricing → **Recent work** → **More than websites** (design services) → Process → FAQ → CTA → Contact → Footer.
+Hero (animated "website being built" scene) → Trust strip → Services & pricing → **Recent work** → A note from me (About) → **More than websites** (design services) → Process → FAQ → CTA → Contact → Footer.
 
 ## Done
 

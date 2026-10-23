@@ -2,7 +2,6 @@ import Cursor from "./components/Cursor";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import TrustStrip from "./components/TrustStrip";
-import Marquee from "./components/Marquee";
 import Work from "./components/Work";
 import DesignServices from "./components/DesignServices";
 import Note from "./components/Note";
@@ -29,10 +28,9 @@ export default function App() {
       <main id="main">
         <Hero />
         <TrustStrip />
-        <Marquee />
-        <Note />
         <Services />
         <Work />
+        <Note />
         <Testimonials />
         <DesignServices />
         <Process />
