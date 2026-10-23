@@ -47,8 +47,8 @@ export const projects = [
     name: "Champions4Character",
     category: "professional",
     tag: "Client",
-    url: "https://champions4character.org",
-    full: full("champions4character", 7228),
+    url: "https://celebrated-dasik-06c87b.netlify.app",
+    full: full("champions4character", 5732),
     published: true,
   },
   {
