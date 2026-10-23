@@ -2,7 +2,7 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import ContactCTA from "./ContactCTA";
 
-// "More than websites": six design services, each with a small abstract illustration
+// "More than websites": nine design services, each with a small abstract illustration
 // drawn inline (no image files). Shared style: 2px espresso outlines, 10px corners,
 // flat palette colors, one soft drop shadow. Items with class "tilt" rotate a little
 // further on hover (see .illo in index.css).
@@ -176,18 +176,123 @@ function MenusSignage() {
   );
 }
 
+function GoogleProfile() {
+  return (
+    <Illo id="gbp">
+      <rect x="22" y="22" width="132" height="132" rx={R} fill={S} {...line} />
+      <path d="M22 72h132M22 112h132M64 22v132M110 22v132" stroke={W} strokeWidth="6" />
+      <path d="M22 96c30-6 50-26 80-20s30 24 52 20" fill="none" stroke={P} strokeWidth="10" strokeLinecap="round" />
+      <g {...tilt(-6, -6)}>
+        <path d="M88 30c-16 0-26 12-26 26 0 20 26 42 26 42s26-22 26-42c0-14-10-26-26-26z" fill={O} {...line} strokeLinejoin="round" />
+        <circle cx="88" cy="56" r="9" fill={W} />
+      </g>
+      <g {...tilt(5, 5)}>
+        <rect x="112" y="92" width="104" height="66" rx={R} fill={W} {...line} />
+        <Bar x={124} y={104} w={58} h={8} fill={E} />
+        {[0, 1, 2, 3, 4].map((i) => (
+          <path
+            key={i}
+            d={`m${128 + i * 13} 118 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8z`}
+            fill={i < 4 ? O : M}
+          />
+        ))}
+        <Bar x={124} y={140} w={40} />
+        <Bar x={170} y={136} w={34} h={12} fill={O} />
+      </g>
+    </Illo>
+  );
+}
+
+function OrderingBooking() {
+  return (
+    <Illo id="order">
+      <g {...tilt(-5, -4)}>
+        <rect x="34" y="20" width="84" height="148" rx={R} fill={W} {...line} />
+        <Bar x={66} y={26} w={20} h={4} fill={E} />
+        <Bar x={44} y={40} w={50} h={8} fill={E} />
+        {[0, 1, 2].map((i) => (
+          <g key={i}>
+            <rect x="44" y={56 + i * 28} width="20" height="20" rx="5" fill={P} />
+            <Bar x={70} y={60 + i * 28} w={34} h={5} fill={E} opacity=".6" />
+            <Bar x={70} y={69 + i * 28} w={22} h={4} />
+          </g>
+        ))}
+        <rect x="44" y="142" width="64" height="16" rx="8" fill={O} />
+        <Bar x={58} y={148} w={36} h={4} fill={W} />
+      </g>
+      <g {...tilt(6, 5)}>
+        <rect x="118" y="46" width="94" height="96" rx={R} fill={W} {...line} />
+        <path d="M118 66h94" {...line} />
+        <rect x="118" y="46" width="94" height="20" rx={R} fill={E} />
+        <path d="M118 60h94v6h-94z" fill={E} />
+        <path d="M138 40v12M192 40v12" {...line} strokeLinecap="round" />
+        {[0, 1, 2, 3].map((c) =>
+          [0, 1, 2].map((r) => (
+            <rect
+              key={`${c}-${r}`}
+              x={128 + c * 20}
+              y={76 + r * 20}
+              width="14"
+              height="14"
+              rx="4"
+              fill={c === 2 && r === 1 ? O : S}
+            />
+          ))
+        )}
+        <path d="m172.5 103 3 3 6-6" fill="none" stroke={W} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    </Illo>
+  );
+}
+
+function SiteCare() {
+  return (
+    <Illo id="care">
+      <rect x="26" y="28" width="164" height="118" rx={R} fill={W} {...line} />
+      <path d="M26 48h164" {...line} />
+      <circle cx="39" cy="38" r="3.5" fill={O} />
+      <circle cx="50" cy="38" r="3.5" fill={O} opacity=".45" />
+      <circle cx="61" cy="38" r="3.5" fill={E} opacity=".2" />
+      <rect x="38" y="58" width="72" height="46" rx="6" fill={P} />
+      <path d="M38 96l20-16 14 11 12-8 26 17v4H38z" fill={E} opacity=".8" />
+      <Bar x={120} y={60} w={56} h={8} fill={E} />
+      <Bar x={120} y={74} w={44} h={6} />
+      <Bar x={120} y={86} w={50} h={6} />
+      {[38, 86, 134].map((x) => (
+        <rect key={x} x={x} y="114" width="42" height="22" rx="6" fill={S} />
+      ))}
+      <g {...tilt(-8, -10)}>
+        <circle cx="182" cy="132" r="26" fill={O} {...line} />
+        <path d="M170 128a12 12 0 0 1 21-6M194 136a12 12 0 0 1-21 6" fill="none" stroke={W} strokeWidth="3" strokeLinecap="round" />
+        <path d="m192 114-1 8-8-1M172 150l1-8 8 1" fill="none" stroke={W} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    </Illo>
+  );
+}
+
 const services = [
   { title: "Websites", text: "Fast, mobile-first sites built to bring in customers.", Art: Websites },
   { title: "Logos", text: "A simple, memorable mark that works everywhere.", Art: Logos },
-  { title: "Flyers", text: "Event and promo flyers, ready to print or post.", Art: Flyers },
+  { title: "Flyers", text: "Promo flyers and posters for sales, specials, and grand openings, ready to print or post.", Art: Flyers },
   { title: "Social posts", text: "On-brand post templates for your feeds.", Art: SocialPosts },
   { title: "Business cards", text: "Cards that match your site and your logo.", Art: BusinessCards },
   { title: "Menus & signage", text: "Menus, price boards and signs for your space.", Art: MenusSignage },
+  {
+    title: "Google Business Profile",
+    text: "Set up and polish your Google listing so locals find you on Maps.",
+    Art: GoogleProfile,
+  },
+  {
+    title: "Online ordering & booking",
+    text: "Connect DoorDash, Square, Calendly, or your booking app to your site.",
+    Art: OrderingBooking,
+  },
+  { title: "Site care", text: "$125/month: hosting, updates, and changes handled for you.", Art: SiteCare },
 ];
 
 export default function DesignServices() {
   return (
-    <section id="design" className="px-5 py-24 sm:px-8 sm:py-32">
+    <section id="design" className="px-5 pb-40 pt-24 sm:px-8 sm:pb-44 sm:pt-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading eyebrow="Design services" title="More than websites.">
           Design for local businesses — everything matches.
