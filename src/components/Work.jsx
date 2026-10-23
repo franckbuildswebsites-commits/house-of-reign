@@ -6,9 +6,35 @@ import FeaturedCaseStudy from "./FeaturedCaseStudy";
 import Photo from "./Photo";
 import { BrowserFrame, PhoneFrame } from "./Devices";
 import { ArrowUpRight, Check } from "./Icons";
-import { projects } from "../data/projects";
+import { categories, projects } from "../data/projects";
 
 const visible = projects.filter((p) => p.published);
+
+// "All" plus every category that has at least one published project.
+const tabs = [
+  { id: "all", label: "All" },
+  ...categories.filter((c) => visible.some((p) => p.category === c.id)),
+];
+
+function FilterTabs({ active, onChange }) {
+  return (
+    <div role="group" aria-label="Filter projects by industry" className="flex flex-wrap gap-2">
+      {tabs.map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          aria-pressed={active === t.id}
+          onClick={() => onChange(t.id)}
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+            active === t.id ? "bg-ink text-white" : "bg-white text-ink shadow-soft hover:bg-sand"
+          }`}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 const tagStyles = {
   Client: "bg-white text-ink",
@@ -163,6 +189,9 @@ function CaseStudy({ project, index }) {
 }
 
 export default function Work() {
+  const [active, setActive] = useState("all");
+  const shown = active === "all" ? visible : visible.filter((p) => p.category === active);
+
   return (
     <section id="work" className="bg-peach px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-7xl">
@@ -174,8 +203,12 @@ export default function Work() {
           <FeaturedCaseStudy />
         </div>
 
-        <div className="mt-20 flex flex-col gap-20 sm:mt-28 sm:gap-28">
-          {visible.map((p, i) => (
+        <div className="mt-20 sm:mt-28">
+          <FilterTabs active={active} onChange={setActive} />
+        </div>
+
+        <div className="mt-12 flex flex-col gap-20 sm:mt-16 sm:gap-28">
+          {shown.map((p, i) => (
             <CaseStudy key={p.id} project={p} index={i} />
           ))}
         </div>

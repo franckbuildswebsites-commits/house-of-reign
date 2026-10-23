@@ -11,14 +11,24 @@
 //    desktop      1440×900 screenshot in /public/portfolio/ (WebP)
 //    mobile       390×844 screenshot in /public/portfolio/ (WebP)
 //    before       optional old-site screenshot → adds a before/after slider
+//    category     id from `categories` below (drives the filter tabs)
 //    bullets      3 short lines: what I built
 //    published    false = hidden
 //  Anything in [CONFIRM: …] is a placeholder for Francisco to fill in.
 // ─────────────────────────────────────────────────────────────
 
+// Filter tabs above the project grid, in this order ("All" is added automatically).
+// Add a category here, then set `category` on its projects. Tabs with no projects are hidden.
+export const categories = [
+  { id: "food", label: "Food & Drink" },
+  { id: "retail", label: "Retail & Hobby" },
+  { id: "professional", label: "Professional Services" },
+];
+
 export const projects = [
   {
     id: "ppf-comics",
+    category: "retail",
     name: "Past Present Future Comics",
     description: "A concept site for a two-location comic shop.",
     tag: "Concept",
@@ -36,6 +46,7 @@ export const projects = [
   },
   {
     id: "token-forge",
+    category: "retail",
     name: "Token Forge",
     description: "Trading card shop — a mobile-first rebuild of their old site-builder page.",
     tag: "Client",
@@ -51,6 +62,7 @@ export const projects = [
   },
   {
     id: "champions4character",
+    category: "professional",
     name: "Champions4Character",
     description: "Nonprofit youth sports camps site, rebuilt to drive donations & sponsorships.",
     tag: "Client",
@@ -67,6 +79,7 @@ export const projects = [
   },
   {
     id: "mm-casino-party",
+    category: "professional",
     name: "MM Casino Party",
     description: "Website for a casino night entertainment company.",
     tag: "Client",
@@ -82,6 +95,7 @@ export const projects = [
   },
   {
     id: "reign",
+    category: "professional",
     name: "Reign",
     description: "My own booking software for event vendors.",
     tag: "Product",
@@ -92,6 +106,22 @@ export const projects = [
       "Full software build: design, front end and back end",
       "Quote-to-deposit booking flow for event vendors",
       "Every booking tracked from inquiry to contract to deposit",
+    ],
+    published: true,
+  },
+  {
+    id: "wicked-bread",
+    category: "food",
+    name: "Wicked Bread Co.",
+    description: "A concept site for a cinnamon bread bakery in Plantation, FL.",
+    tag: "Concept",
+    url: "https://wicked-bread-co.pages.dev",
+    desktop: "/portfolio/wicked-bread-desktop.webp",
+    mobile: "/portfolio/wicked-bread-mobile.webp",
+    bullets: [
+      "DoorDash and Uber Eats buttons up top, plus an Order / Call bar on phones",
+      "Full menu with prices, written in the shop's own voice",
+      "Open or closed right now, from the shop's real hours",
     ],
     published: true,
   },
