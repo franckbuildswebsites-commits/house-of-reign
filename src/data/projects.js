@@ -18,7 +18,8 @@
 //    featured     true = the large case study, with its testimonial
 //                 (testimonials.js, project: <id>)
 //    published    false = hidden
-//  Screenshots are taken from the live sites with Playwright.
+//  Screenshots are taken from the live sites with Playwright. Clients' own
+//  locations are fine to show; House of Reign's copy stays location-neutral.
 // ─────────────────────────────────────────────────────────────
 
 export const categories = [
@@ -87,10 +88,10 @@ export const projects = [
     id: "ppf-comics",
     category: "retail",
     name: "Past Present Future Comics",
-    kind: "Comic shop with two locations",
+    kind: "Comic shop in Davie and West Palm Beach",
     description: "A redesign for a comic shop that has been open for over 40 years.",
     tag: "Concept",
-    url: "",
+    url: "https://ppf-comics.franckbuildswebsites.workers.dev",
     desktop: "/portfolio/ppf-comics-desktop.webp",
     mobile: "/portfolio/ppf-comics-mobile.webp",
     before: "/portfolio/ppf-before.webp",
