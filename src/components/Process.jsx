@@ -17,7 +17,7 @@ function Role({ who, text, dot }) {
 
 export default function Process() {
   return (
-    <section id="process" className="bg-peach px-5 py-24 sm:px-8 sm:py-32">
+    <section id="process" className="bg-peach px-5 pb-40 pt-24 sm:px-8 sm:pb-44 sm:pt-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading eyebrow="Process" title="From call to live in four steps.">
           You always know what's next, and who's doing it.
