@@ -151,6 +151,28 @@
     transition: none;
   }
 
+  /* Work grid (Work.jsx): the full-page screenshot scrolls to the bottom inside its frame
+     (~7s), and springs back to the top when it stops. Hover/focus on desktop; touch screens
+     get .is-scrolling from JS while the card is on screen. Reduced motion: never moves. */
+  .work-grid[data-armed] > .work-card { opacity: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .shot-img {
+      transition: transform 0.9s var(--ease-spring);
+      will-change: transform;
+    }
+    .shot.is-scrolling .shot-img,
+    a:focus-visible .shot-img {
+      transform: translate3d(0, var(--scroll-to), 0);
+      transition: transform 7s cubic-bezier(0.45, 0, 0.55, 1);
+    }
+    @media (hover: hover) {
+      a:hover .shot-img {
+        transform: translate3d(0, var(--scroll-to), 0);
+        transition: transform 7s cubic-bezier(0.45, 0, 0.55, 1);
+      }
+    }
+  }
+
   /* Design-service illustrations (DesignServices.jsx). Tilted parts rotate by --r;
      on hover (desktop, motion allowed) the art lifts and those parts turn --dr further. */
   .illo {

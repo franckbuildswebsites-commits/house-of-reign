@@ -14,8 +14,8 @@ npm run preview  # serve the production build locally
 | What | File |
 | --- | --- |
 | Name, email, phone, Instagram (hidden while empty), form key, site URL | `src/config.js` |
-| Case studies ("Recent work") | `src/data/projects.js` |
-| Case-study screenshots (WebP, including before/after images) | `public/portfolio/` |
+| Project cards and filter tabs ("Recent work") | `src/data/projects.js` |
+| Screenshots (full-page WebP for the cards, Go Digital Hero shots) | `public/portfolio/` |
 | Design services ("More than websites": cards, text, illustrations) | `src/components/DesignServices.jsx` |
 | Hero animation (the three fictional businesses, timing) | `src/components/BuildScene.jsx` |
 | Services & pricing ("Perfect for" lines) | `src/data/services.js` |
@@ -28,28 +28,24 @@ npm run preview  # serve the production build locally
 
 The page title, description and Open Graph tags in `index.html` are generated from `src/config.js` at build time. Restart `npm run dev` after editing the config to see those changes.
 
-## Add a case study
+## Add a project card
 
-1. Save two screenshots to `public/portfolio/` as WebP: desktop at 1440 × 900 and phone at 390 × 844, e.g. `sunset-events-desktop.webp` and `sunset-events-mobile.webp`.
+1. Take a full-page screenshot of the site at 1440px wide (desktop), resize it to 720px wide and save it as WebP: `public/portfolio/sunset-events-full.webp`. Note its height in pixels.
 2. Add an entry to the `projects` array in `src/data/projects.js`:
 
 ```js
 {
   id: "sunset-events",
   name: "Sunset Events",
-  description: "One line about the project.",
-  tag: "Client",                                   // "Client" | "Concept" | "Product"
-  url: "https://sunsetevents.com",                 // "" = no "Visit site" button
-  address: "concept preview",                      // only used when there's no url
-  desktop: "/portfolio/sunset-events-desktop.webp",
-  mobile: "/portfolio/sunset-events-mobile.webp",
-  before: "/portfolio/sunset-events-before.png",   // optional: adds a before/after slider
-  bullets: ["What you built", "Another thing", "A third thing"],
-  published: true,                                 // false = hidden
+  category: "professional",                         // id from `categories` (filter tabs)
+  tag: "Client",                                     // "Concept" shows a Concept tag on the card
+  url: "https://sunsetevents.com",                   // the card opens this in a new tab
+  full: full("sunset-events", 3200),                 // screenshot height at 720px wide
+  published: true,
 },
 ```
 
-Order in the file is the order on the page; rows alternate sides automatically.
+On hover (desktop) or when it's on screen (phones), the card scrolls through the whole screenshot. To add a filter tab, add a category to `categories` in the same file.
 
 ## Hide or show a case study
 

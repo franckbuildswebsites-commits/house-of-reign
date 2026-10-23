@@ -1,20 +1,16 @@
 // ─────────────────────────────────────────────────────────────
-//  Case studies shown in "Recent work", in this order.
+//  Project cards in "Recent work" (the grid under the featured case study), in this order.
 //
 //  Fields:
 //    id           unique, lowercase-with-dashes
 //    name         client / project name
-//    description  one line
-//    tag          "Client" | "Concept" | "Product"
-//    url          live site ("" = no "Visit site" button)
-//    address      text for the browser bar when there's no url
-//    desktop      1440×900 screenshot in /public/portfolio/ (WebP)
-//    mobile       390×844 screenshot in /public/portfolio/ (WebP)
-//    before       optional old-site screenshot → adds a before/after slider
 //    category     id from `categories` below (drives the filter tabs)
-//    bullets      3 short lines: what I built
+//    tag          "Client" | "Concept" | "Product" (only "Concept" is shown on the card)
+//    url          live site; the whole card opens it in a new tab
+//    full         full-page desktop screenshot, 720px wide WebP in /public/portfolio/,
+//                 with its pixel size (the card scrolls through it on hover)
 //    published    false = hidden
-//  Anything in [CONFIRM: …] is a placeholder for Francisco to fill in.
+//  To refresh screenshots: capture the page at 1440px wide (full page), resize to 720px wide.
 // ─────────────────────────────────────────────────────────────
 
 // Filter tabs above the project grid, in this order ("All" is added automatically).
@@ -25,104 +21,61 @@ export const categories = [
   { id: "professional", label: "Professional Services" },
 ];
 
+const full = (id, height) => ({ src: `/portfolio/${id}-full.webp`, width: 720, height });
+
 export const projects = [
   {
     id: "ppf-comics",
-    category: "retail",
     name: "Past Present Future Comics",
-    description: "A concept site for a two-location comic shop.",
+    category: "retail",
     tag: "Concept",
-    url: "",
-    address: "concept preview",
-    desktop: "/portfolio/ppf-comics-desktop.webp",
-    before: "/portfolio/ppf-before.webp",
-    mobile: "/portfolio/ppf-comics-mobile.webp",
-    bullets: [
-      "Comic-era timeline hero with an animated UFO mascot",
-      "“Wall Books” grails showcase the owner updates from their phone",
-      "Events with one-tap Google & Apple Calendar buttons",
-    ],
+    url: "https://ppf-comics.franckbuildswebsites.workers.dev",
+    full: full("ppf-comics", 3873),
     published: true,
   },
   {
     id: "token-forge",
-    category: "retail",
     name: "Token Forge",
-    description: "Trading card shop — a mobile-first rebuild of their old site-builder page.",
+    category: "retail",
     tag: "Client",
     url: "https://www.tokenforgecgc.com",
-    desktop: "/portfolio/token-forge-desktop.webp",
-    mobile: "/portfolio/token-forge-mobile.webp",
-    bullets: [
-      "Events calendar they update from a Google Sheet",
-      "Mobile-first redesign replacing a GoDaddy builder site",
-      "Contact form that goes straight to their inbox",
-    ],
+    full: full("token-forge", 3198),
     published: true,
   },
   {
     id: "champions4character",
-    category: "professional",
     name: "Champions4Character",
-    description: "Nonprofit youth sports camps site, rebuilt to drive donations & sponsorships.",
+    category: "professional",
     tag: "Client",
     url: "https://champions4character.org",
-    desktop: "/portfolio/c4c-after.webp",
-    before: "/portfolio/c4c-before.webp",
-    mobile: "/portfolio/c4c-after-mobile.webp",
-    bullets: [
-      "Full website build: design, development and launch",
-      "Donate and sponsor buttons on every page",
-      "Camps, programs and family pages that read well on a phone",
-    ],
+    full: full("champions4character", 7228),
     published: true,
   },
   {
     id: "mm-casino-party",
-    category: "professional",
     name: "MM Casino Party",
-    description: "Website for a casino night entertainment company.",
+    category: "professional",
     tag: "Client",
     url: "https://mmcasinoparty.com",
-    desktop: "/portfolio/mm-casino-party-desktop.webp",
-    mobile: "/portfolio/mm-casino-party-mobile.webp",
-    bullets: [
-      "Full website build: design, development and launch",
-      "Quote requests and tap-to-call front and center",
-      "Games, gallery and how-it-works pages that sell the night",
-    ],
+    full: full("mm-casino-party", 4443),
     published: true,
   },
   {
     id: "reign",
-    category: "professional",
     name: "Reign",
-    description: "My own booking software for event vendors.",
+    category: "professional",
     tag: "Product",
     url: "https://takereign.com",
-    desktop: "/portfolio/reign-desktop.webp",
-    mobile: "/portfolio/reign-mobile.webp",
-    bullets: [
-      "Full software build: design, front end and back end",
-      "Quote-to-deposit booking flow for event vendors",
-      "Every booking tracked from inquiry to contract to deposit",
-    ],
+    full: full("reign", 2440),
     published: true,
   },
   {
     id: "wicked-bread",
-    category: "food",
     name: "Wicked Bread Co.",
-    description: "A concept site for a cinnamon bread bakery in Plantation, FL.",
+    category: "food",
     tag: "Concept",
     url: "https://wicked-bread-co.pages.dev",
-    desktop: "/portfolio/wicked-bread-desktop.webp",
-    mobile: "/portfolio/wicked-bread-mobile.webp",
-    bullets: [
-      "DoorDash and Uber Eats buttons up top, plus an Order / Call bar on phones",
-      "Full menu with prices, written in the shop's own voice",
-      "Open or closed right now, from the shop's real hours",
-    ],
+    full: full("wicked-bread", 2595),
     published: true,
   },
 ];
