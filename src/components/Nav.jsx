@@ -3,13 +3,13 @@ import Logo from "./Logo";
 
 const links = [
   { label: "Work", href: "#work" },
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "How it works", href: "#process" },
   { label: "About", href: "#about" },
 ];
 
+// Logo, section links (tablet and up) and "Get a quote". The bar gets a hairline once scrolled.
 export default function Nav() {
-  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -19,81 +19,29 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  const close = () => setOpen(false);
-  const solid = scrolled || open;
-
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-[45] transition-[background-color,box-shadow] duration-300 ${
-        solid ? "bg-paper/90 shadow-[0_1px_0_rgb(96_66_36/0.1)] backdrop-blur-md" : ""
+      className={`fixed inset-x-0 top-0 z-[45] bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${
+        scrolled ? "shadow-[0_1px_0_var(--color-line)]" : ""
       }`}
     >
-      <nav aria-label="Main" className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
+      <nav aria-label="Main" className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-5 sm:px-8">
         <Logo />
 
         <ul className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="link-underline text-[0.95rem] font-medium transition-colors hover:text-brand-ink">
+              <a href={l.href} className="text-[0.9375rem] font-medium text-muted transition-colors hover:text-ink">
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-2">
-          <a href="#contact" className="btn btn-primary hidden py-2.5 sm:inline-flex">
-            Start a project
-          </a>
-          <button
-            type="button"
-            className="relative -mr-2 grid h-11 w-11 place-items-center md:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((o) => !o)}
-          >
-            <span
-              className={`absolute h-[2px] w-6 bg-ink transition-transform duration-300 ${
-                open ? "rotate-45" : "-translate-y-[4px]"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-6 bg-ink transition-transform duration-300 ${
-                open ? "-rotate-45" : "translate-y-[4px]"
-              }`}
-            />
-          </button>
-        </div>
+        <a href="#contact" className="btn btn-primary min-h-0 px-4 py-2 text-[0.9375rem]">
+          Get a quote
+        </a>
       </nav>
-
-      {open && (
-        <div id="mobile-menu" className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line bg-paper px-5 pb-10 pt-6 md:hidden">
-          <ul className="flex flex-col">
-            {links.map((l) => (
-              <li key={l.href} className="border-b border-line">
-                <a href={l.href} onClick={close} className="block py-4 font-display text-4xl font-semibold tracking-tight transition-colors hover:text-brand-ink">
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <a href="#contact" onClick={close} className="btn btn-primary mt-8 w-full">
-            Start a project
-          </a>
-        </div>
-      )}
     </header>
   );
 }

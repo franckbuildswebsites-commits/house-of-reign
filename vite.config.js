@@ -15,7 +15,7 @@ function siteMeta() {
     transformIndexHtml(html) {
       const { STUDIO_NAME, OWNER, SITE_DESCRIPTION, SITE_URL, EMAIL, PHONE } = config;
       const url = isPlaceholder(SITE_URL) ? "" : SITE_URL.replace(/\/$/, "");
-      const title = `${STUDIO_NAME} | Web Design for Event Businesses & Local Brands`;
+      const title = `${STUDIO_NAME} | Websites for Local Businesses`;
       const ogImage = `${url}/og-image.jpg`;
 
       const jsonLd = {

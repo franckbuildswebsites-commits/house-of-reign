@@ -13,47 +13,29 @@ npm run preview  # serve the production build locally
 
 | What | File |
 | --- | --- |
-| Name, email, phone, Instagram (hidden while empty), form key, site URL | `src/config.js` |
-| Case studies ("Recent work") | `src/data/projects.js` |
-| Case-study screenshots (WebP, including before/after images) | `public/portfolio/` |
-| Design services ("More than websites": cards, text, illustrations) | `src/components/DesignServices.jsx` |
-| Hero animation (the three fictional businesses, timing) | `src/components/BuildScene.jsx` |
-| Services & pricing ("Perfect for" lines) | `src/data/services.js` |
-| Process steps (you / me / timing) | `src/data/process.js` |
-| FAQ | `src/data/faq.js` |
-| Testimonials (hidden while empty) | `src/data/testimonials.js` |
-| Your photo (hero chip, "A note from me", CTA) | `public/me.jpg` (the crown mark shows until it exists) |
+| Name, email, phone, photo, Instagram (hidden while empty), form key, site URL | `src/config.js` |
+| Work: projects, industry categories, featured case study | `src/data/projects.js` |
+| Screenshots (WebP, including "old site" images) | `public/portfolio/` |
+| Client quotes (shown inside the featured case study) | `src/data/testimonials.js` |
+| Pricing, Site Care, revision terms | `src/data/services.js` |
+| How it works (4 steps) | `src/data/process.js` |
 | Social share image | `public/og-image.jpg` (1200 × 630) |
 | Favicon | `public/favicon.svg` |
 
+Page order: Hero → Work (grouped by industry, Go Digital Hero featured with Jason's quote) → Pricing → How it works → About → Contact.
+
 The page title, description and Open Graph tags in `index.html` are generated from `src/config.js` at build time. Restart `npm run dev` after editing the config to see those changes.
 
-## Add a case study
+## Add your photo
 
-1. Save two screenshots to `public/portfolio/` as WebP: desktop at 1440 × 900 and phone at 390 × 844, e.g. `sunset-events-desktop.webp` and `sunset-events-mobile.webp`.
-2. Add an entry to the `projects` array in `src/data/projects.js`:
+Save it to `public/me.jpg` (portrait, at least 1200px tall) and set `PHOTO = "/me.jpg"` in `src/config.js`. It replaces the three phone screenshots in the hero and appears next to "Hi, I'm Francisco." in About.
 
-```js
-{
-  id: "sunset-events",
-  name: "Sunset Events",
-  description: "One line about the project.",
-  tag: "Client",                                   // "Client" | "Concept" | "Product"
-  url: "https://sunsetevents.com",                 // "" = no "Visit site" button
-  address: "concept preview",                      // only used when there's no url
-  desktop: "/portfolio/sunset-events-desktop.webp",
-  mobile: "/portfolio/sunset-events-mobile.webp",
-  before: "/portfolio/sunset-events-before.png",   // optional: adds a before/after slider
-  bullets: ["What you built", "Another thing", "A third thing"],
-  published: true,                                 // false = hidden
-},
-```
+## Add a project
 
-Order in the file is the order on the page; rows alternate sides automatically.
+1. Save two screenshots to `public/portfolio/` as WebP: desktop at 1440 × 900 and phone at 390 × 844 (2× is fine), e.g. `sunset-events-desktop.webp` and `sunset-events-mobile.webp`. Take them from the live site.
+2. Add an entry to the `projects` array in `src/data/projects.js` (the field list is at the top of that file). Set `category` to one of the ids in `categories`; a project alone in its category is shown wide.
 
-## Hide or show a case study
-
-In `src/data/projects.js`, set `published: false` to hide it or `true` to show it.
+Set `published: false` to hide a project. Tag concepts as `"Concept"` so they're labeled on the page.
 
 ## How the build works
 

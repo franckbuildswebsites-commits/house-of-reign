@@ -1,72 +1,40 @@
 import { useState } from "react";
-import Reveal from "./Reveal";
-import SectionHeading from "./SectionHeading";
-import { testimonials } from "../data/testimonials";
 
-export function Testimonial({ t, i = 0, className = "" }) {
+// One client quote, with a "View original" toggle when it was translated. `dark` = light text for a dark card.
+export function Testimonial({ t, dark = false, className = "" }) {
+  const muted = dark ? "text-paper/70" : "text-muted";
   const [showOriginal, setShowOriginal] = useState(false);
   const original = showOriginal && t.original;
-  const business = t.url ? (
-    <a href={t.url} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
-      {t.business}
-    </a>
-  ) : (
-    t.business
-  );
 
   return (
-    <Reveal as="figure" delay={(i % 3) * 80} className={`flex flex-col rounded-card bg-white p-7 shadow-soft sm:p-8 ${className}`}>
-      <blockquote lang={original ? t.originalLangCode : undefined} className="text-lg leading-relaxed">
+    <figure className={className}>
+      <blockquote
+        lang={original ? t.originalLangCode : undefined}
+        className="font-display text-[clamp(1.375rem,2.4vw,1.875rem)] font-medium leading-[1.3] tracking-normal"
+      >
         “{original ? t.original : t.quote}”
       </blockquote>
-      {t.original && (
-        <p className="mt-4 text-sm text-muted">
-          Translated from {t.originalLang} ·{" "}
-          <button
-            type="button"
-            onClick={() => setShowOriginal((v) => !v)}
-            aria-pressed={showOriginal}
-            className="font-semibold text-ink underline underline-offset-4"
-          >
-            {showOriginal ? "View translation" : "View original"}
-          </button>
-        </p>
-      )}
-      <figcaption className="mt-auto pt-8">
-        <span className="block font-display text-lg font-semibold">{t.name}</span>
-        {(t.role || t.business) && (
-          <span className="text-sm text-muted">
-            {t.role}
-            {t.role && t.business && ", "}
-            {business}
+      <figcaption className="mt-6 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-3">
+        <span className="font-semibold">{t.name}</span>
+        <span className={muted}>
+          {t.role}
+          {t.role && t.business && ", "}
+          {t.business}
+        </span>
+        {t.original && (
+          <span className={`text-sm sm:ml-auto ${muted}`}>
+            Translated from {t.originalLang} ·{" "}
+            <button
+              type="button"
+              onClick={() => setShowOriginal((v) => !v)}
+              aria-pressed={showOriginal}
+              className={`text-link ${dark ? "text-paper" : "text-ink"}`}
+            >
+              {showOriginal ? "View translation" : "View original"}
+            </button>
           </span>
         )}
       </figcaption>
-    </Reveal>
-  );
-}
-
-// Quotes tied to a project show inside that case study instead.
-const standalone = testimonials.filter((t) => !t.project);
-
-// Hidden entirely until there's at least one standalone testimonial.
-export default function Testimonials() {
-  if (!standalone.length) return null;
-
-  return (
-    <section id="testimonials" className="px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Kind words" title="What clients say." />
-        <div
-          className={`mt-12 grid gap-5 sm:mt-16 sm:gap-6 ${
-            standalone.length === 1 ? "max-w-3xl" : "md:grid-cols-2 lg:grid-cols-3"
-          }`}
-        >
-          {standalone.map((t, i) => (
-            <Testimonial key={`${t.name}-${i}`} t={t} i={i} />
-          ))}
-        </div>
-      </div>
-    </section>
+    </figure>
   );
 }

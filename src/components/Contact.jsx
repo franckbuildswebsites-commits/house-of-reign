@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { ArrowRight, ArrowUpRight, Chat, Check, ChevronDown } from "./Icons";
+import { ArrowUpRight, Check, ChevronDown } from "./Icons";
 import { STUDIO_NAME, EMAIL, PHONE, WEB3FORMS_KEY } from "../config";
 import {
-  firstName,
   isPlaceholder,
   showInstagram,
   instagramHandle,
   instagramUrl,
-  smsHref,
+  telHref,
   PROJECT_EVENT,
 } from "../lib/utils";
 
 const CUSTOM = "Custom Build";
-const NEEDS = ["New website", "Redesign", "Landing page", CUSTOM, "Not sure yet"];
+const NEEDS = ["Launch Page", "Business Site", CUSTOM, "Site Care", "Not sure yet"];
 const BUDGETS = ["Under $1k", "$1–2k", "$2k+"];
 
 // Extra questions shown only for a Custom Build.
@@ -51,14 +50,14 @@ function Select({ id, name, options, required, value, onChange }) {
   );
 }
 
-function ContactLink({ label, href, external, size = "text-2xl sm:text-3xl", children }) {
+function ContactLink({ label, href, external, children }) {
   return (
-    <div>
-      <p className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">{label}</p>
+    <div className="border-t border-line pt-4">
+      <p className="text-sm text-muted">{label}</p>
       <a
         href={href}
         {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-        className={`group mt-2 inline-flex max-w-full items-center gap-2 break-all font-display font-semibold tracking-tight text-brand-ink ${size}`}
+        className="text-link mt-1 inline-flex max-w-full items-center gap-1.5 break-all text-lg text-ink"
       >
         {children}
       </a>
@@ -127,22 +126,38 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Contact" title="Start a project.">
-          Tell me a bit about your business. I'll reply within 24 hours to set up your free mockup call.
-        </SectionHeading>
+    <section id="contact" className="border-t border-line px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-4">
+          <SectionHeading eyebrow="Contact" title="Get a quote.">
+            Tell me about your business. I reply within 24 hours, in English or Spanish.
+          </SectionHeading>
+          <Reveal as="aside" delay={80} className="mt-10 flex flex-col gap-5">
+            <ContactLink label="Call or text" href={telHref}>
+              {PHONE}
+            </ContactLink>
+            <ContactLink label="Email" href={`mailto:${EMAIL}`}>
+              {EMAIL}
+            </ContactLink>
+            {showInstagram && (
+              <ContactLink label="Instagram" href={instagramUrl} external>
+                @{instagramHandle}
+                <ArrowUpRight className="h-4 w-4 shrink-0" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </ContactLink>
+            )}
+          </Reveal>
+        </div>
 
-        <div className="mt-12 grid gap-10 sm:mt-16 lg:grid-cols-[7fr_4fr] lg:gap-14">
-          <Reveal className="rounded-card bg-white p-6 shadow-soft sm:p-10">
+        <div className="lg:col-span-7 lg:col-start-6">
+          <Reveal className="rounded-2xl border border-line bg-white p-6 sm:p-10">
             {status === "success" ? (
               <div role="status" className="flex min-h-[420px] flex-col items-start justify-center">
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-brand text-white">
-                  <Check className="h-7 w-7" />
+                <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-strong text-white">
+                  <Check className="h-6 w-6" />
                 </span>
-                <h3 className="mt-6 font-display text-4xl font-semibold tracking-tight">Got it!</h3>
-                <p className="mt-3 max-w-md text-xl">I'll reach out within 24 hours.</p>
-                <p className="mt-3 font-hand text-4xl font-semibold leading-none text-brand-ink">— {firstName}</p>
+                <h3 className="mt-6 font-display text-3xl font-semibold tracking-[-0.008em]">Got it, thank you.</h3>
+                <p className="mt-3 max-w-md text-lg text-muted">I'll get back to you within 24 hours.</p>
                 <button type="button" onClick={() => setStatus("idle")} className="btn btn-secondary mt-10">
                   Send another message
                 </button>
@@ -184,7 +199,7 @@ export default function Contact() {
                         {CUSTOM_FEATURES.map((f) => (
                           <label
                             key={f}
-                            className="flex cursor-pointer items-center gap-2 rounded-full border border-line px-4 py-2 transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-peach"
+                            className="flex cursor-pointer items-center gap-2 rounded-full border border-line px-4 py-2 transition-colors hover:border-ink has-[:checked]:border-brand has-[:checked]:bg-sand"
                           >
                             <input type="checkbox" name="features" value={f} className="h-4 w-4 accent-brand" />
                             {f}
@@ -208,7 +223,7 @@ export default function Contact() {
                 </div>
 
                 {status === "error" && (
-                  <div role="alert" className="rounded-xl bg-peach px-4 py-3 text-base sm:col-span-2">
+                  <div role="alert" className="rounded-xl bg-sand px-4 py-3 text-base sm:col-span-2">
                     <strong className="font-semibold">Couldn't send your message.</strong> {error} You can email me
                     directly at{" "}
                     <a href={`mailto:${EMAIL}`} className="font-semibold text-brand-ink underline underline-offset-2">
@@ -222,40 +237,14 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={status === "sending"}
-                    className="btn btn-primary group w-full disabled:opacity-60 sm:w-auto"
+                    className="btn btn-primary w-full disabled:opacity-60 sm:w-auto"
                   >
                     {status === "sending" ? "Sending…" : "Send message"}
-                    {status !== "sending" && (
-                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    )}
                   </button>
                   <p className="text-base text-muted">I'll reply within 24 hours.</p>
                 </div>
               </form>
             )}
-          </Reveal>
-
-          <Reveal delay={120} as="aside" className="@container flex flex-col gap-8">
-            <ContactLink label="Text me" href={smsHref}>
-              <span className="link-underline">{PHONE}</span>
-              <Chat className="h-6 w-6 shrink-0 text-brand-ink" />
-            </ContactLink>
-            <ContactLink label="Email" href={`mailto:${EMAIL}`} size="text-[clamp(1rem,6cqw,1.5rem)]">
-              <span className="link-underline">{EMAIL}</span>
-            </ContactLink>
-            {showInstagram && (
-              <ContactLink label="Instagram" href={instagramUrl} external>
-                <span className="link-underline">@{instagramHandle}</span>
-                <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                <span className="sr-only">(opens in a new tab)</span>
-              </ContactLink>
-            )}
-            <div className="rounded-card bg-peach p-6">
-              <p className="font-semibold">
-                <span lang="es">Hablamos español.</span>
-              </p>
-              <p className="mt-1 text-muted">Calls, texts, and feedback in English or Spanish.</p>
-            </div>
           </Reveal>
         </div>
       </div>

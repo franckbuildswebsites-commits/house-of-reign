@@ -1,31 +1,20 @@
-// The four steps in "Process": what the client does, what I do, and how long it takes.
+// "How it works": the four steps, in order. The build happens before payment; no deposit.
 export const steps = [
   {
-    n: "01",
-    title: "Mockup",
-    timing: "15-min call · mockup in 2–3 days",
-    you: "Hop on a free 15-minute call and tell me about your business.",
-    me: "Design a free mockup of your new site within 2–3 days.",
+    title: "Preview",
+    text: "Tell me about your business and send your logo and photos. I build your site and send you a private preview link.",
+    note: "About 1 week for a Launch Page, 2 for a Business Site",
   },
   {
-    n: "02",
-    title: "Build",
-    timing: "~1–2 weeks",
-    you: "Approve the mockup and send your logo, photos, and info.",
-    me: "Build your site, mobile-first, with one revision round included.",
+    title: "Payment",
+    text: "Once you've seen the finished site, you pay in full. No deposit up front.",
   },
   {
-    n: "03",
+    title: "One revision list",
+    text: "Send me one list of changes and I make them, up to 2 hours of work. Anything beyond that is $75/hr.",
+  },
+  {
     title: "Launch",
-    timing: "Launch day",
-    you: "Give the final thumbs-up and go live.",
-    me: "Connect your domain and make sure everything works.",
-  },
-  {
-    n: "04",
-    title: "Care",
-    timing: "Optional · monthly",
-    you: "Send updates whenever you need them.",
-    me: "Keep your events, photos, and text up to date with Site Care.",
+    text: "I connect your domain and put the site live. The site and the domain are in your name.",
   },
 ];

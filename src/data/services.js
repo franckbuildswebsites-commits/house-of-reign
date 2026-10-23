@@ -1,56 +1,37 @@
-// Every build includes one revision round; extra changes are billed hourly.
-export const HOURLY_RATE = "$75/hr";
-export const REVISION_NOTE = "1 revision round included (one list of changes, up to 2 hours)";
-
+// Pricing. Every build includes one revision round; extra work is billed hourly.
 // `project` pre-selects "What do you need help with?" in the contact form.
-export const services = [
+export const HOURLY_RATE = "$75/hr";
+
+export const plans = [
   {
     name: "Launch Page",
-    perfectFor: "New businesses & single offers.",
-    priceLabel: "Starting at",
+    for: "One page for a new business or a single offer.",
     price: "$750",
-    unit: "",
-    features: ["One-page site", "Mobile-ready", "Contact form", REVISION_NOTE],
-    timeline: "~1 week",
-    style: "light",
+    features: ["One-page site", "Contact form", "Built for phones first", "About 1 week"],
+    cta: "Get a quote",
   },
   {
     name: "Business Site",
-    perfectFor: "Established businesses that need bookings or donations.",
-    priceLabel: "Starting at",
+    for: "Up to 5 pages for a business that takes bookings or donations.",
     price: "$1,200",
-    unit: "",
-    features: ["Up to 5 sections/pages", "Booking or donation links", "Basic SEO", REVISION_NOTE],
-    timeline: "~2 weeks",
-    style: "dark",
-  },
-  {
-    name: "Site Care",
-    perfectFor: "Anyone who'd rather not touch their website.",
-    priceLabel: "Monthly",
-    price: "$125",
-    unit: "/month",
-    features: ["Hosting oversight", "Monthly updates (events, photos, text)", "Up to 2 update rounds per month"],
-    timeline: "Ongoing",
-    style: "light",
+    features: ["Up to 5 pages", "Booking or donation links", "Basic SEO", "About 2 weeks"],
+    cta: "Get a quote",
   },
   {
     name: "Custom Build",
-    perfectFor:
-      "Businesses that need more than 5 pages, online ordering, booking or payment systems, memberships, or connecting third-party tools.",
-    priceLabel: "Starting at",
+    for: "More than 5 pages, online ordering, booking or payment systems, memberships, or connecting other tools.",
     price: "$2,500",
-    unit: "",
-    features: [
-      "Everything in the other plans",
-      "Custom features",
-      "Third-party setup",
-      "Priority timeline",
-      REVISION_NOTE,
-    ],
-    timeline: "Priority",
-    style: "accent",
+    features: ["Everything in Business Site", "Custom features", "Third-party setup", "Priority timeline"],
     cta: "Request a quote",
-    project: "Custom Build",
   },
-];
+].map((p) => ({ ...p, project: p.name }));
+
+export const care = {
+  name: "Site Care",
+  price: "$125",
+  unit: "/mo",
+  text: "I keep your site running and up to date: hosting oversight and up to 2 rounds of updates a month (events, photos, text).",
+  project: "Site Care",
+};
+
+export const terms = `Every build includes 1 revision round (one list of changes, up to 2 hours). Extra work after that is ${HOURLY_RATE}. Your site and domain are in your name.`;
