@@ -31,9 +31,8 @@ Not merged into `main`; the live site is unchanged.
 
 ## Open items ([CONFIRM])
 
-- Spanish version (Averlo has a language picker): needs Spanish copy you approve.
-- Social icons in the footer: add your Instagram handle to `src/config.js`.
-- Privacy page (Averlo links "Privacy and cookies").
-- Still needed: `public/me.jpg` (your photo).
-- Automatic Cloudflare preview builds for branches fail; the build log isn't readable with the current Wrangler
-  login. Previews are uploaded by hand meanwhile (see README → Deploy).
+- **Merge `redesign-v2` into `main`** when you're happy with the preview (this also switches Cloudflare to the 404 page).
+- **Connect takereign.com** to the Cloudflare Worker (custom domain) after the merge; canonical/OG URLs and the sitemap already point there.
+- **Test the contact form and "Get a text"** with a real submission (both send to Web3Forms; not tested by me on purpose).
+- Automatic Cloudflare preview builds for branches still fail (log not readable with the current login); previews are uploaded by hand (README → Deploy).
+- Spanish version, footer social icons (add Instagram to `src/config.js`), privacy page, `public/me.jpg` (your photo).

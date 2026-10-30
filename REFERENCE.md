@@ -283,3 +283,9 @@ Inter Tight already has tighter default spacing than SF Pro, so −0.035em on ou
 All text passes WCAG AA in both themes at both widths (axe-core, 0 violations). Two changes to keep it so:
 - **Orange panels:** the quieter half of each lead line is set in a lighter weight instead of a fainter colour (a fade light enough to show fails contrast on orange).
 - **Light theme:** orange *text* switches to `#B4471A`, and the faded heading lines use 50% instead of 42%.
+
+## Status (2026-10-30)
+
+Done: every ✅ item above, the type/density pass and the "skinny and airy" pass (preview on `redesign-v2`).
+Still open: merge to `main`, connect takereign.com, a real test of the contact form and "Get a text",
+and the ✗ items above (language picker, social icons, privacy page).
