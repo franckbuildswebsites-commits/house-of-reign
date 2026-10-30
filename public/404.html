@@ -7,31 +7,30 @@
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#0C0907" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preload" href="/fonts/clash-display-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       /* Standalone 404 in the site's style (served by Cloudflare for unknown paths, see wrangler.jsonc). */
-      @font-face { font-family: "Clash Display"; src: url("/fonts/clash-display-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-      @font-face { font-family: "DM Sans"; src: url("/fonts/dm-sans-latin.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
+      @font-face { font-family: "Inter Tight"; src: url("/fonts/inter-tight-latin.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
       :root { --night: #0c0907; --cream: #f4ecdf; --dim: #a5978a; --line: rgb(244 236 223 / 0.12); --brand: #e8622c; --ease: cubic-bezier(0.2, 0.8, 0.2, 1); }
       @media (prefers-color-scheme: light) { :root.auto { --night: #f6f1e8; --cream: #17110c; --dim: #65574b; --line: rgb(23 17 12 / 0.13); } }
       * { box-sizing: border-box; margin: 0; }
-      body { min-height: 100svh; display: flex; flex-direction: column; background: var(--night); color: var(--cream); font: 400 1rem/1.55 "DM Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+      body { min-height: 100svh; display: flex; flex-direction: column; background: var(--night); color: var(--cream); font: 400 1rem/1.55 "Inter Tight", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
       a { color: inherit; }
       :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
       header, main { padding-inline: 1.25rem; }
       @media (min-width: 64rem) { header, main { padding-inline: 3.75rem; } }
       header { height: 5rem; display: flex; align-items: center; }
-      .mark { display: inline-flex; align-items: center; gap: 0.3em; font: 600 1.6rem/1 "Clash Display", sans-serif; letter-spacing: -0.045em; text-decoration: none; }
+      .mark { display: inline-flex; align-items: center; gap: 0.3em; font: 600 1.6rem/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; text-decoration: none; }
       .mark svg { height: 0.74em; width: auto; fill: var(--brand); transform: translateY(-0.06em); transition: transform 0.5s var(--ease); }
       .mark:hover svg { transform: translateY(-0.06em) rotate(-12deg); }
       main { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 3.5rem; }
       header, main { position: relative; z-index: 1; }
       .glow { position: fixed; z-index: 0; left: 15%; bottom: -45vmax; width: 100vmax; height: 100vmax; border-radius: 50%; background: radial-gradient(closest-side, rgb(232 98 44 / 0.2), transparent); pointer-events: none; }
-      .big { font: 600 clamp(7rem, 26vw, 22rem)/0.8 "Clash Display", sans-serif; letter-spacing: -0.06em; color: var(--brand); }
-      h1 { margin-top: 2rem; font: 600 clamp(2.5rem, 5.6vw, 5rem)/1 "Clash Display", sans-serif; letter-spacing: -0.045em; }
-      h1 span { display: block; opacity: 0.4; }
+      .big { font: 560 clamp(7rem, 26vw, 22rem)/0.8 "Inter Tight", sans-serif; letter-spacing: -0.05em; color: var(--brand); }
+      h1 { margin-top: 2rem; font: 500 clamp(2.5rem, 5.6vw, 5rem)/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+      h1 span { display: block; opacity: 0.5; }
       .row { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
-      .btn { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.65rem 1.35rem; border-radius: 999px; font-weight: 600; font-size: 0.9375rem; text-decoration: none; transition: transform 0.35s var(--ease), background-color 0.24s var(--ease), border-color 0.24s var(--ease); }
+      .btn { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.65rem 1.35rem; border-radius: 999px; font-weight: 500; font-size: 0.9375rem; text-decoration: none; transition: transform 0.35s var(--ease), background-color 0.24s var(--ease), border-color 0.24s var(--ease); }
       .btn:active { transform: scale(0.97); }
       .primary { background: var(--brand); color: #0c0907; }
       .primary:hover { background: #ff7a42; }

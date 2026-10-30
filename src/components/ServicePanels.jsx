@@ -69,11 +69,11 @@ const services = [
 
 // Fixed palettes (they don't flip with the light/dark theme, like colored print).
 const tones = {
-  orange: { bg: "bg-[linear-gradient(135deg,#f47a3a,#e8622c_45%,#c4401a)] text-ink", line: "border-ink/20", tail: "text-ink/55", stage: "bg-white/15 ring-1 ring-white/25", pill: "btn-paper" },
-  rust: { bg: "bg-[linear-gradient(135deg,#1a120e,#3a2216_55%,#8a3a17)] text-paper", line: "border-paper/20", tail: "text-paper/50", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
-  cream: { bg: "bg-[linear-gradient(135deg,#f6efe3,#efdfc8_55%,#ebbf96)] text-ink", line: "border-ink/15", tail: "text-ink/50", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
-  ink: { bg: "bg-[linear-gradient(135deg,#0b0807,#21160f_55%,#4a2414)] text-paper", line: "border-paper/20", tail: "text-paper/50", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
-  paper: { bg: "bg-[linear-gradient(135deg,#fbf4e8,#f2e3cd_55%,#f0c39b)] text-ink", line: "border-ink/15", tail: "text-ink/50", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
+  orange: { bg: "bg-[linear-gradient(135deg,#f47a3a,#e8622c_45%,#c4401a)] text-ink", line: "border-ink/20", tail: "font-normal", stage: "bg-white/15 ring-1 ring-white/25", pill: "btn-paper" },
+  rust: { bg: "bg-[linear-gradient(135deg,#1a120e,#3a2216_55%,#8a3a17)] text-paper", line: "border-paper/20", tail: "font-normal text-paper/60", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
+  cream: { bg: "bg-[linear-gradient(135deg,#f6efe3,#efdfc8_55%,#ebbf96)] text-ink", line: "border-ink/15", tail: "font-normal text-ink/65", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
+  ink: { bg: "bg-[linear-gradient(135deg,#0b0807,#21160f_55%,#4a2414)] text-paper", line: "border-paper/20", tail: "font-normal text-paper/60", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
+  paper: { bg: "bg-[linear-gradient(135deg,#fbf4e8,#f2e3cd_55%,#f0c39b)] text-ink", line: "border-ink/15", tail: "font-normal text-ink/65", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
 };
 
 function Panel({ s, i, n, progress }) {
@@ -106,12 +106,12 @@ function Panel({ s, i, n, progress }) {
 
           <div className={`mt-6 grid border-x border-t lg:mt-10 lg:grid-cols-2 ${t.line}`}>
             {s.boxes.map(([label, lead, tail], b) => (
-              <div key={label} className={`px-4 pb-4 pt-4 lg:px-6 lg:pb-8 lg:pt-6 ${b ? `border-t lg:border-l lg:border-t-0 ${t.line}` : ""}`}>
+              <div key={label} className={`px-4 pb-5 pt-4 lg:px-7 lg:pb-10 lg:pt-7 ${b ? `border-t lg:border-l lg:border-t-0 ${t.line}` : ""}`}>
                 <p className="flex items-center gap-2.5 text-sm font-medium">
                   <span className="h-2 w-2 rounded-[2px] bg-current" />
                   {label}
                 </p>
-                <p className="t-lead mt-3 [text-indent:1.5em] lg:mt-5">
+                <p className="t-lead mt-3 !font-medium [text-indent:1.5em] lg:mt-5">
                   {lead} <span className={t.tail}>{tail}</span>
                 </p>
               </div>

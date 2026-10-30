@@ -16,8 +16,8 @@ npm run preview  # serve the production build locally
 | What | File |
 | --- | --- |
 | Brand ("Reign"), full name ("Reign Studio"), email, phone, Instagram, form key, site URL | `src/config.js` |
-| Colors (dark + light theme), fonts, type scale, motion helpers | `src/index.css` (fonts self-hosted in `public/fonts/`) |
-| Logo / REIGN wordmark (crown + Clash Display) | `src/components/Logo.jsx` |
+| Colors (dark + light theme), fonts, type scale, motion helpers | `src/index.css` (Inter Tight + Caveat, self-hosted in `public/fonts/`) |
+| Logo / "Reign" wordmark (crown + Inter Tight 600) | `src/components/Logo.jsx` |
 | Header, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
 | Hero (headline, wall of screenshots, service tags) | `src/components/Hero.jsx`, `src/components/HeroWall.jsx` |
 | Hero wall images (one pre-composed strip per column, 400px + 200px "-sm") | `public/portfolio/wall/` |

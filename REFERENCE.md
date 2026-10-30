@@ -239,3 +239,47 @@ under Averlo's pixel sizes to take up the same visual width.
   and feedback in English or Spanish."; the form is split into two steps (no questions removed).
 - **Closing:** "Or text me yourself at (754) 277-6110. I reply within 24 hours." → "Or text (754) 277-6110";
   removed "English or español."
+
+## Weight, typeface and spacing: measured (2026-10-30, "skinny and airy" pass)
+
+Playwright, computed styles on every visible text element at 1440px and 390px. "Before" = Clash Display +
+DM Sans version, "after" = this pass.
+
+### Typefaces and weights
+
+| Role | Averlo | Reign before | Reign after |
+| --- | --- | --- | --- |
+| Typeface | **SF Pro** (self-hosted "sfPro"), one family for everything | Clash Display (headings) + DM Sans (text) | **Inter Tight** (closest free match to SF Pro), one variable file for everything |
+| Hero headline | 600 · −0.04em · lh 1.0 | 600 · −0.045em · lh 1.0 | **560** · −0.035em · lh 0.98 |
+| Section headings | 500 · −0.04em · lh 1.0 | 600 · −0.045em | **500** · −0.035em · lh 1.0 |
+| Panel / card titles | 500 · −0.04em | 600 · −0.035em | **500** · −0.025 to −0.032em |
+| Lead text (22px) | 500 · lh 1.0 | 500 · DM Sans | **500 lead / 400 tail** · lh 1.2 |
+| Small text, labels (14px) | 400 · lh 1.0–1.25 | 400–600 · lh 1.43–1.55 | **400** (500 for UI) · lh 1.3–1.4 |
+| Buttons | 400–500 · 14px | 600 · 15px | **500** · 15px |
+| Big step / panel numbers | 600 | 600 | 600 (unchanged, like Averlo) |
+| Wordmark | — | Clash Display 600 | Inter Tight 600, −0.045em |
+
+Inter Tight already has tighter default spacing than SF Pro, so −0.035em on our headings looks like Averlo's −0.04em.
+
+### Lines, cards, spacing, text widths
+
+| Measure | Averlo | Reign before | Reign after |
+| --- | --- | --- | --- |
+| Borders / dividers | 1px, 25–35% opacity | 1px, 12% opacity | 1px, 12% opacity (unchanged) |
+| Shadows | none (transparent) | big soft shadow on mockups, pills, menu (0 30px 80px, 80%) | lighter (0 24px 60px, 55%) |
+| Cards | image cards, no padding; one 25px panel | filled dark cards (pricing, case study, form), 24–56px padding | **no fill, hairline only**, 28–64px padding |
+| Form fields | — | filled dark inputs, 1.5px borders | near-transparent, **1px** borders |
+| Gaps between items | 8 / 10 / 15px | 8 / 10 / 12px | 8 / 10 / 12px (pricing cards 12 → 16px) |
+| Space after each section | — | 128 / 80px | **160 / 104px** |
+| Section intro padding | ≈ 78 / 48px | 80 / 48px | 80 / **64px** |
+| Lead text width | max 640px | max 904px | **max 640px** |
+| Small text width | max 360px | max 775px | **max 448px** (34ch rule) |
+| Testimonial line width | — | ~900px, 41px text | **≤ 640px**, 36px (20px on phones) |
+| Whitespace in each section, desktop | 85–89% | 66–92% | **74–93%** |
+| Whitespace in each section, phone | 73–83% | 50–87% | **65–88%** |
+
+### Contrast
+
+All text passes WCAG AA in both themes at both widths (axe-core, 0 violations). Two changes to keep it so:
+- **Orange panels:** the quieter half of each lead line is set in a lighter weight instead of a fainter colour (a fade light enough to show fails contrast on orange).
+- **Light theme:** orange *text* switches to `#B4471A`, and the faded heading lines use 50% instead of 42%.

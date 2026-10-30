@@ -16,7 +16,7 @@ export default function About() {
 
         <div className="md:py-20 md:pl-14">
           <ScrubText
-            className="t-h2 !text-[clamp(2.25rem,4.4vw,4rem)] !leading-[1.05]"
+            className="t-h2 max-w-[22ch] !text-[clamp(1.625rem,4vw,3.5rem)] !leading-[1.1]"
             text="Small businesses don't need a giant agency. They need someone who picks up the phone and builds something that brings in customers."
           />
           <Reveal className="mt-10 flex items-center gap-4">

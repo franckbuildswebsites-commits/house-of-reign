@@ -20,7 +20,7 @@ export function BrowserFrame({ url, label = "", className = "", children }) {
           <span className="h-2.5 w-2.5 rounded-full bg-brand/45" />
           <span className="h-2.5 w-2.5 rounded-full bg-cream/20" />
         </span>
-        <span className="mx-auto flex min-w-0 max-w-[65%] flex-1 items-center justify-center gap-1.5 rounded-full bg-night/70 px-3 py-1 text-[0.7rem] leading-none text-dim">
+        <span className="mx-auto flex min-w-0 max-w-[65%] flex-1 items-center justify-center gap-1.5 rounded-full bg-night/70 px-3 py-1 text-[0.7rem] leading-none text-cream/80">
           {url && <Lock className="h-3 w-3 shrink-0" />}
           <span className="truncate">{address}</span>
         </span>

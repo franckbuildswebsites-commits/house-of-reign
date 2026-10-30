@@ -75,7 +75,7 @@ export default function FeaturedCaseStudy() {
   const { name, description, url, highlights } = project;
 
   return (
-    <Reveal as="article" className="overflow-hidden rounded-[28px] bg-coal p-5 ring-1 ring-line sm:p-10 lg:p-14">
+    <Reveal as="article" className="overflow-hidden rounded-[28px] p-6 ring-1 ring-line sm:p-12 lg:p-16">
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12">
         <div>
           <p className="label flex items-center gap-2">

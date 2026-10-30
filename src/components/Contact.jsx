@@ -34,12 +34,12 @@ const PROJECT_TO_NEED = { "Custom Build": CUSTOM };
 
 // Tap targets are at least 44px tall. The real input stays in the DOM (visually hidden) for keyboard and form data.
 const pill =
-  "flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-[1.5px] border-line bg-ember px-4 py-2 text-[0.9375rem] transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-brand/15 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25";
+  "flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-line bg-cream/[0.02] px-4 py-2 text-[0.9375rem] transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-brand/15 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25";
 
 function Field({ label, id, optional, children }) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-[0.9375rem] font-semibold">
+      <label htmlFor={id} className="text-[0.9375rem] font-medium">
         {label} {optional && <span className="font-normal text-dim">(optional)</span>}
       </label>
       {children}
@@ -50,7 +50,7 @@ function Field({ label, id, optional, children }) {
 function Group({ legend, hint, children }) {
   return (
     <fieldset className="sm:col-span-2">
-      <legend className="text-[0.9375rem] font-semibold">
+      <legend className="text-[0.9375rem] font-medium">
         {legend} {hint && <span className="font-normal text-dim">({hint})</span>}
       </legend>
       <div className="mt-3">{children}</div>
@@ -75,7 +75,7 @@ function Pills({ name, options, type = "radio", required, value, onChange }) {
           {type === "checkbox" && (
             <span
               aria-hidden="true"
-              className="grid h-4 w-4 place-items-center rounded border-[1.5px] border-dim/60 [label:has(:checked)_&]:border-brand [label:has(:checked)_&]:bg-brand"
+              className="grid h-4 w-4 place-items-center rounded border border-dim/60 [label:has(:checked)_&]:border-brand [label:has(:checked)_&]:bg-brand"
             >
               <Check className="hidden h-3 w-3 text-ink [label:has(:checked)_&]:block" />
             </span>
@@ -94,7 +94,7 @@ function NeedCards({ value, onChange }) {
       {NEEDS.map((o) => (
         <label
           key={o}
-          className="flex min-h-16 cursor-pointer items-center gap-3 rounded-2xl border-[1.5px] border-line bg-ember px-5 py-4 text-base font-semibold transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-brand/15 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25"
+          className="flex min-h-16 cursor-pointer items-center gap-3 rounded-2xl border border-line bg-cream/[0.02] px-5 py-4 text-base font-medium transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-brand/15 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25"
         >
           <input
             type="radio"
@@ -107,7 +107,7 @@ function NeedCards({ value, onChange }) {
           />
           <span
             aria-hidden="true"
-            className="grid h-5 w-5 shrink-0 place-items-center rounded-full border-[1.5px] border-dim/60 [label:has(:checked)_&]:border-brand"
+            className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-dim/60 [label:has(:checked)_&]:border-brand"
           >
             <span className="hidden h-2.5 w-2.5 rounded-full bg-brand [label:has(:checked)_&]:block" />
           </span>
@@ -125,7 +125,7 @@ function ContactLink({ label, href, external, size = "text-2xl sm:text-3xl", chi
       <a
         href={href}
         {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-        className={`group mt-1 inline-flex min-h-11 max-w-full items-center gap-2 break-all font-display font-semibold tracking-tight text-brand ${size}`}
+        className={`group mt-1 inline-flex min-h-11 max-w-full items-center gap-2 break-all font-display font-medium tracking-tight text-brand ${size}`}
       >
         {children}
       </a>
@@ -242,7 +242,7 @@ export default function Contact() {
         </SectionHeading>
 
         <div className="grid gap-10 lg:grid-cols-[7fr_4fr] lg:gap-14">
-          <Reveal className="rounded-[28px] bg-coal p-6 ring-1 ring-line sm:p-10">
+          <Reveal className="rounded-[28px] p-6 ring-1 ring-line sm:p-12">
             {status === "success" ? (
               <div role="status" className="flex min-h-[420px] flex-col items-start justify-center">
                 <span className="grid h-14 w-14 place-items-center rounded-full bg-brand text-ink">
@@ -250,7 +250,7 @@ export default function Contact() {
                 </span>
                 <h3 className="t-h3 mt-6">Got it!</h3>
                 <p className="mt-3 max-w-md text-xl">I'll {replyVerb} you within 24 hours.</p>
-                <p className="mt-3 font-hand text-4xl font-semibold leading-none text-brand">— {firstName}</p>
+                <p className="mt-3 font-hand text-4xl font-medium leading-none text-brand">— {firstName}</p>
                 <button type="button" onClick={() => setStatus("idle")} className="btn btn-ghost mt-10">
                   Send another message
                 </button>
@@ -370,8 +370,8 @@ export default function Contact() {
 
                   {status === "error" && (
                     <div role="alert" className="rounded-xl bg-brand/15 px-4 py-3 text-base sm:col-span-2">
-                      <strong className="font-semibold">Couldn't send your message.</strong> {error} You can email me directly at{" "}
-                      <a href={`mailto:${EMAIL}`} className="font-semibold text-brand underline underline-offset-2">
+                      <strong className="font-medium">Couldn't send your message.</strong> {error} You can email me directly at{" "}
+                      <a href={`mailto:${EMAIL}`} className="font-medium text-brand underline underline-offset-2">
                         {EMAIL}
                       </a>
                       .

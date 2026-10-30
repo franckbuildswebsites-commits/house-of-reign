@@ -27,7 +27,7 @@ export default function FAQ() {
             <span className="block">
               <Words text="Good questions." />
             </span>
-            <span className="block text-cream/40">
+            <span className="block text-quiet">
               <Words text="Straight answers." start={2} />
             </span>
           </Reveal>
@@ -51,7 +51,7 @@ export default function FAQ() {
                       </button>
                     </h3>
                     <div id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`} hidden={!isOpen}>
-                      <p className="fade-in px-section max-w-2xl pb-7 text-[0.9375rem] leading-relaxed text-dim md:!pl-14">{item.a}</p>
+                      <p className="fade-in px-section max-w-[38rem] pb-8 text-[0.9375rem] leading-relaxed text-dim md:!pl-14">{item.a}</p>
                     </div>
                   </m.li>
                 );
@@ -62,7 +62,7 @@ export default function FAQ() {
                 <button
                   type="button"
                   onClick={() => setAll(true)}
-                  className="px-section flex min-h-16 w-full items-center gap-2 text-left text-sm font-semibold text-dim transition-colors hover:text-cream md:!pl-14"
+                  className="px-section flex min-h-16 w-full items-center gap-2 text-left text-sm font-medium text-dim transition-colors hover:text-cream md:!pl-14"
                 >
                   More questions ({faq.length - FIRST})
                 </button>

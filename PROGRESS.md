@@ -15,10 +15,13 @@ Not merged into `main`; the live site is unchanged.
   applied site-wide; visible copy cut 39% (list in `REFERENCE.md`); two-step contact form; FAQ shows 6 of 11;
   transform/opacity-only motion; AVIF images; offscreen animations pause; lighter effects on phones/low-power
   devices; 44px tap targets; no sideways scroll at any width; anchor jumps land under the header; styled 404 page.
+- **Round 4 (2026-10-30):** "skinny and airy". Clash Display + DM Sans → **Inter Tight** (closest free match to
+  Averlo's SF Pro), weights down to 500/400, hairline-only cards, lighter shadows, more space between and inside
+  blocks, narrower text. Measurements in `REFERENCE.md`. Contrast checked in both themes (0 violations).
 - Palette: near-black `#0C0907`, cream `#F4ECDF`, Reign orange `#E8622C` (orange buttons use dark text, 5.6:1).
   Light theme swaps the background and text tokens.
-- Lighthouse (mobile, local build): Performance 94–97, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
-- Throttled phone scroll test (4× CPU, touch gestures, whole page): 0.1% of frames over 34ms.
+- Lighthouse (mobile, local build): Performance 97, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
+- Throttled phone scroll test (4× CPU, touch gestures, whole page): 0 frames over 34ms, 0 long tasks.
 
 ## Decisions (confirmed)
 

@@ -74,7 +74,7 @@ export default function Process() {
                     <dd className="mt-1 text-cream/85">{s.you}</dd>
                   </div>
                   <div>
-                    <dt className="label !text-brand">Me</dt>
+                    <dt className="label text-brand">Me</dt>
                     <dd className="mt-1 text-cream/85">{s.me}</dd>
                   </div>
                 </dl>
@@ -107,7 +107,7 @@ export default function Process() {
                 animate={{ y: 0 }}
                 exit={{ y: "-100%" }}
                 transition={{ duration: 0.8, ease: EASE }}
-                className="font-display text-[clamp(5rem,13vw,11rem)] font-semibold leading-none tracking-[-0.05em]"
+                className="font-display text-[clamp(5rem,13vw,11rem)] font-semibold leading-none tracking-[-0.04em]"
               >
                 {s.n}
               </m.p>

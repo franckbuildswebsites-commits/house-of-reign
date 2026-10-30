@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { m, useScroll, useTransform } from "motion/react";
 
 function Word({ progress, range, children }) {
-  const opacity = useTransform(progress, range, [0.4, 1]);
+  const opacity = useTransform(progress, range, [0.5, 1]);
   return (
     <>
       <m.span style={{ opacity }}>{children}</m.span>{" "}

@@ -15,7 +15,7 @@ export default function SectionHeading({ label, title, dim, children, id, varian
         <Words text={title} />
       </span>
       {dim && (
-        <span className="block text-cream/40">
+        <span className="block text-quiet">
           <Words text={dim} start={titleWords} />
         </span>
       )}
@@ -29,7 +29,7 @@ export default function SectionHeading({ label, title, dim, children, id, varian
 
   if (variant === "reverse") {
     return (
-      <header className="relative mb-12 grid gap-6 py-12 md:mb-16 md:grid-cols-2 md:items-end md:py-20">
+      <header className="relative mb-12 grid gap-6 py-16 md:mb-16 md:grid-cols-2 md:items-end md:py-20">
         {heading}
         <div className="md:justify-self-end md:text-right [&>p]:md:ml-auto">
           {label && <Reveal as="p" className="label">{label}</Reveal>}
@@ -42,7 +42,7 @@ export default function SectionHeading({ label, title, dim, children, id, varian
 
   if (variant === "end") {
     return (
-      <header className="grid gap-6 py-12 md:grid-cols-2 md:py-20">
+      <header className="grid gap-6 py-16 md:grid-cols-2 md:py-20">
         <div>
           <Reveal as="p" className="label">{label}</Reveal>
           {line}
@@ -53,8 +53,8 @@ export default function SectionHeading({ label, title, dim, children, id, varian
   }
 
   return (
-    <header className="relative mb-12 grid border-t border-line md:mb-16 md:grid-cols-[minmax(0,1fr)_minmax(0,2.2fr)]">
-      <div className="pb-4 pt-12 md:border-r md:border-line md:py-20 md:pr-10">
+    <header className="relative mb-14 grid border-t border-line md:mb-16 md:grid-cols-[minmax(0,1fr)_minmax(0,2.2fr)]">
+      <div className="pb-5 pt-16 md:border-r md:border-line md:py-20 md:pr-10">
         <Reveal as="p" className="label">{label}</Reveal>
         {line}
       </div>

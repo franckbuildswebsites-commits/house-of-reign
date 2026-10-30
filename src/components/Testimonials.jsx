@@ -21,17 +21,17 @@ function Quote({ t }) {
       </Reveal>
       <div>
         <Reveal delay={80} as="blockquote" lang={original ? t.originalLangCode : undefined}>
-          <p className="font-display text-[clamp(1.6rem,2.9vw,2.6rem)] font-medium leading-[1.12] tracking-[-0.03em]">
+          <p className="max-w-[40rem] font-display text-[clamp(1.2rem,2.6vw,2.25rem)] font-normal leading-[1.22] tracking-[-0.025em]">
             {original ? t.original : t.quote}
           </p>
         </Reveal>
-        <Reveal delay={160} className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
+        <Reveal delay={160} className="mt-12 flex max-w-[40rem] flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
           <figcaption className="flex items-center gap-4">
-            <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-brand font-display font-semibold text-ink">
+            <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-brand font-display font-medium text-ink">
               {initials}
             </span>
             <span>
-              <span className="block font-display text-lg font-semibold">{t.name}</span>
+              <span className="block font-display text-lg font-medium">{t.name}</span>
               <span className="text-sm text-dim">
                 {t.role}
                 {t.role && t.business && ", "}
@@ -46,7 +46,7 @@ function Quote({ t }) {
                 type="button"
                 onClick={() => setShowOriginal((v) => !v)}
                 aria-pressed={showOriginal}
-                className="link-sweep inline-flex min-h-11 items-center font-semibold text-cream"
+                className="link-sweep inline-flex min-h-11 items-center font-medium text-cream"
               >
                 {showOriginal ? "View translation" : "View original"}
               </button>

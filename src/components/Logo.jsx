@@ -13,7 +13,7 @@ export function Crown({ className = "" }) {
 // letters so the two read as one mark.
 export function Wordmark({ className = "" }) {
   return (
-    <span className={`inline-flex items-center gap-[0.3em] font-display font-semibold leading-none tracking-[-0.045em] ${className}`}>
+    <span className={`inline-flex items-center gap-[0.3em] font-display font-semibold leading-none tracking-[-0.035em] ${className}`}>
       <Crown className="h-[0.74em] w-auto -translate-y-[0.06em] text-brand transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:-rotate-12" />
       {BRAND}
     </span>

@@ -97,7 +97,7 @@ export default function Nav() {
                     animate={{ y: 0 }}
                     exit={{ opacity: 0, transition: { duration: 0.15 } }}
                     transition={{ duration: 0.55, ease: EASE, delay: 0.04 + i * 0.04 }}
-                    className="block py-1 font-display text-[clamp(2.5rem,4.4vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.045em] transition-colors duration-200 hover:text-brand focus-visible:text-brand"
+                    className="block py-1 font-display text-[clamp(2.5rem,4.4vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.035em] transition-colors duration-200 hover:text-brand focus-visible:text-brand"
                   >
                     {l.label}
                   </m.a>

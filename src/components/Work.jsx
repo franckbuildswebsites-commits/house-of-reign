@@ -38,7 +38,7 @@ function FilterTabs({ active, onChange }) {
             type="button"
             aria-pressed={on}
             onClick={() => onChange(t.id)}
-            className={`relative min-h-11 rounded-full px-4 text-sm font-semibold transition-colors duration-300 ${
+            className={`relative min-h-11 rounded-full px-4 text-sm font-medium transition-colors duration-300 ${
               on ? "text-night" : "text-cream/75 hover:text-cream focus-visible:text-cream"
             }`}
           >
@@ -95,7 +95,7 @@ function ProjectCard({ project }) {
           <h3 className="t-h4 truncate">{name}</h3>
           <p className="mt-0.5 flex items-center gap-2 text-sm text-dim">
             {categoryLabel[category]}
-            {tag === "Concept" && <span className="rounded-full border border-line px-2 py-0.5 text-xs font-semibold text-cream/80">Concept</span>}
+            {tag === "Concept" && <span className="rounded-full border border-line px-2 py-0.5 text-xs font-medium text-cream/80">Concept</span>}
           </p>
         </div>
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line transition-colors duration-300 group-hover:border-brand group-hover:bg-brand group-hover:text-ink">

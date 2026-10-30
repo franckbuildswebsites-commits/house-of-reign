@@ -154,7 +154,7 @@ export default function ClosingCTA() {
           <GetAText />
           <p className="mt-4 flex items-center gap-1.5 text-sm text-paper/60">
             Or text
-            <a href={smsHref} className="inline-flex min-h-11 items-center font-semibold text-paper underline-offset-4 hover:underline focus-visible:underline">
+            <a href={smsHref} className="inline-flex min-h-11 items-center font-medium text-paper underline-offset-4 hover:underline focus-visible:underline">
               {PHONE}
             </a>
           </p>

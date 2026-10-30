@@ -84,7 +84,7 @@ export function LaunchMock() {
         </svg>
         yourbusiness.com
       </div>
-      <p className="font-display text-[17cqw] font-semibold leading-none tracking-[-0.05em]">Live.</p>
+      <p className="font-display text-[17cqw] font-semibold leading-none tracking-[-0.04em]">Live.</p>
       <div className="flex flex-wrap justify-center gap-[2cqw] text-[3.2cqw] font-semibold">
         {["Domain connected", "Secure (https)", "Fast on phones"].map((x) => (
           <span key={x} className="flex items-center gap-[1cqw] rounded-full bg-[#0c0907] px-[3cqw] py-[1.4cqw] text-[#f4ecdf]">
