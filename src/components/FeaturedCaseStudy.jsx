@@ -1,16 +1,14 @@
 import Reveal from "./Reveal";
 import Photo from "./Photo";
 import { BrowserFrame, PhoneFrame } from "./Devices";
-import { Testimonial } from "./Testimonials";
-import { ArrowUpRight, Check } from "./Icons";
+import { ArrowUpRight } from "./Icons";
 import { featured } from "../data/projects";
-import { testimonials } from "../data/testimonials";
 
-const lift = "transition-transform duration-500 ease-[var(--ease-spring)]";
+const lift = "transition-transform duration-700 ease-[var(--ease-out-soft)]";
 
 function Shot({ src, alt }) {
   return (
-    <div className="relative aspect-[16/10] bg-sand">
+    <div className="relative aspect-[16/10] bg-ember">
       <Photo
         src={src}
         alt={alt}
@@ -32,27 +30,27 @@ function Composition({ project }) {
   return (
     <>
       <div className="group relative pb-[12%] md:pb-[8%] md:pt-[9%]">
-        <div aria-hidden="true" className={`absolute left-[1%] top-0 hidden w-[42%] -rotate-3 md:block ${lift} motion-safe:group-hover:-translate-y-2`}>
-          <BrowserFrame label={left.label} className="shadow-soft">
+        <div aria-hidden="true" className={`absolute left-[1%] top-0 hidden w-[42%] -rotate-3 opacity-80 md:block ${lift} motion-safe:group-hover:-translate-y-3 motion-safe:group-hover:-rotate-[5deg]`}>
+          <BrowserFrame label={left.label}>
             <Shot src={left.src} alt="" />
           </BrowserFrame>
         </div>
-        <div aria-hidden="true" className={`absolute right-[1%] top-0 hidden w-[42%] rotate-3 md:block ${lift} motion-safe:group-hover:-translate-y-2`}>
-          <BrowserFrame label={right.label} className="shadow-soft">
+        <div aria-hidden="true" className={`absolute right-[1%] top-0 hidden w-[42%] rotate-3 opacity-80 md:block ${lift} motion-safe:group-hover:-translate-y-3 motion-safe:group-hover:rotate-[5deg]`}>
+          <BrowserFrame label={right.label}>
             <Shot src={right.src} alt="" />
           </BrowserFrame>
         </div>
 
         <div className={`relative z-10 md:mx-auto md:w-[80%] ${lift} motion-safe:group-hover:-translate-y-1.5`}>
-          <BrowserFrame label={address} className="shadow-lift">
+          <BrowserFrame label={address} className="shadow-[var(--shadow-deep)]">
             <Shot src={screens.desktop.src} alt={screens.desktop.alt} />
           </BrowserFrame>
         </div>
 
-        <div className={`absolute bottom-0 left-[-1%] z-20 w-[22%] md:left-[3%] md:w-[15%] ${lift} motion-safe:group-hover:-translate-y-3`}>
+        <div className={`absolute bottom-0 left-[-1%] z-20 w-[22%] md:left-[3%] md:w-[15%] ${lift} motion-safe:group-hover:-translate-y-4`}>
           <PhoneFrame src={screens.mobileAlt.src} alt={screens.mobileAlt.alt} />
         </div>
-        <div className={`absolute bottom-0 right-[-1%] z-20 w-[24%] md:right-[3%] md:w-[17%] ${lift} motion-safe:group-hover:-translate-y-3`}>
+        <div className={`absolute bottom-0 right-[-1%] z-20 w-[24%] md:right-[3%] md:w-[17%] ${lift} motion-safe:group-hover:-translate-y-4`}>
           <PhoneFrame src={screens.mobile.src} alt={screens.mobile.alt} />
         </div>
       </div>
@@ -60,10 +58,10 @@ function Composition({ project }) {
       <div className="mt-8 grid grid-cols-2 gap-3 md:hidden">
         {screens.pages.map((p) => (
           <figure key={p.src}>
-            <BrowserFrame label={p.label} className="shadow-soft">
+            <BrowserFrame label={p.label}>
               <Shot src={p.src} alt={`${name}: ${p.alt}`} />
             </BrowserFrame>
-            <figcaption className="mt-2 text-center text-sm font-semibold text-muted">{p.label}</figcaption>
+            <figcaption className="mt-2 text-center text-sm font-medium text-dim">{p.label}</figcaption>
           </figure>
         ))}
       </div>
@@ -74,19 +72,18 @@ function Composition({ project }) {
 export default function FeaturedCaseStudy() {
   const project = featured;
   if (!project?.published) return null;
-  const { id, name, description, url, highlights } = project;
-  const quote = testimonials.find((t) => t.project === id);
+  const { name, description, url, highlights } = project;
 
   return (
-    <Reveal as="article" className="rounded-[28px] bg-paper p-5 shadow-soft sm:p-10 lg:p-14">
+    <Reveal as="article" className="overflow-hidden rounded-[28px] bg-coal p-5 ring-1 ring-line sm:p-10 lg:p-14">
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12">
         <div>
-          <p className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+          <p className="label flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-brand" />
             Featured project
           </p>
-          <h3 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.03em]">{name}</h3>
-          <p className="mt-4 max-w-2xl text-lg text-muted sm:text-xl">{description}</p>
+          <h3 className="h-display mt-4 text-[clamp(2.6rem,6vw,5.25rem)]">{name}</h3>
+          <p className="mt-4 max-w-2xl text-lg text-dim sm:text-xl">{description}</p>
         </div>
         {url && (
           <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn-primary group/visit justify-self-start">
@@ -101,17 +98,14 @@ export default function FeaturedCaseStudy() {
         <Composition project={project} />
       </div>
 
-      <div className="mt-12 grid gap-10 sm:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start lg:gap-16">
-        <ul className="space-y-4">
-          {highlights.map((h) => (
-            <li key={h} className="flex gap-3 text-lg">
-              <Check className="mt-1 h-5 w-5 shrink-0 text-brand-ink" />
-              <span>{h}</span>
-            </li>
-          ))}
-        </ul>
-        {quote && <Testimonial t={quote} />}
-      </div>
+      <ul className="mt-12 grid border-t border-line sm:mt-16 sm:grid-cols-2 lg:grid-cols-5">
+        {highlights.map((h, i) => (
+          <li key={h} className={`flex gap-4 border-b border-line py-5 sm:pr-6 lg:flex-col lg:gap-3 lg:border-b-0 lg:py-6 ${i ? "lg:border-l lg:pl-6" : ""}`}>
+            <span className="font-display text-sm font-semibold text-brand">{String(i + 1).padStart(2, "0")}</span>
+            <span className="text-[0.98rem] leading-snug text-cream/85">{h}</span>
+          </li>
+        ))}
+      </ul>
     </Reveal>
   );
 }

@@ -1,24 +1,53 @@
 import Logo from "./Logo";
-import { STUDIO_NAME } from "../config";
+import { STUDIO_NAME, EMAIL, PHONE } from "../config";
+import { smsHref } from "../lib/utils";
+
+const links = [
+  ["Work", "#work"],
+  ["Services", "#services"],
+  ["Pricing", "#pricing"],
+  ["Process", "#process"],
+  ["FAQ", "#faq"],
+  ["Contact", "#contact"],
+];
 
 export default function Footer() {
   return (
-    <footer className="overflow-hidden border-t border-line px-5 pt-12 sm:px-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Logo />
-        <p className="text-sm text-muted">
-          <span lang="es">Hablamos español</span>
-        </p>
-        <p className="text-sm text-muted" suppressHydrationWarning>
-          © {new Date().getFullYear()} {STUDIO_NAME}
-        </p>
+    <footer className="overflow-hidden px-5 pt-16 sm:px-8 sm:pt-20">
+      <div className="mx-auto grid max-w-[90rem] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2.4fr)] md:gap-10">
+        <div className="flex flex-col gap-3">
+          <Logo />
+          <p className="text-sm text-dim">
+            <span lang="es">Hablamos español</span>
+          </p>
+        </div>
+        <div className="grid gap-8 sm:grid-cols-3">
+          <ul className="flex flex-col gap-2">
+            {links.map(([label, href]) => (
+              <li key={href}>
+                <a href={href} className="link-sweep text-cream/80 transition-colors hover:text-cream">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-col gap-2">
+            <p className="label">Text</p>
+            <a href={smsHref} className="link-sweep self-start text-cream/80 hover:text-cream">
+              {PHONE}
+            </a>
+            <p className="label mt-4">Email</p>
+            <a href={`mailto:${EMAIL}`} className="link-sweep self-start break-all text-cream/80 hover:text-cream">
+              {EMAIL}
+            </a>
+          </div>
+          <p className="text-sm text-dim sm:text-right" suppressHydrationWarning>
+            © {new Date().getFullYear()} {STUDIO_NAME}
+          </p>
+        </div>
       </div>
-      <p
-        aria-hidden="true"
-        className="mx-auto mt-10 max-w-7xl select-none whitespace-nowrap font-display text-[clamp(3rem,11vw,10rem)] font-semibold uppercase leading-[0.8] tracking-[-0.04em] text-ink/[0.06]"
-      >
-        {STUDIO_NAME}
-      </p>
+      {/* Decorative wordmark, drawn from a CSS pseudo-element (.wordmark in index.css). */}
+      <div aria-hidden="true" data-text={STUDIO_NAME.toUpperCase()} className="wordmark mx-auto mt-16 max-w-[90rem]" />
     </footer>
   );
 }

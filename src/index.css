@@ -1,163 +1,193 @@
 @import "tailwindcss";
 
+/* Self-hosted fonts: Clash Display (Fontshare, ITF Free Font License), DM Sans and Caveat (OFL). */
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/clash-display-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/clash-display-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/dm-sans-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Caveat";
+  src: url("/fonts/caveat-600-latin.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
 @theme {
-  --color-paper: #fbf7f0; /* cream: main background */
-  --color-peach: #ffe9d9; /* alternate section background */
-  --color-sand: #f5eee4; /* chips, browser bars, dividers */
-  --color-line: #ece3d6;
-  --color-ink: #2b1d14; /* espresso: body text, dark sections */
-  --color-muted: #6e5d51; /* 5:1+ on cream, peach and white */
-  --color-brand: #e8622c; /* burnt orange: buttons, highlights, icons on dark */
-  --color-brand-hover: #c94f1e; /* hover for orange buttons */
-  --color-brand-ink: #b4471a; /* orange text and small icons on cream, peach and white */
+  --color-night: #0c0907; /* near-black: page background */
+  --color-coal: #15100c; /* raised surfaces: cards, form */
+  --color-ember: #1f1813; /* chips, inputs, browser bars on dark */
+  --color-cream: #f4ecdf; /* main text */
+  --color-dim: #a5978a; /* secondary text, 7:1 on night */
+  --color-line: rgb(244 236 223 / 0.12); /* hairlines */
+  --color-brand: #e8622c; /* House of Reign orange: buttons, accents (5.6:1 on night) */
+  --color-brand-hover: #ff7a42;
+  --color-brand-deep: #c94f1e;
 
   --font-display: "Clash Display", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --font-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
 
-  --radius-card: 16px;
-  --shadow-soft: 0 1px 2px rgb(96 66 36 / 0.05), 0 12px 32px -14px rgb(96 66 36 / 0.22);
-  --shadow-lift: 0 2px 6px rgb(96 66 36 / 0.06), 0 32px 64px -28px rgb(96 66 36 / 0.45);
-  --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
-
-  --animate-wave: wave 2.6s ease-in-out 3;
-
-  @keyframes drift {
-    0%, 100% { translate: 0 0; }
-    50% { translate: 0 -5px; }
-  }
-  @keyframes blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-  }
-  @keyframes wave {
-    0%, 60%, 100% { rotate: 0deg; }
-    12%, 36% { rotate: 16deg; }
-    24%, 48% { rotate: -6deg; }
-  }
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shadow-deep: 0 30px 80px -30px rgb(0 0 0 / 0.8);
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    /* Keep anchor jumps (nav links, "Start a project" buttons) clear of the fixed 4rem header. */
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 6rem;
+    background: var(--color-night);
   }
   @media (prefers-reduced-motion: no-preference) {
     html { scroll-behavior: smooth; }
   }
   body {
-    @apply bg-paper text-ink font-sans antialiased;
-    font-size: 1.125rem;
-    line-height: 1.7;
+    @apply bg-night text-cream font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
     text-rendering: optimizeLegibility;
   }
   ::selection {
     background: var(--color-brand);
-    color: #fff;
+    color: var(--color-night);
   }
   :focus-visible {
-    outline: 2px solid var(--color-brand-ink);
+    outline: 2px solid var(--color-brand);
     outline-offset: 3px;
   }
-
-  /* Subtle, static espresso-tinted grain over everything (no animation = no repaint cost). */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    pointer-events: none;
-    opacity: 0.07;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 .17 0 0 0 0 .11 0 0 0 0 .08 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
+  h1, h2, h3 { text-wrap: balance; }
 }
 
 @layer components {
+  /* Type scale (see REFERENCE.md): one display face, hierarchy from size, tracking and tone. */
+  .h-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+  }
+  .label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-dim);
+  }
+
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    min-height: 3rem;
     border-radius: 9999px;
-    padding: 0.9rem 1.6rem;
+    padding: 0.8rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.2;
-    transition: transform 0.35s var(--ease-spring), background-color 0.2s, color 0.2s;
+    transition: transform 0.35s var(--ease-out-soft), background-color 0.24s var(--ease-out-soft),
+      color 0.24s var(--ease-out-soft), border-color 0.24s var(--ease-out-soft);
   }
-  .btn:hover { transform: translate3d(0, -2px, 0); }
-  .btn:active { transform: scale(0.98); }
-  /* White on #E8622C is 3.4:1, which WCAG accepts for large text only (18.66px+ bold),
-     so orange buttons use 19px bold labels. White on the #C94F1E hover is 4.5:1. */
-  .btn-primary {
-    background: var(--color-brand);
-    color: #fff;
-    font-size: 1.1875rem;
-    font-weight: 700;
-    box-shadow: 0 12px 24px -14px rgb(232 98 44 / 0.75);
-  }
+  .btn:active { transform: scale(0.97); }
+  /* Night text on orange: 5.6:1, fine at any size. */
+  .btn-primary { background: var(--color-brand); color: var(--color-night); }
   .btn-primary:hover { background: var(--color-brand-hover); }
-  .btn-secondary {
-    background: #fff;
-    color: var(--color-ink);
-    box-shadow: var(--shadow-soft);
-  }
-  .btn-secondary:hover { background: var(--color-peach); }
+  .btn-ghost { border: 1px solid var(--color-line); color: var(--color-cream); }
+  .btn-ghost:hover { border-color: rgb(244 236 223 / 0.4); background: rgb(244 236 223 / 0.06); }
+  .btn-cream { background: var(--color-cream); color: var(--color-night); }
+  .btn-cream:hover { background: #fff; }
+  .btn-night { background: var(--color-night); color: var(--color-cream); }
+  .btn-night:hover { background: #2a201a; }
 
-  .link-underline { position: relative; }
-  .link-underline::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -3px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--color-brand);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.35s var(--ease-spring);
+  /* Underline that sweeps in from the left on hover. */
+  .link-sweep {
+    background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 1.5px;
+    transition: background-size 0.4s var(--ease-out-soft);
   }
-  .link-underline:hover::after,
-  .group:hover .link-underline::after { transform: scaleX(1); transform-origin: left; }
+  .link-sweep:hover,
+  .group:hover .link-sweep { background-size: 100% 1.5px; background-position: 0 100%; }
 
   .field {
     width: 100%;
     border-radius: 12px;
-    border: 1.5px solid #e6dccd;
-    background: #fffdfa;
+    border: 1px solid var(--color-line);
+    background: var(--color-ember);
+    color: var(--color-cream);
     padding: 0.85rem 1rem;
     font-size: 1rem; /* 16px avoids iOS zoom-on-focus */
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.24s, box-shadow 0.24s;
   }
-  .field:hover { border-color: #d6c8b4; }
+  .field:hover { border-color: rgb(244 236 223 / 0.28); }
   .field:focus {
     outline: none;
     border-color: var(--color-brand);
-    box-shadow: 0 0 0 4px rgb(232 98 44 / 0.16);
+    box-shadow: 0 0 0 4px rgb(232 98 44 / 0.2);
   }
-  .field::placeholder { color: var(--color-muted); }
+  .field::placeholder { color: rgb(165 151 138 / 0.8); }
 
-  /* Scroll-in reveal. Content is visible by default; JS only adds .is-hidden to
-     elements that are still below the fold after load (see Reveal.jsx). */
+  /* Scroll-in reveal. Content is visible in the prerendered HTML; JS only adds .is-hidden to
+     elements that are still below the fold after load (Reveal.jsx). */
   .reveal {
-    transition: opacity 0.8s var(--ease-spring), transform 0.8s var(--ease-spring);
+    transition: opacity 0.9s var(--ease-out-soft), transform 0.9s var(--ease-out-soft);
     transition-delay: var(--reveal-delay, 0ms);
   }
   .reveal.is-hidden {
     opacity: 0;
-    transform: translate3d(0, 28px, 0);
+    transform: translate3d(0, 32px, 0);
     transition: none;
   }
 
-  /* Work grid (Work.jsx): the full-page screenshot scrolls to the bottom inside its frame
-     (~7s), and springs back to the top when it stops. Hover/focus on desktop; touch screens
-     get .is-scrolling from JS while the card is on screen. Reduced motion: never moves. */
-  .work-grid[data-armed] > .work-card { opacity: 0; }
+  /* Word-by-word rise: each word sits in a clipping box and slides up into place.
+     .words-in (hero) runs on first paint with CSS only; .reveal-words waits for Reveal. */
+  .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+  .w > span { display: inline-block; will-change: transform; }
+  .reveal-words.is-hidden { opacity: 1; transform: none; }
+  .reveal-words .w > span {
+    transition: transform 1s var(--ease-out-soft);
+    transition-delay: calc(var(--reveal-delay, 0ms) + var(--i) * 55ms);
+  }
+  .reveal-words.is-hidden .w > span { transform: translate3d(0, 110%, 0); transition: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .words-in .w > span {
+      animation: word-rise 1s var(--ease-out-soft) both;
+      animation-delay: calc(120ms + var(--i) * 70ms);
+    }
+    .fade-in {
+      animation: fade-up 0.9s var(--ease-out-soft) both;
+      animation-delay: var(--d, 0ms);
+    }
+  }
+
+  /* Hero wall: columns of our project screenshots drifting up/down on a tilted plane. */
+  .wall-col { animation: wall-up var(--dur, 60s) linear infinite; }
+  .wall-col.down { animation-direction: reverse; }
+  .wall-paused .wall-col { animation-play-state: paused; }
+
+  /* Work grid (Work.jsx): the full-page screenshot scrolls inside its frame on hover/focus (desktop)
+     or while the card is on screen (touch). Reduced motion: never moves. */
   @media (prefers-reduced-motion: no-preference) {
     .shot-img {
-      transition: transform 0.9s var(--ease-spring);
+      transition: transform 0.9s var(--ease-out-soft);
       will-change: transform;
     }
     .shot.is-scrolling .shot-img,
@@ -173,53 +203,55 @@
     }
   }
 
-  /* Design-service illustrations (DesignServices.jsx). Tilted parts rotate by --r;
-     on hover (desktop, motion allowed) the art lifts and those parts turn --dr further. */
-  .illo {
-    overflow: visible;
-    transition: transform 0.5s var(--ease-spring);
-  }
-  .illo .tilt {
-    transform-box: fill-box;
-    transform-origin: center;
-    transform: rotate(var(--r, 0deg));
-    transition: transform 0.5s var(--ease-spring);
-  }
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .group:hover .illo { transform: translateY(-6px); }
-    .group:hover .illo .tilt { transform: rotate(calc(var(--r, 0deg) + var(--dr, 3deg))); }
-  }
-
-  /* Hero build scene (BuildScene.jsx): idle motion only while it's animating and on screen. */
-  .is-live .drift { animation: drift 4.8s ease-in-out infinite; }
-  .is-live .caret-blink { animation: blink 0.9s steps(1) infinite; }
-  .is-paused .drift,
-  .is-paused .caret-blink { animation-play-state: paused; }
-
-  /* Custom cursor (desktop only, enabled from JS) */
-  .cursor-dot {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    pointer-events: none;
-    will-change: transform;
-  }
-  .cursor-dot span {
+  .wordmark::before {
+    content: attr(data-text);
     display: block;
-    width: 10px;
-    height: 10px;
-    margin: -5px 0 0 -5px;
-    border-radius: 9999px;
-    background: var(--color-brand);
-    transition: transform 0.35s var(--ease-spring), opacity 0.25s;
+    white-space: nowrap;
+    user-select: none;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 12.4vw, 12.5rem);
+    font-weight: 600;
+    line-height: 0.78;
+    letter-spacing: -0.05em;
+    color: rgb(244 236 223 / 0.06);
   }
-  .cursor-dot.is-hover span { transform: scale(4.4); opacity: 0.25; }
-  .cursor-dot.is-hidden span { transform: scale(0); }
-  html.has-cursor,
-  html.has-cursor * { cursor: none; }
-  html.has-cursor :is(input, textarea) { cursor: text; }
-  html.has-cursor select { cursor: pointer; }
+
+  /* Accordion (FAQ.jsx): height via grid rows, so answers stay in the HTML for search engines. */
+  .acc {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s var(--ease-out-soft);
+  }
+  .acc[data-open="true"] { grid-template-rows: 1fr; }
+  .acc > div { overflow: hidden; }
+  .plus { position: relative; width: 18px; height: 18px; flex-shrink: 0; }
+  .plus::before,
+  .plus::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1.5px;
+    margin-top: -0.75px;
+    background: currentColor;
+    transition: transform 0.45s var(--ease-out-soft);
+  }
+  .plus::after { transform: rotate(90deg); }
+  [aria-expanded="true"] .plus::after { transform: rotate(0deg); }
+}
+
+@keyframes word-rise {
+  from { transform: translate3d(0, 110%, 0); }
+  to { transform: none; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 20px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes wall-up {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -50%, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -228,6 +260,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .animate-wave, .drift, .caret-blink { animation: none !important; }
+  .wall-col { animation: none !important; }
   .reveal.is-hidden { opacity: 1; transform: none; }
+  .reveal-words.is-hidden .w > span { transform: none; }
+  /* Scroll-scrubbed text (ScrubText.jsx) shows at full strength. */
+  .scrub span { opacity: 1 !important; }
 }

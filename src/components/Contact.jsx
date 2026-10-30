@@ -42,13 +42,13 @@ const PROJECT_TO_NEED = { "Custom Build": CUSTOM };
 
 // Tap targets are at least 44px tall. The real input stays in the DOM (visually hidden) for keyboard and form data.
 const pill =
-  "flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-4 py-2 text-[0.95rem] transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-peach has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25";
+  "flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-[1.5px] border-line bg-ember px-4 py-2 text-[0.95rem] transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-brand/15 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25";
 
 function Field({ label, id, optional, children }) {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={id} className="text-[0.95rem] font-semibold">
-        {label} {optional && <span className="font-normal text-muted">(optional)</span>}
+        {label} {optional && <span className="font-normal text-dim">(optional)</span>}
       </label>
       {children}
     </div>
@@ -59,7 +59,7 @@ function Group({ legend, hint, children }) {
   return (
     <fieldset className="sm:col-span-2">
       <legend className="text-[0.95rem] font-semibold">
-        {legend} {hint && <span className="font-normal text-muted">({hint})</span>}
+        {legend} {hint && <span className="font-normal text-dim">({hint})</span>}
       </legend>
       <div className="mt-3">{children}</div>
     </fieldset>
@@ -83,9 +83,9 @@ function Pills({ name, options, type = "radio", required, value, onChange }) {
           {type === "checkbox" && (
             <span
               aria-hidden="true"
-              className="grid h-4 w-4 place-items-center rounded border-[1.5px] border-muted/60 [label:has(:checked)_&]:border-brand [label:has(:checked)_&]:bg-brand"
+              className="grid h-4 w-4 place-items-center rounded border-[1.5px] border-dim/60 [label:has(:checked)_&]:border-brand [label:has(:checked)_&]:bg-brand"
             >
-              <Check className="hidden h-3 w-3 text-white [label:has(:checked)_&]:block" />
+              <Check className="hidden h-3 w-3 text-night [label:has(:checked)_&]:block" />
             </span>
           )}
           {o}
@@ -102,12 +102,12 @@ function NeedCards({ value, onChange }) {
       {NEEDS.map((o) => (
         <label
           key={o}
-          className="flex min-h-16 cursor-pointer items-center gap-3 rounded-2xl border-[1.5px] border-line bg-white px-5 py-4 text-base font-semibold transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-peach has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25"
+          className="flex min-h-16 cursor-pointer items-center gap-3 rounded-2xl border-[1.5px] border-line bg-ember px-5 py-4 text-base font-semibold transition-colors hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-brand/15 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/25"
         >
           <input type="radio" name="need" value={o} required checked={value === o} onChange={() => onChange(o)} className="sr-only" />
           <span
             aria-hidden="true"
-            className="grid h-5 w-5 shrink-0 place-items-center rounded-full border-[1.5px] border-muted/60 [label:has(:checked)_&]:border-brand"
+            className="grid h-5 w-5 shrink-0 place-items-center rounded-full border-[1.5px] border-dim/60 [label:has(:checked)_&]:border-brand"
           >
             <span className="hidden h-2.5 w-2.5 rounded-full bg-brand [label:has(:checked)_&]:block" />
           </span>
@@ -121,11 +121,11 @@ function NeedCards({ value, onChange }) {
 function ContactLink({ label, href, external, size = "text-2xl sm:text-3xl", children }) {
   return (
     <div>
-      <p className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">{label}</p>
+      <p className="label">{label}</p>
       <a
         href={href}
         {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-        className={`group mt-2 inline-flex max-w-full items-center gap-2 break-all font-display font-semibold tracking-tight text-brand-ink ${size}`}
+        className={`group mt-2 inline-flex max-w-full items-center gap-2 break-all font-display font-semibold tracking-tight text-brand ${size}`}
       >
         {children}
       </a>
@@ -222,23 +222,23 @@ export default function Contact() {
   const replyVerb = { Text: "text", Call: "call", Email: "email" }[replyBy];
 
   return (
-    <section id="contact" className="px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Contact" title="Start a project.">
+    <section id="contact" className="px-5 py-28 sm:px-8 sm:py-36">
+      <div className="mx-auto max-w-[90rem]">
+        <SectionHeading n="07" label="Contact" title="Start a project." dim="No commitment.">
           Tell me a bit about your business. I'll reply within 24 hours to set up your free mockup call.
         </SectionHeading>
 
-        <div className="mt-12 grid gap-10 sm:mt-16 lg:grid-cols-[7fr_4fr] lg:gap-14">
-          <Reveal className="rounded-card bg-white p-6 shadow-soft sm:p-10">
+        <div className="mt-14 grid gap-10 sm:mt-20 lg:grid-cols-[7fr_4fr] lg:gap-14">
+          <Reveal className="rounded-[28px] bg-coal p-6 ring-1 ring-line sm:p-10">
             {status === "success" ? (
               <div role="status" className="flex min-h-[420px] flex-col items-start justify-center">
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-brand text-white">
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-brand text-night">
                   <Check className="h-7 w-7" />
                 </span>
                 <h3 className="mt-6 font-display text-4xl font-semibold tracking-tight">Got it!</h3>
                 <p className="mt-3 max-w-md text-xl">I'll {replyVerb} you within 24 hours.</p>
-                <p className="mt-3 font-hand text-4xl font-semibold leading-none text-brand-ink">— {firstName}</p>
-                <button type="button" onClick={() => setStatus("idle")} className="btn btn-secondary mt-10">
+                <p className="mt-3 font-hand text-4xl font-semibold leading-none text-brand">— {firstName}</p>
+                <button type="button" onClick={() => setStatus("idle")} className="btn btn-ghost mt-10">
                   Send another message
                 </button>
               </div>
@@ -335,10 +335,10 @@ export default function Contact() {
                 </div>
 
                 {status === "error" && (
-                  <div role="alert" className="rounded-xl bg-peach px-4 py-3 text-base sm:col-span-2">
+                  <div role="alert" className="rounded-xl bg-brand/15 px-4 py-3 text-base sm:col-span-2">
                     <strong className="font-semibold">Couldn't send your message.</strong> {error} You can email me
                     directly at{" "}
-                    <a href={`mailto:${EMAIL}`} className="font-semibold text-brand-ink underline underline-offset-2">
+                    <a href={`mailto:${EMAIL}`} className="font-semibold text-brand underline underline-offset-2">
                       {EMAIL}
                     </a>
                     .
@@ -356,7 +356,7 @@ export default function Contact() {
                       <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     )}
                   </button>
-                  <p className="text-base text-muted">No commitment. I'll text or email you within 24 hours.</p>
+                  <p className="text-base text-dim">No commitment. I'll text or email you within 24 hours.</p>
                 </div>
               </form>
             )}
@@ -364,24 +364,24 @@ export default function Contact() {
 
           <Reveal delay={120} as="aside" className="@container flex flex-col gap-8">
             <ContactLink label="Text me" href={smsHref}>
-              <span className="link-underline">{PHONE}</span>
-              <Chat className="h-6 w-6 shrink-0 text-brand-ink" />
+              <span className="link-sweep">{PHONE}</span>
+              <Chat className="h-6 w-6 shrink-0 text-brand" />
             </ContactLink>
             <ContactLink label="Email" href={`mailto:${EMAIL}`} size="text-[clamp(1rem,6cqw,1.5rem)]">
-              <span className="link-underline">{EMAIL}</span>
+              <span className="link-sweep">{EMAIL}</span>
             </ContactLink>
             {showInstagram && (
               <ContactLink label="Instagram" href={instagramUrl} external>
-                <span className="link-underline">@{instagramHandle}</span>
+                <span className="link-sweep">@{instagramHandle}</span>
                 <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 <span className="sr-only">(opens in a new tab)</span>
               </ContactLink>
             )}
-            <div className="rounded-card bg-peach p-6">
+            <div className="rounded-[20px] border border-line p-6">
               <p className="font-semibold">
                 <span lang="es">Hablamos español.</span>
               </p>
-              <p className="mt-1 text-muted">Calls, texts, and feedback in English or Spanish.</p>
+              <p className="mt-1 text-dim">Calls, texts, and feedback in English or Spanish.</p>
             </div>
           </Reveal>
         </div>

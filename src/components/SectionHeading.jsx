@@ -1,26 +1,33 @@
 import Reveal from "./Reveal";
+import Words from "./Words";
 
-export default function SectionHeading({ eyebrow, title, children }) {
+// Editorial header: a hairline across the page, a small numbered label on the left and a
+// two-tone headline on the right (second line dimmed). Words rise in when it scrolls into view.
+export default function SectionHeading({ n, label, title, dim, children, id }) {
+  const titleWords = title.split(" ").length;
   return (
-    <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end md:gap-12">
+    <header className="grid gap-6 border-t border-line pt-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2.4fr)] md:gap-10 md:pt-10">
+      <Reveal as="p" className="label flex items-center gap-3 self-start">
+        <span className="text-brand">({n})</span>
+        {label}
+      </Reveal>
       <div>
-        <Reveal as="p" className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-muted">
-          <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-          {eyebrow}
+        <Reveal as="h2" id={id} className="reveal-words h-display text-[clamp(2.6rem,6.4vw,6rem)]">
+          <span className="block">
+            <Words text={title} />
+          </span>
+          {dim && (
+            <span className="block text-cream/40">
+              <Words text={dim} start={titleWords} />
+            </span>
+          )}
         </Reveal>
-        <Reveal
-          as="h2"
-          delay={60}
-          className="font-display text-[clamp(2.5rem,7.5vw,5.75rem)] font-semibold leading-[0.95] tracking-[-0.03em]"
-        >
-          {title}
-        </Reveal>
+        {children && (
+          <Reveal delay={150} className="mt-6 max-w-xl text-lg text-dim sm:text-xl">
+            {children}
+          </Reveal>
+        )}
       </div>
-      {children && (
-        <Reveal delay={120} className="max-w-sm text-lg text-muted md:text-right">
-          {children}
-        </Reveal>
-      )}
-    </div>
+    </header>
   );
 }

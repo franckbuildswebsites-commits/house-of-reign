@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
+import { AnimatePresence, m } from "motion/react";
 import Logo from "./Logo";
+import { PHONE } from "../config";
+import { smsHref } from "../lib/utils";
 
 const links = [
   { label: "Work", href: "#work" },
   { label: "Services", href: "#services" },
+  { label: "Pricing", href: "#pricing" },
   { label: "Process", href: "#process" },
-  { label: "About", href: "#about" },
+  { label: "FAQ", href: "#faq" },
 ];
 
+const EASE = [0.2, 0.8, 0.2, 1];
+
+// Logo left, a floating pill of links in the middle, the main call to action on the right.
+// Phones get a "Menu" pill that opens a full-screen sheet with big staggered links.
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -31,69 +39,93 @@ export default function Nav() {
   }, [open]);
 
   const close = () => setOpen(false);
-  const solid = scrolled || open;
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-[45] transition-[background-color,box-shadow] duration-300 ${
-        solid ? "bg-paper/90 shadow-[0_1px_0_rgb(96_66_36/0.1)] backdrop-blur-md" : ""
-      }`}
-    >
-      <nav aria-label="Main" className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <Logo />
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-night via-night/75 to-transparent transition-opacity duration-500 ${
+          scrolled && !open ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <nav aria-label="Main" className="relative mx-auto flex h-20 max-w-[90rem] items-center justify-between gap-4 px-5 sm:px-8 lg:h-24">
+        <Logo onClick={close} className="relative z-10" />
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-line bg-coal/70 p-1.5 backdrop-blur-md lg:flex">
           {links.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="link-underline text-[0.95rem] font-medium transition-colors hover:text-brand-ink">
+              <a
+                href={l.href}
+                className="block rounded-full px-4 py-2 text-[0.95rem] font-medium text-cream/80 transition-colors duration-200 hover:bg-cream/10 hover:text-cream"
+              >
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-2">
-          <a href="#contact" className="btn btn-primary hidden py-2.5 sm:inline-flex">
+        <div className="relative z-10 flex items-center gap-2">
+          <a href="#contact" className="btn btn-primary hidden sm:inline-flex">
             Start a project
           </a>
           <button
             type="button"
-            className="relative -mr-2 grid h-11 w-11 place-items-center md:hidden"
+            className="btn btn-ghost min-h-11 bg-coal/70 px-5 backdrop-blur-md lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
-            aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((o) => !o)}
           >
-            <span
-              className={`absolute h-[2px] w-6 bg-ink transition-transform duration-300 ${
-                open ? "rotate-45" : "-translate-y-[4px]"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-6 bg-ink transition-transform duration-300 ${
-                open ? "-rotate-45" : "translate-y-[4px]"
-              }`}
-            />
+            <span aria-hidden="true" className="relative h-2.5 w-4">
+              <span className={`absolute left-0 h-[1.5px] w-4 bg-current transition-transform duration-300 ${open ? "top-1 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 h-[1.5px] w-4 bg-current transition-transform duration-300 ${open ? "top-1 -rotate-45" : "top-2"}`} />
+            </span>
+            {open ? "Close" : "Menu"}
           </button>
         </div>
       </nav>
 
-      {open && (
-        <div id="mobile-menu" className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line bg-paper px-5 pb-10 pt-6 md:hidden">
-          <ul className="flex flex-col">
-            {links.map((l) => (
-              <li key={l.href} className="border-b border-line">
-                <a href={l.href} onClick={close} className="block py-4 font-display text-4xl font-semibold tracking-tight transition-colors hover:text-brand-ink">
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <a href="#contact" onClick={close} className="btn btn-primary mt-8 w-full">
-            Start a project
-          </a>
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <m.div
+            id="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.25 } }}
+            className="fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-night px-5 pb-10 pt-28 sm:px-8 lg:hidden"
+          >
+            <ul className="flex flex-col">
+              {links.map((l, i) => (
+                <li key={l.href} className="overflow-hidden border-b border-line">
+                  <m.a
+                    href={l.href}
+                    onClick={close}
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.7, ease: EASE, delay: 0.05 + i * 0.06 }}
+                    className="flex items-baseline justify-between py-4 font-display text-5xl font-semibold tracking-[-0.03em]"
+                  >
+                    {l.label}
+                    <span className="text-sm font-medium tracking-normal text-dim">0{i + 1}</span>
+                  </m.a>
+                </li>
+              ))}
+            </ul>
+            <m.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.4 }}
+              className="mt-auto flex flex-col gap-3 pt-10"
+            >
+              <a href="#contact" onClick={close} className="btn btn-primary w-full">
+                Start a project
+              </a>
+              <a href={smsHref} className="btn btn-ghost w-full">
+                Text me · {PHONE}
+              </a>
+            </m.div>
+          </m.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

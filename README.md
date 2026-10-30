@@ -1,6 +1,6 @@
 # House of Reign: portfolio site
 
-Vite + React + Tailwind (v4). Single page, deploys to Vercel as-is. Project status and open items: see `PROGRESS.md`.
+Vite + React + Tailwind (v4) + Framer Motion (`motion`). Single page, dark theme. Deploys to Cloudflare (Workers static assets, see `wrangler.jsonc`). Design/motion reference notes: `REFERENCE.md`. Project status and open items: see `PROGRESS.md`.
 
 ```bash
 npm install
@@ -14,15 +14,19 @@ npm run preview  # serve the production build locally
 | What | File |
 | --- | --- |
 | Name, email, phone, Instagram (hidden while empty), form key, site URL | `src/config.js` |
-| Project cards and filter tabs ("Recent work") | `src/data/projects.js` |
+| Colors, fonts, type scale, motion helpers | `src/index.css` (fonts self-hosted in `public/fonts/`) |
+| Hero (headline, wall of our screenshots) | `src/components/Hero.jsx`, `src/components/HeroWall.jsx` |
+| Hero wall images (one pre-composed strip per column, 400px + 200px "-sm") | `public/portfolio/wall/` |
+| "A note from me" (scroll-lit statement) | `src/components/About.jsx` |
+| Numbered service cards ("More than websites") and their mini mockups | `src/components/ServiceStack.jsx`, `src/components/Mockups.jsx` |
+| Project cards and filter tabs ("Recent work"), featured case study | `src/data/projects.js` |
 | Screenshots (full-page WebP for the cards, Go Digital Hero shots) | `public/portfolio/` |
-| Design services ("More than websites": cards, text, illustrations) | `src/components/DesignServices.jsx` |
-| Hero animation (the three fictional businesses, timing) | `src/components/BuildScene.jsx` |
-| Services & pricing ("Perfect for" lines) | `src/data/services.js` |
+| Pricing plans | `src/data/services.js` (shown by `src/components/Pricing.jsx`) |
 | Process steps (you / me / timing) | `src/data/process.js` |
 | FAQ | `src/data/faq.js` |
 | Testimonials (hidden while empty) | `src/data/testimonials.js` |
-| Your photo (hero chip, "A note from me", CTA) | `public/me.jpg` (the crown mark shows until it exists) |
+| Closing "Text me" block | `src/components/TextMe.jsx` |
+| Your photo (hero, "A note from me") | `public/me.jpg` (the crown mark shows until it exists) |
 | Social share image | `public/og-image.jpg` (1200 × 630) |
 | Favicon | `public/favicon.svg` |
 
@@ -53,7 +57,7 @@ In `src/data/projects.js`, set `published: false` to hide it or `true` to show i
 
 ## How the build works
 
-`npm run build` builds the site, then renders every section to plain HTML (`scripts/prerender.js`). The deployed page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see everything. Scroll animations only hide content that's still below the screen after the page loads, and never when the visitor prefers reduced motion.
+`npm run build` builds the site, then renders every section to plain HTML (`scripts/prerender.js`). The deployed page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see everything. The hero headline animates with CSS alone; scroll animations only hide content that's still below the screen after the page loads; Framer Motion's animation engine loads in a separate chunk after the page is up. Nothing moves when the visitor prefers reduced motion.
 
 ## Deploy to Vercel
 

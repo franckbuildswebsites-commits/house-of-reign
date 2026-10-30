@@ -2,29 +2,31 @@ import { useEffect, useState } from "react";
 import { Chat } from "./Icons";
 import { smsHref } from "../lib/utils";
 
-// Desktop: floating "Text me" button. Mobile: sticky bottom bar with "Start a project".
-// Both appear after the hero and step aside while the contact section is on screen.
+// A "Text me" pill pinned bottom-center once you're past the hero. It steps aside while the
+// contact form or the closing "Text me" block is on screen.
 export default function FloatingContact() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     let pastHero = false;
-    let contactInView = false;
-    const update = () => setShow(pastHero && !contactInView);
+    const inView = new Set();
+    const update = () => setShow(pastHero && inView.size === 0);
     const onScroll = () => {
-      pastHero = window.scrollY > window.innerHeight * 0.6;
+      pastHero = window.scrollY > window.innerHeight * 0.7;
       update();
     };
 
-    const contact = document.getElementById("contact");
     const io = new IntersectionObserver(
-      ([entry]) => {
-        contactInView = entry.isIntersecting;
+      (entries) => {
+        entries.forEach((e) => (e.isIntersecting ? inView.add(e.target) : inView.delete(e.target)));
         update();
       },
-      { rootMargin: "0px 0px -20% 0px" }
+      { rootMargin: "0px 0px -15% 0px" }
     );
-    if (contact) io.observe(contact);
+    ["contact", "text-me"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -37,33 +39,22 @@ export default function FloatingContact() {
   const hidden = !show;
 
   return (
-    <>
-      <a
-        href={smsHref}
-        inert={hidden || undefined}
-        className={`btn btn-primary fixed bottom-6 right-6 z-40 hidden shadow-lift transition-[opacity,translate,transform,background-color,color] duration-300 md:inline-flex ${
-          hidden ? "pointer-events-none translate-y-4 opacity-0" : "opacity-100"
-        }`}
-      >
-        <Chat className="h-5 w-5" />
-        Text me
-      </a>
-
-      <div
-        inert={hidden || undefined}
-        className={`fixed inset-x-0 bottom-0 z-40 flex gap-3 bg-paper/95 px-4 pt-3 shadow-[0_-10px_30px_-14px_rgb(96_66_36/0.35)] backdrop-blur transition-[translate] duration-300 md:hidden ${
-          hidden ? "translate-y-full" : "translate-y-0"
-        }`}
-        style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
-      >
-        <a href={smsHref} className="btn btn-secondary shrink-0 px-5">
-          <Chat className="h-5 w-5" />
-          <span className="max-[379px]:sr-only">Text me</span>
-        </a>
-        <a href="#contact" className="btn btn-primary flex-1">
+    <div
+      inert={hidden || undefined}
+      className={`fixed inset-x-0 z-40 flex justify-center transition-[opacity,translate] duration-500 ease-[var(--ease-out-soft)] ${
+        hidden ? "pointer-events-none translate-y-6 opacity-0" : "opacity-100"
+      }`}
+      style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+    >
+      <div className="flex items-center gap-1 rounded-full border border-line bg-coal/85 p-1.5 shadow-[var(--shadow-deep)] backdrop-blur-md">
+        <a href="#contact" className="rounded-full px-4 py-2.5 text-[0.95rem] font-semibold text-cream/85 transition-colors hover:text-cream">
           Start a project
         </a>
+        <a href={smsHref} className="btn btn-primary min-h-11 px-4 py-2.5 text-[0.95rem]">
+          <Chat className="h-[18px] w-[18px]" />
+          Text me
+        </a>
       </div>
-    </>
+    </div>
   );
 }

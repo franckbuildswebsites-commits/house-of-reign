@@ -1,24 +1,23 @@
 # Progress
 
-How-to and file map: see `README.md`.
+How-to and file map: see `README.md`. Design and motion reference: `REFERENCE.md`.
 
-## Stack
+## Branch `redesign-v2` (2026-10-29)
 
-Vite + React 19 + Tailwind v4, single page. `npm run build` prerenders the page to static HTML (`scripts/prerender.js`) and hydrates it. Animations use CSS and the Web Animations API (transform/opacity only) and respect reduced motion. Deploys to Vercel.
+Full redesign modeled on the techniques in `REFERENCE.md` (averlo.co), with House of Reign's own identity and content.
+Not merged into `main`; the live site is unchanged.
 
-## Page order
-
-Hero (animated "website being built" scene) → Trust strip → Services & pricing → **Recent work** → A note from me (About) → **More than websites** (design services) → Process → FAQ → CTA → Contact → Footer.
-
-## Done
-
-- Warm palette (cream, peach, espresso, burnt orange), contrast checked (WCAG AA).
-- Hero headline "Websites that get you more clients." with the animated build scene.
-- **Recent work** (order: Past Present Future, Token Forge, Champions4Character, MM Casino Party, Reign): five case studies, alternating sides on desktop, stacked on mobile. Each has a desktop screenshot with an overlapping phone screenshot, tag, three bullets and "Visit site" for live sites. Past Present Future Comics and Champions4Character have before/after sliders (drag with mouse or touch, arrow keys). CTA under the list: "Want one for your business?" (form, text, call).
-- Screenshots captured from the live sites at 1440×900 and 390×844 as WebP in `public/portfolio/` (Past Present Future Comics from its workers.dev preview).
-- **More than websites**: six design-service cards with inline SVG illustrations (no image files), hover lift/tilt on desktop, CTA "Need graphics?".
-- Location kept off the site; owner shown as "Francisco" only.
+- Dark theme: near-black `#0C0907`, cream text `#F4ECDF`, House of Reign orange `#E8622C` (orange buttons use dark text, 5.6:1).
+- Clash Display + DM Sans + Caveat, self-hosted and preloaded.
+- Page order: Hero → Trust strip → A note from me → Services (numbered cards) → Work (Go Digital Hero + filterable grid)
+  → Testimonial → Pricing → Process → FAQ → Contact → "Text me" → Footer.
+- Motion: word-by-word hero headline (CSS), drifting wall of our screenshots, scroll-lit statement, pinned stacking
+  service cards (desktop), sliding filter pill + animated grid reflow, sticky process stepper, height-animated FAQ.
+  Framer Motion (`motion`) via `LazyMotion`; everything respects reduced motion.
+- Lighthouse (mobile, local build): Performance 93–94, Accessibility 100, Best Practices 100, SEO 100.
 
 ## Open items ([CONFIRM])
 
-- Still needed from earlier: `public/me.jpg` (your photo), `public/og-image.jpg` (1200×630 share image), `SITE_URL` in `src/config.js` after deploying.
+- Pricing shows all four plans from `src/data/services.js` (Launch Page, Business Site, Site Care, Custom Build) plus $75/hr.
+- Service card mockups use placeholder names ("Your Café", "Your Business") and sample numbers; they're illustrations.
+- Still needed from earlier: `public/me.jpg` (your photo), `public/og-image.jpg` (1200×630 share image), `SITE_URL` in `src/config.js`.

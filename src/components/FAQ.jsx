@@ -1,24 +1,23 @@
 import { useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { Plus } from "./Icons";
 import { faq } from "../data/faq";
 
+// Full-width hairline rows; the "+" turns into "−" and the answer opens with a height animation.
+// Answers stay in the HTML (closed rows are inert), so search engines still read them.
 export default function FAQ() {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(0);
 
   return (
-    <section id="faq" className="px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[5fr_7fr] lg:gap-24">
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <SectionHeading eyebrow="FAQ" title="Good questions." />
-        </div>
+    <section id="faq" className="px-5 py-28 sm:px-8 sm:py-36">
+      <div className="mx-auto max-w-[90rem]">
+        <SectionHeading n="06" label="FAQ" title="Good questions." dim="Straight answers." />
 
-        <Reveal as="ul" delay={120} className="flex flex-col gap-3">
+        <Reveal as="ul" className="mt-14 border-b border-line sm:mt-20 md:ml-[calc((100%-2.5rem)/3.4+2.5rem)]">
           {faq.map((item, i) => {
             const isOpen = open === i;
             return (
-              <li key={item.q} className="rounded-card bg-white shadow-soft">
+              <li key={item.q} className="border-t border-line">
                 <h3>
                   <button
                     type="button"
@@ -26,28 +25,17 @@ export default function FAQ() {
                     aria-expanded={isOpen}
                     aria-controls={`faq-a-${i}`}
                     onClick={() => setOpen(isOpen ? null : i)}
-                    className="group flex w-full items-center justify-between gap-6 px-6 py-5 text-left font-display text-xl font-semibold tracking-tight sm:px-7 sm:text-2xl"
+                    className={`group flex w-full items-center justify-between gap-6 py-6 text-left text-lg font-medium transition-colors duration-300 sm:py-7 sm:text-xl ${
+                      isOpen ? "text-cream" : "text-cream/80 hover:text-cream"
+                    }`}
                   >
-                    {item.q}
-                    <span
-                      className={`grid h-10 w-10 shrink-0 place-items-center rounded-full transition-[rotate,background-color,color] duration-300 ${
-                        isOpen ? "rotate-45 bg-brand text-white" : "bg-peach group-hover:bg-brand group-hover:text-white"
-                      }`}
-                    >
-                      <Plus className="h-4 w-4" />
-                    </span>
+                    <span className="transition-transform duration-500 ease-[var(--ease-out-soft)] motion-safe:group-hover:translate-x-1.5">{item.q}</span>
+                    <span className={`plus transition-colors duration-300 ${isOpen ? "text-brand" : ""}`} aria-hidden="true" />
                   </button>
                 </h3>
-                <div
-                  id={`faq-a-${i}`}
-                  role="region"
-                  aria-labelledby={`faq-q-${i}`}
-                  className={`grid transition-[grid-template-rows] duration-300 ease-[var(--ease-spring)] ${
-                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                  }`}
-                >
-                  <div className="overflow-hidden" inert={!isOpen || undefined}>
-                    <p className="max-w-2xl px-6 pb-6 text-lg leading-relaxed text-muted sm:px-7">{item.a}</p>
+                <div id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`} className="acc" data-open={isOpen}>
+                  <div inert={!isOpen || undefined}>
+                    <p className="max-w-2xl pb-7 text-lg leading-relaxed text-dim">{item.a}</p>
                   </div>
                 </div>
               </li>

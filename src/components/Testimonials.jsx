@@ -1,71 +1,71 @@
 import { useState } from "react";
 import Reveal from "./Reveal";
-import SectionHeading from "./SectionHeading";
 import { testimonials } from "../data/testimonials";
 
-export function Testimonial({ t, i = 0, className = "" }) {
+// One big pull quote per client, with a toggle to read it in its original language.
+function Quote({ t }) {
   const [showOriginal, setShowOriginal] = useState(false);
   const original = showOriginal && t.original;
-  const business = t.url ? (
-    <a href={t.url} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
-      {t.business}
-    </a>
-  ) : (
-    t.business
-  );
+  const initials = t.name
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2);
 
   return (
-    <Reveal as="figure" delay={(i % 3) * 80} className={`flex flex-col rounded-card bg-white p-7 shadow-soft sm:p-8 ${className}`}>
-      <blockquote lang={original ? t.originalLangCode : undefined} className="text-lg leading-relaxed">
-        “{original ? t.original : t.quote}”
-      </blockquote>
-      {t.original && (
-        <p className="mt-4 text-sm text-muted">
-          Translated from {t.originalLang} ·{" "}
-          <button
-            type="button"
-            onClick={() => setShowOriginal((v) => !v)}
-            aria-pressed={showOriginal}
-            className="font-semibold text-ink underline underline-offset-4"
-          >
-            {showOriginal ? "View translation" : "View original"}
-          </button>
-        </p>
-      )}
-      <figcaption className="mt-auto pt-8">
-        <span className="block font-display text-lg font-semibold">{t.name}</span>
-        {(t.role || t.business) && (
-          <span className="text-sm text-muted">
-            {t.role}
-            {t.role && t.business && ", "}
-            {business}
-          </span>
-        )}
-      </figcaption>
-    </Reveal>
+    <figure className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2.4fr)] md:gap-10">
+      <Reveal className="flex items-start md:justify-start">
+        <span aria-hidden="true" className="h-display text-[clamp(6rem,14vw,12rem)] leading-[0.7] text-brand">
+          “
+        </span>
+      </Reveal>
+      <div>
+        <Reveal delay={80} as="blockquote" lang={original ? t.originalLangCode : undefined}>
+          <p className="h-display text-[clamp(1.75rem,3.6vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em]">
+            {original ? t.original : t.quote}
+          </p>
+        </Reveal>
+        <Reveal delay={160} className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
+          <figcaption className="flex items-center gap-4">
+            <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-brand font-display font-semibold text-night">
+              {initials}
+            </span>
+            <span>
+              <span className="block font-display text-lg font-semibold">{t.name}</span>
+              <span className="text-sm text-dim">
+                {t.role}
+                {t.role && t.business && ", "}
+                {t.business}
+              </span>
+            </span>
+          </figcaption>
+          {t.original && (
+            <p className="text-sm text-dim">
+              Translated from {t.originalLang} ·{" "}
+              <button
+                type="button"
+                onClick={() => setShowOriginal((v) => !v)}
+                aria-pressed={showOriginal}
+                className="link-sweep font-semibold text-cream"
+              >
+                {showOriginal ? "View translation" : "View original"}
+              </button>
+            </p>
+          )}
+        </Reveal>
+      </div>
+    </figure>
   );
 }
 
-// Quotes tied to a project show inside that case study instead.
-const standalone = testimonials.filter((t) => !t.project);
-
-// Hidden entirely until there's at least one standalone testimonial.
 export default function Testimonials() {
-  if (!standalone.length) return null;
-
+  if (!testimonials.length) return null;
   return (
-    <section id="testimonials" className="px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Kind words" title="What clients say." />
-        <div
-          className={`mt-12 grid gap-5 sm:mt-16 sm:gap-6 ${
-            standalone.length === 1 ? "max-w-3xl" : "md:grid-cols-2 lg:grid-cols-3"
-          }`}
-        >
-          {standalone.map((t, i) => (
-            <Testimonial key={`${t.name}-${i}`} t={t} i={i} />
-          ))}
-        </div>
+    <section aria-label="What clients say" className="px-5 pb-28 sm:px-8 sm:pb-36">
+      <div className="mx-auto flex max-w-[90rem] flex-col gap-24">
+        {testimonials.map((t) => (
+          <Quote key={t.name} t={t} />
+        ))}
       </div>
     </section>
   );

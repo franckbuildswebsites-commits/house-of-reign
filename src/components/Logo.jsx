@@ -9,11 +9,11 @@ export function Crown({ className = "" }) {
   );
 }
 
-export default function Logo({ className = "" }) {
+export default function Logo({ className = "", onClick }) {
   return (
-    <a href="#top" aria-label={`${STUDIO_NAME}, back to top`} className={`group inline-flex items-center gap-2 ${className}`}>
-      <Crown className="h-5 w-5 text-brand transition-transform duration-300 group-hover:-rotate-12" />
-      <span className="font-display text-[0.95rem] font-semibold tracking-[0.08em]">{STUDIO_NAME.toUpperCase()}</span>
+    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`group inline-flex items-center gap-2.5 ${className}`}>
+      <Crown className="h-6 w-6 text-brand transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:-rotate-12" />
+      <span className="font-display text-[0.95rem] font-semibold tracking-[0.1em]">{STUDIO_NAME.toUpperCase()}</span>
     </a>
   );
 }
