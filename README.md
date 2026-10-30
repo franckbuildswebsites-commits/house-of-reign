@@ -1,6 +1,8 @@
-# House of Reign: portfolio site
+# Reign Studio: website (takereign.com)
 
-Vite + React + Tailwind (v4) + Framer Motion (`motion`). Single page, dark theme. Deploys to Cloudflare (Workers static assets, see `wrangler.jsonc`). Design/motion reference notes: `REFERENCE.md`. Project status and open items: see `PROGRESS.md`.
+Vite + React + Tailwind (v4) + Framer Motion (`motion`) + Lenis. Single page, dark theme with a light toggle.
+Deploys to Cloudflare (Workers static assets, see `wrangler.jsonc`). Design/motion reference and the
+Averlo checklist: `REFERENCE.md`. Project status: `PROGRESS.md`.
 
 ```bash
 npm install
@@ -13,24 +15,30 @@ npm run preview  # serve the production build locally
 
 | What | File |
 | --- | --- |
-| Name, email, phone, Instagram (hidden while empty), form key, site URL | `src/config.js` |
-| Colors, fonts, type scale, motion helpers | `src/index.css` (fonts self-hosted in `public/fonts/`) |
-| Hero (headline, wall of our screenshots) | `src/components/Hero.jsx`, `src/components/HeroWall.jsx` |
+| Brand ("Reign"), full name ("Reign Studio"), email, phone, Instagram, form key, site URL | `src/config.js` |
+| Colors (dark + light theme), fonts, type scale, motion helpers | `src/index.css` (fonts self-hosted in `public/fonts/`) |
+| Logo / REIGN wordmark (crown + Clash Display) | `src/components/Logo.jsx` |
+| Header, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
+| Hero (headline, wall of screenshots, service tags) | `src/components/Hero.jsx`, `src/components/HeroWall.jsx` |
 | Hero wall images (one pre-composed strip per column, 400px + 200px "-sm") | `public/portfolio/wall/` |
-| "A note from me" (scroll-lit statement) | `src/components/About.jsx` |
-| Numbered service cards ("More than websites") and their mini mockups | `src/components/ServiceStack.jsx`, `src/components/Mockups.jsx` |
-| Project cards and filter tabs ("Recent work"), featured case study | `src/data/projects.js` |
-| Screenshots (full-page WebP for the cards, Go Digital Hero shots) | `public/portfolio/` |
+| Service panels and their mockups | `src/components/ServicePanels.jsx`, `src/components/Mockups.jsx` |
+| Work: marquee rows, featured case study, filterable grid | `src/components/WorkMarquee.jsx`, `src/components/Work.jsx`, `src/data/projects.js` |
+| Marquee / closing-section card images (600×375 crops) | `public/portfolio/cards/` |
+| Full-page screenshots (grid) and Go Digital Hero shots | `public/portfolio/` |
+| Testimonial | `src/data/testimonials.js` |
+| "A note from me" | `src/components/About.jsx` |
 | Pricing plans | `src/data/services.js` (shown by `src/components/Pricing.jsx`) |
-| Process steps (you / me / timing) | `src/data/process.js` |
+| Process steps and their illustrations | `src/data/process.js`, `src/components/StepMockups.jsx` |
 | FAQ | `src/data/faq.js` |
-| Testimonials (hidden while empty) | `src/data/testimonials.js` |
-| Closing "Text me" block | `src/components/TextMe.jsx` |
-| Your photo (hero, "A note from me") | `public/me.jpg` (the crown mark shows until it exists) |
-| Social share image | `public/og-image.jpg` (1200 × 630) |
-| Favicon | `public/favicon.svg` |
+| Closing section ("Get a text", call) | `src/components/ClosingCTA.jsx` |
+| Footer (cycling word, local time) | `src/components/Footer.jsx` |
+| Smooth scrolling | `src/lib/scroll.js` |
+| Your photo ("A note from me") | `public/me.jpg` (the crown mark shows until it exists) |
+| Social share image, favicon, home-screen icon | `public/og-image.jpg` (1200 × 630), `public/favicon.svg`, `public/apple-touch-icon.png` |
+| Sitemap / robots | `public/sitemap.xml`, `public/robots.txt` |
 
-The page title, description and Open Graph tags in `index.html` are generated from `src/config.js` at build time. Restart `npm run dev` after editing the config to see those changes.
+The page title, description, canonical URL, Open Graph tags and schema in `index.html` are generated from
+`src/config.js` at build time. Restart `npm run dev` after editing the config to see those changes.
 
 ## Add a project card
 
@@ -57,8 +65,21 @@ In `src/data/projects.js`, set `published: false` to hide it or `true` to show i
 
 ## How the build works
 
-`npm run build` builds the site, then renders every section to plain HTML (`scripts/prerender.js`). The deployed page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see everything. The hero headline animates with CSS alone; scroll animations only hide content that's still below the screen after the page loads; Framer Motion's animation engine loads in a separate chunk after the page is up. Nothing moves when the visitor prefers reduced motion.
+`npm run build` builds the site, then renders every section to plain HTML (`scripts/prerender.js`). The deployed
+page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see
+everything. The hero headline animates with CSS alone; scroll animations only hide content that's still below the
+screen after the page loads; Framer Motion's animation engine loads in a separate chunk after the page is up.
+Nothing moves when the visitor prefers reduced motion.
 
-## Deploy to Vercel
+## Deploy
 
-Push the folder to a GitHub repo and import it at vercel.com/new (it auto-detects Vite), or run `npx vercel` from this folder. Then set `SITE_URL` in `src/config.js` to the live domain and redeploy so the canonical and Open Graph URLs are absolute.
+Cloudflare Workers Builds is connected to the GitHub repo: pushing `main` builds and deploys production.
+To publish a preview of another branch by hand:
+
+```bash
+npm run build
+npx wrangler versions upload --preview-alias <branch-name>
+```
+
+That prints a preview URL like `https://<branch-name>-house-of-reign.franckbuildswebsites.workers.dev` and doesn't
+touch production. (`house-of-reign` is the Cloudflare Worker's internal name; it isn't shown on the site.)

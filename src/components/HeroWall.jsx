@@ -12,9 +12,10 @@ const columns = [
   { dur: "85s", down: true },
   { dur: "75s" },
   { dur: "90s", down: true },
+  { dur: "80s" },
 ];
 
-export default function HeroWall() {
+export default function HeroWall({ className = "" }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -26,25 +27,27 @@ export default function HeroWall() {
   }, []);
 
   return (
-    <div ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute left-[-22%] right-[-22%] top-[-6%] h-[70%] [perspective:1400px] sm:left-[-10%] sm:right-[-20%] sm:h-[78%] lg:left-[30%] lg:right-[-14%] lg:top-[-12%] lg:h-[124%]">
-        <div className="flex h-full justify-center gap-2 [transform:rotateX(22deg)_rotateZ(-14deg)_scale(1.05)] sm:gap-4">
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className={`pointer-events-none overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_14%,#000_72%,transparent),linear-gradient(to_right,transparent,#000_8%,#000_86%,transparent)] [mask-composite:intersect] ${className}`}
+    >
+      <div className="absolute inset-x-[-12%] inset-y-[-30%] [perspective:1600px]">
+        <div className="flex h-full justify-center gap-2.5 [transform:rotateX(26deg)_rotateZ(-11deg)] sm:gap-4">
           {columns.map((col, c) => (
-            <div key={c} className="w-[24%] shrink-0">
+            <div key={c} className={`w-[22%] shrink-0 sm:w-[19%] ${c === 4 ? "hidden sm:block" : ""}`}>
               <div
                 className={`wall-col aspect-[400/2660] w-full bg-[image:var(--strip)] bg-[length:100%_auto] bg-repeat-y sm:bg-[image:var(--strip-lg)] ${col.down ? "down" : ""}`}
                 style={{
                   "--dur": col.dur,
-                  "--strip": `url(/portfolio/wall/col-${c + 1}-sm.webp)`,
-                  "--strip-lg": `url(/portfolio/wall/col-${c + 1}.webp)`,
+                  "--strip": `url(/portfolio/wall/col-${(c % 4) + 1}-sm.webp)`,
+                  "--strip-lg": `url(/portfolio/wall/col-${(c % 4) + 1}.webp)`,
                 }}
               />
             </div>
           ))}
         </div>
       </div>
-      {/* Fade the wall into the page: from the bottom everywhere, from the left on desktop. */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(12_9_7/0.55)_0%,rgb(12_9_7/0.1)_20%,rgb(12_9_7/0.6)_36%,var(--color-night)_49%)] lg:bg-[linear-gradient(to_right,var(--color-night)_28%,rgb(12_9_7/0.55)_52%,rgb(12_9_7/0.15)_80%),linear-gradient(to_bottom,rgb(12_9_7/0.6),transparent_25%,transparent_70%,var(--color-night))]" />
     </div>
   );
 }

@@ -1,58 +1,57 @@
 import HeroWall from "./HeroWall";
 import Words from "./Words";
-import { Avatar } from "./Photo";
-import { ArrowRight } from "./Icons";
 import { SITE_DESCRIPTION } from "../config";
-import { firstName } from "../lib/utils";
 
-// Full-screen opener. The headline rises word by word with CSS on first paint (no waiting for
-// JavaScript); the rest fades up right after. Our work drifts behind it.
+// Every service we do, drifting up the right side of the hero (desktop).
+const tags = [
+  "Web design",
+  "Website redesign",
+  "Google Business Profile",
+  "Menus & signage",
+  "Social posts",
+  "Logos & flyers",
+  "Business cards",
+  "Online ordering",
+  "Booking setup",
+  "Site care",
+];
+
+// Full-screen opener, laid out like the reference: a tilted wall of our work across the top,
+// services ticking up on the right, the intro line and a two-tone headline bottom-left.
+// The headline rises word by word with CSS on first paint (no waiting for JavaScript).
 export default function Hero() {
   return (
-    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden px-5 pb-10 sm:px-8 lg:min-h-[max(100svh,760px)]">
-      <HeroWall />
+    <section id="top" className="px-section relative flex h-[min(100svh,900px)] min-h-[700px] flex-col overflow-hidden pb-24 sm:pb-20 lg:min-h-[760px] lg:pb-14">
+      <HeroWall className="absolute inset-x-0 top-[5.5rem] h-[52%] sm:h-[55%] lg:right-[16%] lg:top-[6.5rem] lg:h-[58%]" />
 
-      <div className="relative mx-auto mt-auto w-full max-w-[90rem] pt-[47svh] sm:pt-[40svh] lg:pt-40">
-        <p className="fade-in label flex items-center gap-3" style={{ "--d": "60ms" }}>
-          <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-          Web design studio · <span lang="es" className="normal-case tracking-normal">Hablamos español</span>
+      <div
+        aria-hidden="true"
+        className="absolute right-[3.75rem] top-[26%] hidden h-[34%] w-[13rem] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_25%,#000_75%,transparent)] lg:block"
+      >
+        <ul className="ticker flex flex-col items-end gap-2.5">
+          {[...tags, ...tags].map((t, i) => (
+            <li key={i} className="rounded-[10px] border border-line px-3.5 py-2 text-[0.85rem] text-cream/70">
+              {t}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="relative mx-auto mt-auto w-full max-w-[100rem]">
+        <p className="fade-in max-w-[22rem] text-[0.95rem] leading-snug text-dim" style={{ "--d": "500ms" }}>
+          {SITE_DESCRIPTION}
         </p>
-
-        <h1 className="words-in h-display mt-5 max-w-[11ch] text-[clamp(3.1rem,8.6vw,8.75rem)] sm:max-w-none">
-          <span className="block">
-            <Words text="Websites that get you" />
-          </span>
-          <span className="block text-brand">
-            <Words text="more clients." start={4} />
-          </span>
-        </h1>
-
-        <div className="mt-8 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-          <p className="fade-in max-w-xl text-lg leading-relaxed text-cream/75 sm:text-xl" style={{ "--d": "650ms" }}>
-            {SITE_DESCRIPTION}
-          </p>
-
-          <div className="fade-in flex flex-wrap items-center gap-3" style={{ "--d": "780ms" }}>
-            <a href="#contact" className="btn btn-primary group grow sm:grow-0">
-              Start a project
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
-            <a href="#work" className="btn btn-ghost grow backdrop-blur-sm sm:grow-0">
-              See the work
-            </a>
-          </div>
-        </div>
-
-        <div className="fade-in mt-10 flex items-center justify-between gap-6 border-t border-line pt-6" style={{ "--d": "900ms" }}>
-          <p className="flex items-center gap-3 text-[0.95rem] text-cream/80">
-            <Avatar className="h-9 w-9" />
-            <span>
-              <span className="font-semibold text-cream">Hi, I'm {firstName}.</span> I build every site myself.
+        <div className="mt-6 flex items-end justify-between gap-8">
+          <h1 className="words-in h-display text-[clamp(2.7rem,6.2vw,5.6rem)] leading-[0.95] tracking-[-0.045em]">
+            <span className="block">
+              <Words text="Websites that get you" />
             </span>
-          </p>
-          <a href="#about" className="label hidden items-center gap-2 transition-colors hover:text-cream sm:flex">
-            Scroll
-            <span aria-hidden="true" className="inline-block h-6 w-px origin-top animate-pulse bg-dim" />
+            <span className="block text-brand">
+              <Words text="more clients." start={4} />
+            </span>
+          </h1>
+          <a href="#services" className="label fade-in mb-2 hidden shrink-0 transition-colors hover:text-cream sm:block" style={{ "--d": "900ms" }}>
+            Scroll down
           </a>
         </div>
       </div>

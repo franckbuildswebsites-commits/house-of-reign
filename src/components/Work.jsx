@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, m } from "motion/react";
 import SectionHeading from "./SectionHeading";
 import FeaturedCaseStudy from "./FeaturedCaseStudy";
+import WorkMarquee from "./WorkMarquee";
 import Reveal from "./Reveal";
 import { BrowserFrame } from "./Devices";
 import { ArrowUpRight } from "./Icons";
@@ -96,7 +97,7 @@ function ProjectCard({ project }) {
             {tag === "Concept" && <span className="rounded-full border border-line px-2 py-0.5 text-xs font-semibold text-cream/80">Concept</span>}
           </p>
         </div>
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line transition-colors duration-300 group-hover:border-brand group-hover:bg-brand group-hover:text-night">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line transition-colors duration-300 group-hover:border-brand group-hover:bg-brand group-hover:text-ink">
           <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
         </span>
       </div>
@@ -110,18 +111,24 @@ export default function Work() {
   const shown = visible.filter((p) => tab === "all" || p.category === tab);
 
   return (
-    <section id="work" className="px-5 py-28 sm:px-8 sm:py-36">
-      <div className="mx-auto max-w-[90rem]">
-        <SectionHeading n="03" label="Work" title="Recent work." dim="Built fast, built to sell.">
-          Custom sites for local shops, restaurants and brands.
+    <section id="work" aria-labelledby="work-title" className="pb-28 sm:pb-36">
+      <div className="px-section mx-auto max-w-[100rem]">
+        <SectionHeading id="work-title" variant="reverse" title="Recent work." dim="Built to sell.">
+          Custom sites for local shops, restaurants and brands. Hover a card to pause, click to visit.
         </SectionHeading>
+      </div>
 
-        <div className="mt-14 sm:mt-20">
+      <div className="mt-10 sm:mt-14">
+        <WorkMarquee />
+      </div>
+
+      <div className="px-section mx-auto max-w-[100rem]">
+        <div id="featured" className="mt-20 scroll-mt-24 sm:mt-28">
           <FeaturedCaseStudy />
         </div>
 
         <div className="mt-20 flex flex-col gap-4 sm:mt-28 sm:flex-row sm:items-center sm:justify-between">
-          <p className="label">More projects</p>
+          <p className="label">All projects</p>
           <LayoutGroup>
             <FilterTabs active={tab} onChange={setTab} />
           </LayoutGroup>

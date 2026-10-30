@@ -15,14 +15,16 @@ function siteMeta() {
     transformIndexHtml(html) {
       const { STUDIO_NAME, OWNER, SITE_DESCRIPTION, SITE_URL, EMAIL, PHONE } = config;
       const url = isPlaceholder(SITE_URL) ? "" : SITE_URL.replace(/\/$/, "");
-      const title = `${STUDIO_NAME} | Web Design for Event Businesses & Local Brands`;
+      const title = `${STUDIO_NAME} | Websites for Local Businesses in South Florida`;
       const ogImage = `${url}/og-image.jpg`;
 
       const jsonLd = {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         name: STUDIO_NAME,
+        alternateName: "Reign",
         description: SITE_DESCRIPTION,
+        areaServed: "South Florida",
         founder: { "@type": "Person", name: OWNER },
         knowsLanguage: ["en", "es"],
         ...(url && { url, image: ogImage }),
@@ -36,6 +38,7 @@ function siteMeta() {
         `<meta name="robots" content="index, follow" />`,
         `<meta name="author" content="${esc(OWNER)}" />`,
         url && `<link rel="canonical" href="${esc(url)}/" />`,
+        `<link rel="apple-touch-icon" href="/apple-touch-icon.png" />`,
         `<meta property="og:type" content="website" />`,
         `<meta property="og:site_name" content="${esc(STUDIO_NAME)}" />`,
         `<meta property="og:title" content="${esc(title)}" />`,

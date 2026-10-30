@@ -4,16 +4,13 @@ import { Avatar } from "./Photo";
 import { STUDIO_NAME } from "../config";
 import { firstName } from "../lib/utils";
 
-const REIGN_URL = "https://takereign.com"; // my own booking software, linked in the P.S.
-
 // "A note from me": a big statement that lights up word by word as you scroll, then the rest
 // of the note in a quieter column. Keeps the #about anchor.
 export default function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="px-5 py-28 sm:px-8 sm:py-40">
-      <div className="mx-auto grid max-w-[90rem] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2.4fr)] md:gap-10">
+    <section id="about" aria-labelledby="about-title" className="px-section py-28 sm:py-40">
+      <div className="mx-auto grid max-w-[100rem] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2.4fr)] md:gap-10">
         <Reveal as="p" className="label flex items-center gap-3 self-start">
-          <span className="text-brand">(01)</span>
           <span id="about-title">A note from me</span>
         </Reveal>
 
@@ -36,15 +33,6 @@ export default function About() {
                   <p className="text-sm text-dim">Founder, {STUDIO_NAME}</p>
                 </div>
               </div>
-              {REIGN_URL && (
-                <p className="text-[0.95rem] text-dim">
-                  <span className="font-semibold text-cream">P.S.</span> We also built{" "}
-                  <a href={REIGN_URL} target="_blank" rel="noopener noreferrer" className="link-sweep font-semibold text-cream">
-                    Reign
-                  </a>
-                  , our own booking platform for event vendors, so we know what makes a site actually bring in clients.
-                </p>
-              )}
             </Reveal>
           </div>
         </div>

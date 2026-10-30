@@ -1,23 +1,31 @@
 # Progress
 
-How-to and file map: see `README.md`. Design and motion reference: `REFERENCE.md`.
+How-to and file map: see `README.md`. Design reference and the Averlo checklist: `REFERENCE.md`.
 
-## Branch `redesign-v2` (2026-10-29)
+## Branch `redesign-v2`
 
-Full redesign modeled on the techniques in `REFERENCE.md` (averlo.co), with House of Reign's own identity and content.
 Not merged into `main`; the live site is unchanged.
 
-- Dark theme: near-black `#0C0907`, cream text `#F4ECDF`, House of Reign orange `#E8622C` (orange buttons use dark text, 5.6:1).
-- Clash Display + DM Sans + Caveat, self-hosted and preloaded.
-- Page order: Hero → Trust strip → A note from me → Services (numbered cards) → Work (Go Digital Hero + filterable grid)
-  → Testimonial → Pricing → Process → FAQ → Contact → "Text me" → Footer.
-- Motion: word-by-word hero headline (CSS), drifting wall of our screenshots, scroll-lit statement, pinned stacking
-  service cards (desktop), sliding filter pill + animated grid reflow, sticky process stepper, height-animated FAQ.
-  Framer Motion (`motion`) via `LazyMotion`; everything respects reduced motion.
-- Lighthouse (mobile, local build): Performance 93–94, Accessibility 100, Best Practices 100, SEO 100.
+- **Round 1 (2026-10-29):** dark redesign modeled on averlo.co's techniques with our content.
+- **Round 2 (2026-10-29):** rebrand to **Reign** / **Reign Studio** (takereign.com), and a much closer match to
+  Averlo's structure: Menu pill + full-screen menu, light/dark toggle, full-screen tilting service panels, work
+  marquee, pinned process stage, FAQ with hairline column, fanned closing section with "Get a text", footer with
+  cycling word, Lenis smooth scrolling, custom cursor.
+- Palette: near-black `#0C0907`, cream `#F4ECDF`, Reign orange `#E8622C` (orange buttons use dark text, 5.6:1).
+  Light theme swaps the background and text tokens.
+- Lighthouse (mobile, local build): Performance 90–95, Accessibility 100, Best Practices 100, SEO 100.
+
+## Decisions (confirmed)
+
+- Pricing: Launch Page $750, Business Site $1,200, Site Care $125/mo, Custom Build from $2,500, plus $75/hr.
+- Service mockups use placeholders ("Your Café", "4.9 ★"); they're illustrations and hidden from screen readers.
+- Jason's quote is its own section.
 
 ## Open items ([CONFIRM])
 
-- Pricing shows all four plans from `src/data/services.js` (Launch Page, Business Site, Site Care, Custom Build) plus $75/hr.
-- Service card mockups use placeholder names ("Your Café", "Your Business") and sample numbers; they're illustrations.
-- Still needed from earlier: `public/me.jpg` (your photo), `public/og-image.jpg` (1200×630 share image), `SITE_URL` in `src/config.js`.
+- Spanish version (Averlo has a language picker): needs Spanish copy you approve.
+- Social icons in the footer: add your Instagram handle to `src/config.js`.
+- Privacy page (Averlo links "Privacy and cookies").
+- Still needed: `public/me.jpg` (your photo).
+- Automatic Cloudflare preview builds for branches fail; the build log isn't readable with the current Wrangler
+  login. Previews are uploaded by hand meanwhile (see README → Deploy).

@@ -85,7 +85,7 @@ function Pills({ name, options, type = "radio", required, value, onChange }) {
               aria-hidden="true"
               className="grid h-4 w-4 place-items-center rounded border-[1.5px] border-dim/60 [label:has(:checked)_&]:border-brand [label:has(:checked)_&]:bg-brand"
             >
-              <Check className="hidden h-3 w-3 text-night [label:has(:checked)_&]:block" />
+              <Check className="hidden h-3 w-3 text-ink [label:has(:checked)_&]:block" />
             </span>
           )}
           {o}
@@ -222,8 +222,8 @@ export default function Contact() {
   const replyVerb = { Text: "text", Call: "call", Email: "email" }[replyBy];
 
   return (
-    <section id="contact" className="px-5 py-28 sm:px-8 sm:py-36">
-      <div className="mx-auto max-w-[90rem]">
+    <section id="contact" className="px-section pb-28 pt-10 sm:pb-36">
+      <div className="mx-auto max-w-[100rem]">
         <SectionHeading n="07" label="Contact" title="Start a project." dim="No commitment.">
           Tell me a bit about your business. I'll reply within 24 hours to set up your free mockup call.
         </SectionHeading>
@@ -232,7 +232,7 @@ export default function Contact() {
           <Reveal className="rounded-[28px] bg-coal p-6 ring-1 ring-line sm:p-10">
             {status === "success" ? (
               <div role="status" className="flex min-h-[420px] flex-col items-start justify-center">
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-brand text-night">
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-brand text-ink">
                   <Check className="h-7 w-7" />
                 </span>
                 <h3 className="mt-6 font-display text-4xl font-semibold tracking-tight">Got it!</h3>

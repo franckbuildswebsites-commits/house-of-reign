@@ -1,5 +1,5 @@
 {
-  "name": "house-of-reign-portfolio",
+  "name": "reign-studio-site",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lenis": "^1.3.27",
     "motion": "^14.8.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

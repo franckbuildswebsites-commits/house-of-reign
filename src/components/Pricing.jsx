@@ -8,8 +8,8 @@ import { selectProject } from "../lib/utils";
 // Plans side by side in a hairline grid; Custom Build is the orange one.
 export default function Pricing() {
   return (
-    <section id="pricing" className="px-5 py-28 sm:px-8 sm:py-36">
-      <div className="mx-auto max-w-[90rem]">
+    <section id="pricing" className="px-section pb-28 sm:pb-36">
+      <div className="mx-auto max-w-[100rem]">
         <SectionHeading n="04" label="Pricing" title="Simple, upfront pricing." dim="No surprises.">
           Pick a starting point. We'll shape the details together.
         </SectionHeading>
@@ -22,29 +22,29 @@ export default function Pricing() {
                 key={s.name}
                 delay={i * 90}
                 className={`group flex flex-col rounded-[24px] p-7 transition-[transform,background-color] duration-500 ease-[var(--ease-out-soft)] motion-safe:hover:-translate-y-1.5 sm:p-8 ${
-                  accent ? "bg-brand text-night" : "bg-coal ring-1 ring-line hover:bg-ember"
+                  accent ? "bg-brand text-ink" : "bg-coal ring-1 ring-line hover:bg-ember"
                 }`}
               >
                 <div className="flex items-center justify-between gap-4">
                   <h3 className="font-display text-2xl font-semibold tracking-tight">{s.name}</h3>
-                  <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${accent ? "border-night/25" : "border-line text-dim"}`}>
+                  <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${accent ? "border-ink/25" : "border-line text-dim"}`}>
                     {s.timeline}
                   </span>
                 </div>
-                <p className={`mt-3 min-h-[3.2em] text-[0.98rem] leading-snug ${accent ? "text-night/75" : "text-dim"}`}>{s.perfectFor}</p>
+                <p className={`mt-3 min-h-[3.2em] text-[0.98rem] leading-snug ${accent ? "text-ink/75" : "text-dim"}`}>{s.perfectFor}</p>
 
-                <div className={`mt-8 border-t pt-6 ${accent ? "border-night/20" : "border-line"}`}>
-                  <p className={`label ${accent ? "!text-night/70" : ""}`}>{s.priceLabel}</p>
+                <div className={`mt-8 border-t pt-6 ${accent ? "border-ink/20" : "border-line"}`}>
+                  <p className={`label ${accent ? "!text-ink/70" : ""}`}>{s.priceLabel}</p>
                   <p className="h-display mt-2 text-[clamp(3rem,4.4vw,4.25rem)]">
                     {s.price}
-                    {s.unit && <span className={`ml-1 font-sans text-lg font-medium tracking-normal ${accent ? "text-night/70" : "text-dim"}`}>{s.unit}</span>}
+                    {s.unit && <span className={`ml-1 font-sans text-lg font-medium tracking-normal ${accent ? "text-ink/70" : "text-dim"}`}>{s.unit}</span>}
                   </p>
                 </div>
 
                 <ul className="mt-8 flex flex-col gap-3">
                   {s.features.map((f) => (
                     <li key={f} className="flex items-start gap-3 text-[0.98rem] leading-snug">
-                      <Check className={`mt-0.5 h-4 w-4 shrink-0 ${accent ? "text-night" : "text-brand"}`} />
+                      <Check className={`mt-0.5 h-4 w-4 shrink-0 ${accent ? "text-ink" : "text-brand"}`} />
                       <span>{f}</span>
                     </li>
                   ))}

@@ -10,8 +10,8 @@ const items = [
 // Four promises in a hairline grid right under the hero.
 export default function TrustStrip() {
   return (
-    <section aria-label="What you can count on" className="px-5 sm:px-8">
-      <ul className="mx-auto grid max-w-[90rem] grid-cols-2 border-y border-line lg:grid-cols-4">
+    <section aria-label="What you can count on" className="px-section">
+      <ul className="mx-auto grid max-w-[100rem] grid-cols-2 border-y border-line lg:grid-cols-4">
         {items.map(([title, text], i) => (
           <Reveal
             as="li"

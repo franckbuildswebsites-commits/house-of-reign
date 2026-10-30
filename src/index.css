@@ -27,13 +27,18 @@
 }
 
 @theme {
+  /* Theme colors. "night" is always the page background and "cream" the main text; the light
+     theme (html[data-theme="light"], below) swaps their values, so components never change. */
   --color-night: #0c0907; /* near-black: page background */
   --color-coal: #15100c; /* raised surfaces: cards, form */
-  --color-ember: #1f1813; /* chips, inputs, browser bars on dark */
+  --color-ember: #1f1813; /* chips, inputs, browser bars */
   --color-cream: #f4ecdf; /* main text */
   --color-dim: #a5978a; /* secondary text, 7:1 on night */
   --color-line: rgb(244 236 223 / 0.12); /* hairlines */
-  --color-brand: #e8622c; /* House of Reign orange: buttons, accents (5.6:1 on night) */
+  /* Fixed colors that don't flip with the theme: text on orange, paper-colored cards. */
+  --color-ink: #0c0907;
+  --color-paper: #f4ecdf;
+  --color-brand: #e8622c; /* Reign orange: buttons, accents (5.6:1 on night) */
   --color-brand-hover: #ff7a42;
   --color-brand-deep: #c94f1e;
 
@@ -45,15 +50,29 @@
   --shadow-deep: 0 30px 80px -30px rgb(0 0 0 / 0.8);
 }
 
+/* Light theme (toggle in the header, remembered in localStorage; set before first paint in index.html). */
+html[data-theme="light"] {
+  --color-night: #f6f1e8;
+  --color-coal: #fffdf9;
+  --color-ember: #eee6d9;
+  --color-cream: #17110c;
+  --color-dim: #65574b;
+  --color-line: rgb(23 17 12 / 0.13);
+  --shadow-deep: 0 30px 70px -34px rgb(60 36 16 / 0.45);
+  color-scheme: light;
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 6rem;
     background: var(--color-night);
+    color-scheme: dark;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    html { scroll-behavior: smooth; }
-  }
+  /* Lenis smooth scrolling (lib/scroll.js) */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: clip; }
   body {
     @apply bg-night text-cream font-sans antialiased;
     font-size: 1.0625rem;
@@ -62,13 +81,19 @@
   }
   ::selection {
     background: var(--color-brand);
-    color: var(--color-night);
+    color: var(--color-ink);
   }
   :focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: 3px;
   }
   h1, h2, h3 { text-wrap: balance; }
+}
+
+@utility px-section {
+  /* Averlo-style gutters: 20px on phones, 60px on desktop. */
+  padding-inline: 1.25rem;
+  @media (width >= 64rem) { padding-inline: 3.75rem; }
 }
 
 @layer components {
@@ -103,13 +128,13 @@
   }
   .btn:active { transform: scale(0.97); }
   /* Night text on orange: 5.6:1, fine at any size. */
-  .btn-primary { background: var(--color-brand); color: var(--color-night); }
+  .btn-primary { background: var(--color-brand); color: var(--color-ink); }
   .btn-primary:hover { background: var(--color-brand-hover); }
   .btn-ghost { border: 1px solid var(--color-line); color: var(--color-cream); }
   .btn-ghost:hover { border-color: rgb(244 236 223 / 0.4); background: rgb(244 236 223 / 0.06); }
   .btn-cream { background: var(--color-cream); color: var(--color-night); }
   .btn-cream:hover { background: #fff; }
-  .btn-night { background: var(--color-night); color: var(--color-cream); }
+  .btn-night { background: var(--color-ink); color: var(--color-paper); }
   .btn-night:hover { background: #2a201a; }
 
   /* Underline that sweeps in from the left on hover. */
@@ -183,6 +208,16 @@
   .wall-col.down { animation-direction: reverse; }
   .wall-paused .wall-col { animation-play-state: paused; }
 
+  /* Horizontal marquee rows (WorkMarquee.jsx); pause on hover. */
+  .marquee { animation: marquee var(--dur, 60s) linear infinite; }
+  .marquee.reverse { animation-direction: reverse; }
+  .marquee-row:hover .marquee,
+  .marquee-row:focus-within .marquee { animation-play-state: paused; }
+  /* Hero service tags ticker */
+  .ticker { animation: ticker-up 22s linear infinite; }
+  /* Slow glowing blobs (footer, menu, closing section) */
+  .glow { animation: drift-glow 14s ease-in-out infinite; }
+
   /* Work grid (Work.jsx): the full-page screenshot scrolls inside its frame on hover/focus (desktop)
      or while the card is on screen (touch). Reduced motion: never moves. */
   @media (prefers-reduced-motion: no-preference) {
@@ -249,6 +284,18 @@
   from { opacity: 0; transform: translate3d(0, 20px, 0); }
   to { opacity: 1; transform: none; }
 }
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes drift-glow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(4%, -6%, 0) scale(1.08); }
+}
+@keyframes ticker-up {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -50%, 0); }
+}
 @keyframes wall-up {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(0, -50%, 0); }
@@ -260,9 +307,59 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .wall-col { animation: none !important; }
+  .wall-col, .marquee, .ticker, .glow { animation: none !important; }
   .reveal.is-hidden { opacity: 1; transform: none; }
   .reveal-words.is-hidden .w > span { transform: none; }
   /* Scroll-scrubbed text (ScrubText.jsx) shows at full strength. */
   .scrub span { opacity: 1 !important; }
+}
+
+/* Trailing cursor dot (Cursor.jsx): difference blending keeps it visible on any color. */
+.cursor span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 9999px;
+  background: #fff;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: transform 0.35s var(--ease-out-soft), opacity 0.25s;
+}
+.cursor.is-on span { opacity: 1; transform: scale(1); }
+.cursor.is-on.is-link span { transform: scale(3.4); }
+.cursor { mix-blend-mode: difference; }
+
+/* Trailing cursor dot (Cursor.jsx): difference blending keeps it visible on any color. */
+.cursor { mix-blend-mode: difference; }
+.cursor span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 9999px;
+  background: #fff;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: transform 0.35s var(--ease-out-soft), opacity 0.25s;
+}
+.cursor.is-on span { opacity: 1; transform: scale(1); }
+.cursor.is-on.is-link span { transform: scale(3.4); }
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-tilt { transform: none !important; opacity: 1 !important; }
+}
+
+/* Closing section fan (ClosingCTA.jsx): cards sit stacked, then rotate out along an arc. */
+.fan-card {
+  --r: clamp(26rem, 62vw, 50rem); /* arc radius */
+  transform-origin: 0 0; /* the pivot */
+  transform: rotate(calc(var(--a) * 0.12)) translate(-50%, calc(-100% - var(--r)));
+  transition: transform 1.6s var(--ease-out-soft);
+  transition-delay: calc(var(--i) * 45ms);
+}
+.fan.is-open .fan-card { transform: rotate(var(--a)) translate(-50%, calc(-100% - var(--r))); }
+@media (prefers-reduced-motion: reduce) {
+  .fan .fan-card { transform: rotate(var(--a)) translate(-50%, calc(-100% - var(--r))); }
 }

@@ -1,19 +1,29 @@
-import { STUDIO_NAME } from "../config";
+import { BRAND, STUDIO_NAME } from "../config";
 
 export function Crown({ className = "" }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+    <svg viewBox="3 4 18 17.25" fill="currentColor" aria-hidden="true" className={className}>
       <path d="M3 17.5V7l5.25 4.5L12 4l3.75 7.5L21 7v10.5z" />
       <rect x="3" y="19" width="18" height="2.25" rx=".5" />
     </svg>
   );
 }
 
+// The crown plus a tight, bold REIGN wordmark. The crown is sized to the cap height of the
+// letters so the two read as one mark.
+export function Wordmark({ className = "" }) {
+  return (
+    <span className={`inline-flex items-center gap-[0.32em] font-display font-semibold uppercase leading-none tracking-[-0.03em] ${className}`}>
+      <Crown className="h-[0.78em] w-auto -translate-y-[0.04em] text-brand transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:-rotate-12" />
+      {BRAND}
+    </span>
+  );
+}
+
 export default function Logo({ className = "", onClick }) {
   return (
-    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`group inline-flex items-center gap-2.5 ${className}`}>
-      <Crown className="h-6 w-6 text-brand transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:-rotate-12" />
-      <span className="font-display text-[0.95rem] font-semibold tracking-[0.1em]">{STUDIO_NAME.toUpperCase()}</span>
+    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`group inline-flex text-[1.6rem] ${className}`}>
+      <Wordmark />
     </a>
   );
 }

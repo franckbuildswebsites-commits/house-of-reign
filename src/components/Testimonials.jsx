@@ -27,7 +27,7 @@ function Quote({ t }) {
         </Reveal>
         <Reveal delay={160} className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
           <figcaption className="flex items-center gap-4">
-            <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-brand font-display font-semibold text-night">
+            <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-brand font-display font-semibold text-ink">
               {initials}
             </span>
             <span>
@@ -61,8 +61,8 @@ function Quote({ t }) {
 export default function Testimonials() {
   if (!testimonials.length) return null;
   return (
-    <section aria-label="What clients say" className="px-5 pb-28 sm:px-8 sm:pb-36">
-      <div className="mx-auto flex max-w-[90rem] flex-col gap-24">
+    <section aria-label="What clients say" className="px-section pb-28 sm:pb-36">
+      <div className="mx-auto flex max-w-[100rem] flex-col gap-24">
         {testimonials.map((t) => (
           <Quote key={t.name} t={t} />
         ))}
