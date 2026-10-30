@@ -8,7 +8,6 @@ import Work from "./components/Work";
 import Testimonials from "./components/Testimonials";
 import About from "./components/About";
 import Pricing from "./components/Pricing";
-import TrustStrip from "./components/TrustStrip";
 import Process from "./components/Process";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
@@ -43,7 +42,6 @@ export default function App() {
           <Testimonials />
           <About />
           <Pricing />
-          <TrustStrip />
           <Process />
           <FAQ />
           <Contact />

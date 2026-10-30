@@ -22,9 +22,7 @@ export default function Process() {
   return (
     <section id="process" aria-labelledby="process-title">
       <div className="px-section mx-auto max-w-[100rem]">
-        <SectionHeading id="process-title" variant="end" label="How it works" title="Mockup to launch." dim="Four simple steps.">
-          You always know what's next, and who's doing it.
-        </SectionHeading>
+        <SectionHeading id="process-title" variant="end" label="How it works" title="Mockup to launch." dim="Four simple steps." />
       </div>
 
       {/* The stage below is visual only; this list carries every step for search engines and screen readers. */}
@@ -41,14 +39,14 @@ export default function Process() {
       </ol>
 
       <div ref={ref} className="relative border-t border-line" style={{ height: `${steps.length * 85 + 15}svh` }}>
-        <div aria-hidden="true" className="px-section sticky top-0 mx-auto grid h-svh max-w-[100rem] grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] gap-x-6 gap-y-4 overflow-hidden pb-8 pt-24 lg:grid-cols-[14rem_minmax(0,1fr)_22rem] lg:grid-rows-[minmax(0,1fr)_auto] lg:pt-32">
+        <div aria-hidden="true" className="px-section sticky top-0 mx-auto grid h-svh max-w-[100rem] grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] gap-x-6 gap-y-4 overflow-hidden pb-24 pt-24 lg:pb-8 lg:grid-cols-[14rem_minmax(0,1fr)_22rem] lg:grid-rows-[minmax(0,1fr)_auto] lg:pt-32">
           {/* step list */}
           <ol className="col-start-1 row-start-3 flex items-center self-end justify-self-end pb-3 lg:row-span-1 lg:row-start-1 lg:block lg:self-center lg:justify-self-auto lg:pb-0">
             {steps.map((st, i) => (
               <li key={st.n}>
                 <span
-                  className={`my-1 inline-flex items-center gap-2.5 rounded-full py-1.5 text-[0.95rem] transition-all duration-500 ${
-                    i === active ? "bg-cream/10 px-3.5 text-cream" : "px-2 text-dim"
+                  className={`my-1 inline-flex items-center gap-2.5 rounded-full px-3 py-1.5 text-sm transition-colors duration-500 ${
+                    i === active ? "bg-cream/10 text-cream" : "text-dim"
                   }`}
                 >
                   <span className={`h-2 w-2 rounded-[2px] transition-colors duration-500 ${i <= active ? "bg-brand" : "bg-cream/20"}`} />
@@ -68,9 +66,9 @@ export default function Process() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.45, ease: EASE }}
               >
-                <p className="font-display text-[clamp(1.6rem,2.2vw,2rem)] font-medium tracking-[-0.03em]">{s.title}</p>
-                <p className="mt-1 text-sm text-dim">{s.timing}</p>
-                <dl className="mt-4 grid grid-cols-2 gap-4 text-[0.95rem] leading-snug lg:grid-cols-1">
+                <p className="t-card">{s.title}</p>
+                <p className="t-small mt-2">{s.timing}</p>
+                <dl className="mt-5 grid grid-cols-2 gap-4 text-[0.9375rem] leading-snug lg:grid-cols-1">
                   <div>
                     <dt className="label">You</dt>
                     <dd className="mt-1 text-cream/85">{s.you}</dd>

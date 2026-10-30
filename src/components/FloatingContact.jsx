@@ -32,7 +32,7 @@ export default function FloatingContact() {
       <a
         href={smsHref}
         inert={hidden || undefined}
-        className={`group flex items-center gap-3 rounded-full border border-line bg-cream py-1.5 pl-5 pr-1.5 text-[0.95rem] font-semibold text-night shadow-[var(--shadow-deep)] transition-[opacity,translate,scale] duration-500 ease-[var(--ease-out-soft)] hover:scale-[1.04] ${
+        className={`group flex items-center gap-3 rounded-full border border-line bg-cream py-1.5 pl-5 pr-1.5 text-[0.9375rem] font-semibold text-night shadow-[var(--shadow-deep)] transition-[opacity,translate,scale] duration-500 ease-[var(--ease-out-soft)] hover:scale-[1.04] ${
           hidden ? "pointer-events-none translate-y-6 opacity-0" : ""
         }`}
       >

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, m } from "motion/react";
 import { Wordmark } from "./Logo";
 import { STUDIO_NAME, EMAIL, PHONE } from "../config";
 import { smsHref } from "../lib/utils";
+import { usePauseOffscreen } from "../lib/offscreen";
 
 const links = [
   ["Work", "#work"],
@@ -15,7 +16,7 @@ const links = [
 
 const cycle = ["business.", "café.", "shop.", "salon.", "brand."];
 
-// The last word of the footer headline swaps every couple of seconds with a soft blur.
+// The last word of the footer headline swaps every couple of seconds (opacity + slide only).
 function CyclingWord() {
   const [i, setI] = useState(0);
   useEffect(() => {
@@ -29,9 +30,9 @@ function CyclingWord() {
       <AnimatePresence initial={false}>
         <m.span
           key={cycle[i]}
-          initial={{ opacity: 0, filter: "blur(12px)", y: "0.15em" }}
-          animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-          exit={{ opacity: 0, filter: "blur(12px)", y: "-0.15em" }}
+          initial={{ opacity: 0, y: "0.3em" }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: "-0.3em" }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="absolute left-0 top-0 text-brand"
         >
@@ -63,16 +64,18 @@ const Clock = () => (
 );
 
 export default function Footer() {
+  const ref = useRef(null);
+  usePauseOffscreen(ref);
   return (
-    <footer className="relative overflow-hidden bg-[#0b0806] text-paper">
+    <footer ref={ref} className="relative overflow-hidden bg-[#0b0806] text-paper">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="glow absolute bottom-[-30%] left-[30%] h-[70vmax] w-[70vmax] rounded-full bg-[#e8622c]/20 blur-[140px]" />
-        <div className="glow absolute right-[-15%] top-[-20%] h-[45vmax] w-[45vmax] rounded-full bg-[#c94f1e]/15 blur-[140px] [animation-delay:-7s]" />
+        <div className="glow glow-blob absolute bottom-[-35%] left-[25%] h-[80vmax] w-[80vmax] [--c:rgb(232_98_44/0.22)]" />
+        <div className="glow glow-blob absolute right-[-20%] top-[-25%] h-[55vmax] w-[55vmax] [--c:rgb(201_79_30/0.16)] [animation-delay:-7s]" />
       </div>
 
       <div className="px-section relative mx-auto max-w-[100rem] pb-10 pt-28 lg:pb-14 lg:pt-36">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)_auto] lg:gap-12">
-          <p className="font-display text-[clamp(3.2rem,6.4vw,5.75rem)] font-medium leading-[0.95] tracking-[-0.045em]">
+          <p className="t-h2">
             Long
             <br />
             live
@@ -86,7 +89,7 @@ export default function Footer() {
               <span className="text-paper/80">
                 <Clock />
               </span>
-              <p className="mt-6 font-display text-2xl font-medium tracking-[-0.03em] text-paper">South Florida</p>
+              <p className="t-h4 mt-6 text-paper">South Florida</p>
               <p className="mt-2 text-sm">
                 Local time <LocalTime />
               </p>
@@ -98,18 +101,18 @@ export default function Footer() {
               <svg viewBox="0 0 24 24" className="h-8 w-8 text-paper/80" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
                 <path d="M20.5 11.5a8.5 8.5 0 0 1-12.3 7.6L3.5 20.5l1.4-4.6a8.5 8.5 0 1 1 15.6-4.4z" />
               </svg>
-              <p className="mt-6 font-display text-2xl font-medium tracking-[-0.03em] text-paper">Text or call</p>
-              <a href={smsHref} className="link-sweep mt-2 inline-block text-sm">
+              <p className="t-h4 mt-6 text-paper">Text or call</p>
+              <a href={smsHref} className="mt-1 inline-flex min-h-11 items-center text-sm underline-offset-4 hover:text-brand hover:underline focus-visible:text-brand">
                 {PHONE}
               </a>
               <p className="mt-1 text-sm">Replies within 24 hours</p>
             </div>
           </div>
 
-          <ul className="flex flex-col gap-2.5 text-[0.95rem] uppercase lg:pt-3">
+          <ul className="grid grid-cols-2 text-sm uppercase sm:grid-cols-3 lg:flex lg:flex-col lg:pt-1">
             {links.map(([label, href]) => (
               <li key={href}>
-                <a href={href} className="link-sweep text-paper/85 transition-colors hover:text-paper">
+                <a href={href} className="inline-flex min-h-11 min-w-11 items-center text-paper/85 transition-colors hover:text-brand focus-visible:text-brand">
                   {label}
                 </a>
               </li>
@@ -119,8 +122,8 @@ export default function Footer() {
 
         <div className="mt-24 flex flex-col gap-8 lg:mt-32 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm uppercase text-paper/70">Email me</p>
-            <a href={`mailto:${EMAIL}`} className="mt-1 inline-block break-all font-display text-[clamp(1.25rem,2.2vw,1.9rem)] font-medium tracking-[-0.03em] underline decoration-1 underline-offset-[6px] transition-colors hover:text-brand">
+            <p className="label !text-paper/70">Email me</p>
+            <a href={`mailto:${EMAIL}`} className="t-h4 mt-1 inline-flex min-h-11 items-center break-all underline decoration-1 underline-offset-[6px] transition-colors hover:text-brand focus-visible:text-brand">
               {EMAIL}
             </a>
           </div>

@@ -65,7 +65,8 @@ html[data-theme="light"] {
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 6rem;
+    /* Anchor jumps land just under the fixed header (5rem phones, 7.25rem desktop). */
+    scroll-padding-top: 5.75rem;
     background: var(--color-night);
     color-scheme: dark;
   }
@@ -73,10 +74,14 @@ html[data-theme="light"] {
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
   .lenis.lenis-stopped { overflow: clip; }
+  @media (width >= 64rem) {
+    html { scroll-padding-top: 8rem; }
+  }
   body {
     @apply bg-night text-cream font-sans antialiased;
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    font-size: 1rem;
+    line-height: 1.55;
+    overflow-x: clip; /* nothing may scroll sideways */
     text-rendering: optimizeLegibility;
   }
   ::selection {
@@ -97,32 +102,45 @@ html[data-theme="light"] {
 }
 
 @layer components {
-  /* Type scale (see REFERENCE.md): one display face, hierarchy from size, tracking and tone. */
-  .h-display {
+  /* Type scale, matched to the reference (numbers in REFERENCE.md). Desktop / phone:
+       t-h1 80/40 · t-h2 80/44 · t-h3 55/36 · t-card 40/28 · t-h4 28/22 · t-lead 22/18 · body 16 · t-small + label 14.
+     (Clash Display is wider than the reference's SF Pro, so phone sizes are set to match its visual width.)
+     Big, tight, bold headings; quiet 14px support text. */
+  .h-display, .t-h1, .t-h2, .t-h3, .t-card {
     font-family: var(--font-display);
     font-weight: 600;
-    line-height: 0.92;
+    line-height: 1;
     letter-spacing: -0.045em;
   }
+  .t-h1 { font-size: clamp(2.5rem, 5.6vw, 5rem); }
+  .t-h2 { font-size: clamp(2.75rem, 5.6vw, 5rem); }
+  .t-h3 { font-size: clamp(2.25rem, 3.85vw, 3.45rem); letter-spacing: -0.04em; }
+  .t-card { font-size: clamp(1.75rem, 2.8vw, 2.5rem); letter-spacing: -0.04em; }
+  .t-h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; font-size: clamp(1.375rem, 1.9vw, 1.75rem); }
+  .t-lead { font-size: clamp(1.125rem, 1.55vw, 1.375rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; }
+  .t-small { font-size: 0.875rem; line-height: 1.4; color: var(--color-dim); }
   .label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.3;
     color: var(--color-dim);
   }
+  /* Vertical rhythm: every regular section ends with the same space. */
+  .section-gap { padding-bottom: 5rem; }
+  @media (width >= 64rem) { .section-gap { padding-bottom: 8rem; } }
 
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 3rem;
+    min-height: 2.75rem; /* 44px tap target */
     border-radius: 9999px;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.65rem 1.35rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.2;
+    white-space: nowrap;
     transition: transform 0.35s var(--ease-out-soft), background-color 0.24s var(--ease-out-soft),
       color 0.24s var(--ease-out-soft), border-color 0.24s var(--ease-out-soft);
   }
@@ -135,15 +153,28 @@ html[data-theme="light"] {
   .btn-cream { background: var(--color-cream); color: var(--color-night); }
   .btn-cream:hover { background: #fff; }
   .btn-night { background: var(--color-ink); color: var(--color-paper); }
+  .btn-paper { background: var(--color-paper); color: var(--color-ink); }
+  .btn-paper:hover { background: #fff; }
   .btn-night:hover { background: #2a201a; }
 
   /* Underline that sweeps in from the left on hover. */
-  .link-sweep {
-    background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 1.5px;
-    transition: background-size 0.4s var(--ease-out-soft);
+  /* (transform only: a scaled pseudo-element, no repaint of the text) */
+  .link-sweep { position: relative; }
+  .link-sweep::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease-out-soft);
   }
-  .link-sweep:hover,
-  .group:hover .link-sweep { background-size: 100% 1.5px; background-position: 0 100%; }
+  .link-sweep:hover::after,
+  .link-sweep:focus-visible::after,
+  .group:hover .link-sweep::after { transform: scaleX(1); transform-origin: left; }
 
   .field {
     width: 100%;
@@ -184,7 +215,7 @@ html[data-theme="light"] {
     padding-bottom: 0.08em;
     margin-bottom: -0.08em;
   }
-  .w > span { display: inline-block; will-change: transform; }
+  .w > span { display: inline-block; }
   .reveal-words.is-hidden { opacity: 1; transform: none; }
   .reveal-words .w > span {
     transition: transform 1s var(--ease-out-soft);
@@ -204,9 +235,27 @@ html[data-theme="light"] {
   }
 
   /* Hero wall: columns of our project screenshots drifting up/down on a tilted plane. */
-  .wall-col { animation: wall-up var(--dur, 60s) linear infinite; }
+  .wall-col {
+    --avif: var(--avif-sm);
+    --webp: var(--webp-sm);
+    background-image: var(--webp);
+    animation: wall-up var(--dur, 60s) linear infinite;
+  }
+  @media (width >= 40rem) {
+    .wall-col { --avif: var(--avif-lg); --webp: var(--webp-lg); }
+  }
+  @supports (background-image: image-set(url("x.avif") type("image/avif"))) {
+    .wall-col { background-image: image-set(var(--avif) type("image/avif"), var(--webp) type("image/webp")); }
+  }
   .wall-col.down { animation-direction: reverse; }
   .wall-paused .wall-col { animation-play-state: paused; }
+  /* Any looping animation stops while its section is off screen (lib/offscreen.js adds .is-offscreen). */
+  .is-offscreen .marquee,
+  .is-offscreen .ticker,
+  .is-offscreen .glow,
+  .is-offscreen .wall-col { animation-play-state: paused; }
+  /* Soft glows drawn with a radial gradient (a blur filter is expensive on phones). */
+  .glow-blob { border-radius: 9999px; background: radial-gradient(closest-side, var(--c), transparent); }
 
   /* Horizontal marquee rows (WorkMarquee.jsx); pause on hover. */
   .marquee { animation: marquee var(--dur, 60s) linear infinite; }
@@ -221,10 +270,7 @@ html[data-theme="light"] {
   /* Work grid (Work.jsx): the full-page screenshot scrolls inside its frame on hover/focus (desktop)
      or while the card is on screen (touch). Reduced motion: never moves. */
   @media (prefers-reduced-motion: no-preference) {
-    .shot-img {
-      transition: transform 0.9s var(--ease-out-soft);
-      will-change: transform;
-    }
+    .shot-img { transition: transform 0.9s var(--ease-out-soft); }
     .shot.is-scrolling .shot-img,
     a:focus-visible .shot-img {
       transform: translate3d(0, var(--scroll-to), 0);
@@ -238,27 +284,7 @@ html[data-theme="light"] {
     }
   }
 
-  .wordmark::before {
-    content: attr(data-text);
-    display: block;
-    white-space: nowrap;
-    user-select: none;
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 12.4vw, 12.5rem);
-    font-weight: 600;
-    line-height: 0.78;
-    letter-spacing: -0.05em;
-    color: rgb(244 236 223 / 0.06);
-  }
-
-  /* Accordion (FAQ.jsx): height via grid rows, so answers stay in the HTML for search engines. */
-  .acc {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.5s var(--ease-out-soft);
-  }
-  .acc[data-open="true"] { grid-template-rows: 1fr; }
-  .acc > div { overflow: hidden; }
+  /* FAQ "+" that turns into "−" (FAQ.jsx) */
   .plus { position: relative; width: 18px; height: 18px; flex-shrink: 0; }
   .plus::before,
   .plus::after {
@@ -363,3 +389,9 @@ html[data-theme="light"] {
 @media (prefers-reduced-motion: reduce) {
   .fan .fan-card { transform: rotate(var(--a)) translate(-50%, calc(-100% - var(--r))); }
 }
+
+/* Low-power devices (lib/device.js adds html.lite: phones/tablets, ≤4 CPU cores, Save-Data):
+   keep the look, drop the heaviest continuous effects. */
+html.lite .wall-col,
+html.lite .glow { animation: none; }
+html.lite .panel-tilt { transform: none !important; }

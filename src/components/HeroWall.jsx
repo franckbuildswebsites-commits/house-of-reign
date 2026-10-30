@@ -15,6 +15,18 @@ const columns = [
   { dur: "80s" },
 ];
 
+// AVIF + WebP, phone (200px) and desktop (400px) versions; index.css picks the right one.
+const strip = (c, dur) => {
+  const f = `/portfolio/wall/col-${(c % 4) + 1}`;
+  return {
+    "--dur": dur,
+    "--avif-sm": `url(${f}-sm.avif)`,
+    "--webp-sm": `url(${f}-sm.webp)`,
+    "--avif-lg": `url(${f}.avif)`,
+    "--webp-lg": `url(${f}.webp)`,
+  };
+};
+
 export default function HeroWall({ className = "" }) {
   const ref = useRef(null);
 
@@ -37,12 +49,8 @@ export default function HeroWall({ className = "" }) {
           {columns.map((col, c) => (
             <div key={c} className={`w-[22%] shrink-0 sm:w-[19%] ${c === 4 ? "hidden sm:block" : ""}`}>
               <div
-                className={`wall-col aspect-[400/2660] w-full bg-[image:var(--strip)] bg-[length:100%_auto] bg-repeat-y sm:bg-[image:var(--strip-lg)] ${col.down ? "down" : ""}`}
-                style={{
-                  "--dur": col.dur,
-                  "--strip": `url(/portfolio/wall/col-${(c % 4) + 1}-sm.webp)`,
-                  "--strip-lg": `url(/portfolio/wall/col-${(c % 4) + 1}.webp)`,
-                }}
+                className={`wall-col aspect-[400/2660] w-full bg-[length:100%_auto] bg-repeat-y ${col.down ? "down" : ""}`}
+                style={strip(c, col.dur)}
               />
             </div>
           ))}

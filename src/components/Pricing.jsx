@@ -1,56 +1,48 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { Crown } from "./Logo";
 import { ArrowRight, Check } from "./Icons";
-import { services, HOURLY_RATE } from "../data/services";
+import { services, HOURLY_RATE, REVISION_NOTE } from "../data/services";
 import { selectProject } from "../lib/utils";
 
-// Plans side by side in a hairline grid; Custom Build is the orange one.
+const promises = ["Free mockup before you pay", "You own your site and domain", "Replies within 24 hours", "You work with me directly"];
+
+// Four plans side by side (Custom Build in orange), then one quiet row with the fine print.
 export default function Pricing() {
   return (
-    <section id="pricing" className="px-section pb-28 sm:pb-36">
+    <section id="pricing" aria-labelledby="pricing-title" className="px-section section-gap">
       <div className="mx-auto max-w-[100rem]">
-        <SectionHeading n="04" label="Pricing" title="Simple, upfront pricing." dim="No surprises.">
-          Pick a starting point. We'll shape the details together.
-        </SectionHeading>
+        <SectionHeading id="pricing-title" label="Pricing" title="Simple pricing." dim="No surprises." />
 
-        <div className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {services.map((s, i) => {
             const accent = s.style === "accent";
             return (
               <Reveal
                 key={s.name}
-                delay={i * 90}
-                className={`group flex flex-col rounded-[24px] p-7 transition-[transform,background-color] duration-500 ease-[var(--ease-out-soft)] motion-safe:hover:-translate-y-1.5 sm:p-8 ${
-                  accent ? "bg-brand text-ink" : "bg-coal ring-1 ring-line hover:bg-ember"
+                delay={i * 80}
+                className={`group flex flex-col rounded-[24px] p-6 transition-transform duration-500 ease-[var(--ease-out-soft)] motion-safe:hover:-translate-y-1.5 sm:p-8 ${
+                  accent ? "bg-brand text-ink" : "bg-coal ring-1 ring-line"
                 }`}
               >
-                <div className="flex items-center justify-between gap-4">
-                  <h3 className="font-display text-2xl font-semibold tracking-tight">{s.name}</h3>
-                  <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${accent ? "border-ink/25" : "border-line text-dim"}`}>
-                    {s.timeline}
-                  </span>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="t-h4">{s.name}</h3>
+                  <span className={`text-sm ${accent ? "text-ink/70" : "text-dim"}`}>{s.timeline}</span>
                 </div>
-                <p className={`mt-3 min-h-[3.2em] text-[0.98rem] leading-snug ${accent ? "text-ink/75" : "text-dim"}`}>{s.perfectFor}</p>
-
-                <div className={`mt-8 border-t pt-6 ${accent ? "border-ink/20" : "border-line"}`}>
-                  <p className={`label ${accent ? "!text-ink/70" : ""}`}>{s.priceLabel}</p>
-                  <p className="h-display mt-2 text-[clamp(3rem,4.4vw,4.25rem)]">
-                    {s.price}
-                    {s.unit && <span className={`ml-1 font-sans text-lg font-medium tracking-normal ${accent ? "text-ink/70" : "text-dim"}`}>{s.unit}</span>}
-                  </p>
-                </div>
-
-                <ul className="mt-8 flex flex-col gap-3">
+                <p className="t-h2 mt-8 !text-[clamp(3rem,4.4vw,4.25rem)]">
+                  {s.price}
+                  {s.unit && <span className={`ml-1 font-sans text-base font-medium tracking-normal ${accent ? "text-ink/70" : "text-dim"}`}>{s.unit}</span>}
+                </p>
+                <p className={`mt-1 text-sm ${accent ? "text-ink/70" : "text-dim"}`}>{s.priceLabel === "Monthly" ? "per month" : "starting at"}</p>
+                <p className={`mt-6 text-[0.9375rem] leading-snug ${accent ? "text-ink/85" : "text-cream/85"}`}>{s.perfectFor}</p>
+                <ul className={`mt-6 flex flex-col gap-2.5 border-t pt-6 text-[0.9375rem] ${accent ? "border-ink/20" : "border-line"}`}>
                   {s.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 text-[0.98rem] leading-snug">
-                      <Check className={`mt-0.5 h-4 w-4 shrink-0 ${accent ? "text-ink" : "text-brand"}`} />
-                      <span>{f}</span>
+                    <li key={f} className="flex items-center gap-2.5">
+                      <Check className={`h-4 w-4 shrink-0 ${accent ? "text-ink" : "text-brand"}`} />
+                      {f}
                     </li>
                   ))}
                 </ul>
-
-                <div className="mt-auto pt-10">
+                <div className="mt-auto pt-8">
                   <a
                     href="#contact"
                     onClick={s.project ? () => selectProject(s.project) : undefined}
@@ -65,24 +57,18 @@ export default function Pricing() {
           })}
         </div>
 
-        <Reveal className="mt-4 grid gap-px overflow-hidden rounded-[24px] bg-line ring-1 ring-line md:grid-cols-3">
-          <div className="bg-night p-7 sm:p-8">
-            <p className="label">Extra changes</p>
-            <p className="h-display mt-3 text-5xl">{HOURLY_RATE}</p>
-            <p className="mt-2 text-dim">After your included revision round.</p>
-          </div>
-          <div className="bg-night p-7 sm:p-8 md:col-span-2">
-            <p className="label">How payment works</p>
-            <p className="mt-3 text-lg leading-relaxed text-cream/85 sm:text-xl">
-              Love the mockup as-is? Pay in full and we move to revisions and launch. Rather split it? 50% to start,
-              50% before launch. No hidden fees.
-            </p>
-          </div>
-        </Reveal>
-
-        <Reveal className="mt-10 flex items-center justify-center gap-2 text-center text-lg font-medium">
-          <Crown className="h-4 w-4 shrink-0 text-brand" />
-          Every project starts with a free mockup call.
+        <Reveal className="mt-3 grid gap-x-8 gap-y-3 rounded-[24px] px-6 py-6 ring-1 ring-line sm:px-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center">
+          <p className="t-small">
+            {REVISION_NOTE}. Extra changes {HOURLY_RATE}. Pay in full, or 50% to start and 50% at launch.
+          </p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm lg:justify-end">
+            {promises.map((p) => (
+              <li key={p} className="flex items-center gap-2">
+                <Check className="h-4 w-4 text-brand" />
+                {p}
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </div>
     </section>

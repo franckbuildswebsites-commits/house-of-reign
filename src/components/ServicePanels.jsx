@@ -13,8 +13,8 @@ const services = [
   {
     title: ["Websites", "& landing pages"],
     boxes: [
-      ["Custom design, mobile-first", "Fast sites built to", "bring in customers, not just look nice."],
-      ["Contact & booking built in", "Every page points somewhere useful:", "a call, a booking, an order."],
+      ["Mobile-first", "Fast sites built to", "bring in customers."],
+      ["Contact & booking built in", "Every button leads to", "a call, a booking or an order."],
     ],
     Mock: WebsiteMockup,
     cta: ["Start a project", "#contact"],
@@ -23,8 +23,8 @@ const services = [
   {
     title: ["Google Business", "Profile"],
     boxes: [
-      ["Photos, hours & links", "Set up and polish your Google listing", "so locals find you on Maps."],
-      ["Matches your site", "Same photos, same hours, same voice", "everywhere people look you up."],
+      ["Photos, hours & links", "Get found by locals", "on Google Maps."],
+      ["Matches your site", "The same look and info", "everywhere people search."],
     ],
     Mock: GoogleMockup,
     tone: "rust",
@@ -32,8 +32,8 @@ const services = [
   {
     title: ["Menus", "& signage"],
     boxes: [
-      ["Print-ready", "Menus, price boards and signs", "for your space."],
-      ["Matches your brand", "The same look as your site and socials,", "so it all feels like one place."],
+      ["Print-ready", "Menus, price boards", "and signs for your space."],
+      ["Matches your brand", "One look from", "your site to your counter."],
     ],
     Mock: MenuMockup,
     tone: "cream",
@@ -41,8 +41,8 @@ const services = [
   {
     title: ["Social", "posts"],
     boxes: [
-      ["Specials & events", "On-brand post templates", "for your feeds."],
-      ["Ready to post", "Grand openings, weekly specials, holidays:", "designed and ready to go."],
+      ["Specials & events", "On-brand templates", "for your feeds."],
+      ["Ready to post", "Openings, specials, holidays:", "ready to go."],
     ],
     Mock: SocialMockup,
     tone: "orange",
@@ -50,8 +50,8 @@ const services = [
   {
     title: ["Logos, flyers", "& cards"],
     boxes: [
-      ["Logo", "A simple, memorable mark", "that works everywhere."],
-      ["Flyers & business cards", "Flyers for sales and grand openings,", "and cards that match your logo."],
+      ["Logo", "A simple mark", "that works everywhere."],
+      ["Flyers & business cards", "Print that matches", "your logo."],
     ],
     Mock: BrandMockup,
     tone: "ink",
@@ -59,8 +59,8 @@ const services = [
   {
     title: ["Online ordering", "& booking"],
     boxes: [
-      ["Keep the tools you use", "Connect DoorDash, Square, Calendly", "or your booking app to your site."],
-      ["Set up for you", "Customers order or book in a few taps,", "right from your site."],
+      ["Keep your tools", "DoorDash, Square, Calendly,", "connected to your site."],
+      ["Set up for you", "Customers order or book", "in a few taps."],
     ],
     Mock: BookingMockup,
     tone: "paper",
@@ -69,11 +69,11 @@ const services = [
 
 // Fixed palettes (they don't flip with the light/dark theme, like colored print).
 const tones = {
-  orange: { bg: "bg-[linear-gradient(135deg,#f47a3a,#e8622c_45%,#c4401a)] text-ink", line: "border-ink/20", tail: "text-ink/55", stage: "bg-white/15 ring-1 ring-white/25", pill: "bg-paper text-ink" },
-  rust: { bg: "bg-[linear-gradient(135deg,#1a120e,#3a2216_55%,#8a3a17)] text-paper", line: "border-paper/20", tail: "text-paper/50", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "bg-paper text-ink" },
-  cream: { bg: "bg-[linear-gradient(135deg,#f6efe3,#efdfc8_55%,#ebbf96)] text-ink", line: "border-ink/15", tail: "text-ink/50", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "bg-ink text-paper" },
-  ink: { bg: "bg-[linear-gradient(135deg,#0b0807,#21160f_55%,#4a2414)] text-paper", line: "border-paper/20", tail: "text-paper/50", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "bg-paper text-ink" },
-  paper: { bg: "bg-[linear-gradient(135deg,#fbf4e8,#f2e3cd_55%,#f0c39b)] text-ink", line: "border-ink/15", tail: "text-ink/50", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "bg-ink text-paper" },
+  orange: { bg: "bg-[linear-gradient(135deg,#f47a3a,#e8622c_45%,#c4401a)] text-ink", line: "border-ink/20", tail: "text-ink/55", stage: "bg-white/15 ring-1 ring-white/25", pill: "btn-paper" },
+  rust: { bg: "bg-[linear-gradient(135deg,#1a120e,#3a2216_55%,#8a3a17)] text-paper", line: "border-paper/20", tail: "text-paper/50", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
+  cream: { bg: "bg-[linear-gradient(135deg,#f6efe3,#efdfc8_55%,#ebbf96)] text-ink", line: "border-ink/15", tail: "text-ink/50", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
+  ink: { bg: "bg-[linear-gradient(135deg,#0b0807,#21160f_55%,#4a2414)] text-paper", line: "border-paper/20", tail: "text-paper/50", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
+  paper: { bg: "bg-[linear-gradient(135deg,#fbf4e8,#f2e3cd_55%,#f0c39b)] text-ink", line: "border-ink/15", tail: "text-ink/50", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
 };
 
 function Panel({ s, i, n, progress }) {
@@ -94,12 +94,12 @@ function Panel({ s, i, n, progress }) {
       >
         <div className="px-section mx-auto flex h-full max-w-[100rem] flex-col pb-6 pt-24 lg:pt-32">
           <div className="flex items-start justify-between gap-6">
-            <h3 className="font-display text-[clamp(2.2rem,3.9vw,3.5rem)] font-medium leading-[1] tracking-[-0.045em]">
+            <h3 className="t-h3">
               {s.title[0]}
               <br />
               {s.title[1]}
             </h3>
-            <span className="font-display text-[clamp(3.25rem,7vw,6.5rem)] font-semibold leading-[0.85] tracking-[-0.04em]" aria-hidden="true">
+            <span className="font-display text-[clamp(3.5rem,7vw,6.25rem)] font-semibold leading-[0.85] tracking-[-0.04em]" aria-hidden="true">
               {String(i + 1).padStart(2, "0")}
             </span>
           </div>
@@ -107,21 +107,18 @@ function Panel({ s, i, n, progress }) {
           <div className={`mt-6 grid border-x border-t lg:mt-10 lg:grid-cols-2 ${t.line}`}>
             {s.boxes.map(([label, lead, tail], b) => (
               <div key={label} className={`px-4 pb-4 pt-4 lg:px-6 lg:pb-8 lg:pt-6 ${b ? `border-t lg:border-l lg:border-t-0 ${t.line}` : ""}`}>
-                <p className="flex items-center gap-2.5 text-[0.85rem] font-medium">
+                <p className="flex items-center gap-2.5 text-sm font-medium">
                   <span className="h-2 w-2 rounded-[2px] bg-current" />
                   {label}
                 </p>
-                <p className="mt-3 text-[clamp(1.05rem,1.55vw,1.4rem)] font-medium leading-[1.15] tracking-[-0.01em] [text-indent:1.5em] lg:mt-5">
+                <p className="t-lead mt-3 [text-indent:1.5em] lg:mt-5">
                   {lead} <span className={t.tail}>{tail}</span>
                 </p>
               </div>
             ))}
           </div>
 
-          <a
-            href={ctaHref}
-            className={`group/cta mx-auto mt-4 inline-flex lg:-mt-5 items-center gap-2 rounded-full px-5 py-2.5 text-[0.95rem] font-semibold shadow-[var(--shadow-deep)] transition-transform duration-300 hover:scale-[1.04] ${t.pill}`}
-          >
+          <a href={ctaHref} className={`btn group/cta mx-auto mt-4 shadow-[var(--shadow-deep)] lg:-mt-5 ${t.pill}`}>
             {ctaLabel}
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1" />
           </a>
@@ -143,8 +140,7 @@ export default function ServicePanels() {
     <section id="services" aria-labelledby="services-title">
       <div className="px-section mx-auto max-w-[100rem]">
         <SectionHeading id="services-title" label="Services" title="More than websites." dim="Everything matches.">
-          Design for local businesses: your site, your Google listing, your menu and your feed, all in one look.
-          Graphics are priced per job.
+          One look, everywhere. Graphics priced per job.
         </SectionHeading>
       </div>
       <div ref={ref}>

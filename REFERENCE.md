@@ -178,3 +178,64 @@ Status: ✅ done · ◐ partly · ✗ not done (reason given)
 | Buttons: 0.24s color/background ease, `cubic-bezier(0.2,0.8,0.2,1)` | Same curve everywhere; pills also scale slightly | ✅ |
 | Card hovers | Marquee cards zoom + reveal name; grid cards lift and scroll the screenshot | ✅ |
 | Reduced motion | Everything still: no smooth scroll, wall, tilt, marquee, ticker, fan animation or word cycling | ✅ (ours) |
+
+## Type scale and density: measured (2026-10-30)
+
+Computed styles from Playwright at 1440px / 390px (median of each role; desktop / phone).
+"Before" is commit `f1341f4`, "after" is this polish pass.
+
+| Role | Averlo | Reign before | Reign after |
+| --- | --- | --- | --- |
+| Hero headline (h1) | 80 / 40px · 600 · lh 1.0 · −0.04em | 89 / 43px · 600 · lh 0.95 | **80 / 40px** · 600 · lh 1.0 · −0.045em |
+| Section headings (h2) | 80 / 48px · 500 · lh 1.0 | 80 / 41.6px · 500 | **80 / 44px** · 600 (bolder) · lh 1.0 |
+| Panel / card titles (h3) | 55 and 40px · 500 | 17–84px, median 24 / 20px | **55 / 36px** panels, 40 / 28px cards, 28 / 22px small cards |
+| Lead text | 22px · 500 · lh 1.0 | 17px · 400 · lh 1.65 | **22 / 18px** · 500 · lh 1.2 |
+| Body | 14–22px | 17px · lh 1.65 | **16px** · lh 1.55 |
+| Labels, small text | 14px · 400 | 11–14px, uppercase, tracked | **14px** · 500, sentence case |
+| Buttons | 14px, pill | 14–16px, 48px tall | **15px**, pill, **44px** min height |
+| Headline max width | 740px | 874px | 783px |
+| Bridge (section intro) padding | ≈ 78px / 48px | 64px | **80px / 48px** |
+| Gap after each section | — | 112–144px, uneven | **128px / 80px**, same everywhere |
+| Visible copy, whole page* | 478 words | 1,360 words | **834 words (−39%)** |
+
+\* Readable text a visitor sees: excludes decorative mockups, screen-reader-only text, collapsed answers and
+duplicated marquee cards. Averlo's figure includes 244 words of repeated project names in its work rows.
+
+Visible words per section, before → after: services 209 → 164 · work 199 → 157 · about 65 → 33 ·
+pricing + promises 225 → 149 · FAQ 355 → 43 (answers collapsed, 6 of 11 shown) · contact 141 → 134 (step 1 of 2) ·
+closing 48 → 36.
+
+Clash Display is wider than Averlo's SF Pro, so on phones our h2 (44px) and panel titles (36px) sit slightly
+under Averlo's pixel sizes to take up the same visual width.
+
+## Copy cut in the polish pass
+
+- **Hero:** service tags 10 → 8 (dropped "Business cards", "Booking setup"; "Website redesign" → "Redesigns").
+- **Services intro:** "Design for local businesses: your site, your Google listing, your menu and your feed, all in one
+  look. Graphics are priced per job." → "One look, everywhere. Graphics priced per job."
+- **Service panels:** each line trimmed to label + one short phrase, e.g. "Fast sites built to bring in customers, not just
+  look nice." → "Fast sites built to bring in customers."; "Set up and polish your Google listing so locals find
+  you on Maps." → "Get found by locals on Google Maps."; "Connect DoorDash, Square, Calendly or your booking app to
+  your site." → "DoorDash, Square, Calendly, connected to your site."
+- **Work intro:** "Custom sites for local shops, restaurants and brands. Hover a card to pause, click to visit." →
+  "Real sites for local businesses."
+- **Go Digital Hero:** description shortened to "One bilingual site for three brands: a VA agency, an event planner and
+  a volunteer group."; five long highlights → four chips; dropped "Booking and newsletter kept working through the
+  client's existing tools".
+- **About:** removed the second paragraph ("That's me. I speak English and Spanish, and when you work with Reign Studio
+  you talk to the person building your site — no account managers, no runaround."); "Hablamos español" moved into
+  the signature line. Statement shortened by 6 words.
+- **Pricing:** headline "Simple, upfront pricing." → "Simple pricing."; removed "Pick a starting point. We'll shape
+  the details together." and "Every project starts with a free mockup call."; the revision-round note now appears once
+  instead of in 3 cards; plan lines shortened (Custom Build: "Businesses that need more than 5 pages, online
+  ordering, booking or payment systems, memberships, or connecting third-party tools." → "Ordering, payments,
+  memberships or 5+ pages."); payment paragraph → "Pay in full, or 50% to start and 50% at launch."; the separate
+  four-promise section merged into one row under the plans.
+- **Process:** removed "You always know what's next, and who's doing it."; each step's You/Me line shortened; dropped
+  "Pay any remaining balance" (covered in Pricing).
+- **FAQ:** every answer shortened (≈ 45% fewer words); first 6 questions shown, the other 5 behind "More questions".
+- **Contact:** intro "Tell me a bit about your business. I'll reply within 24 hours to set up your free mockup call."
+  → "I reply within 24 hours."; removed "No commitment. I'll text or email you within 24 hours." and "Calls, texts,
+  and feedback in English or Spanish."; the form is split into two steps (no questions removed).
+- **Closing:** "Or text me yourself at (754) 277-6110. I reply within 24 hours." → "Or text (754) 277-6110";
+  removed "English or español."

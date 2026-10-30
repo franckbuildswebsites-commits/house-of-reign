@@ -82,8 +82,8 @@ export default function FeaturedCaseStudy() {
             <span className="h-1.5 w-1.5 rounded-full bg-brand" />
             Featured project
           </p>
-          <h3 className="h-display mt-4 text-[clamp(2.6rem,6vw,5.25rem)]">{name}</h3>
-          <p className="mt-4 max-w-2xl text-lg text-dim sm:text-xl">{description}</p>
+          <h3 className="t-h3 mt-4">{name}</h3>
+          <p className="t-small mt-3 max-w-md">{description}</p>
         </div>
         {url && (
           <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn-primary group/visit justify-self-start">
@@ -98,11 +98,10 @@ export default function FeaturedCaseStudy() {
         <Composition project={project} />
       </div>
 
-      <ul className="mt-12 grid border-t border-line sm:mt-16 sm:grid-cols-2 lg:grid-cols-5">
-        {highlights.map((h, i) => (
-          <li key={h} className={`flex gap-4 border-b border-line py-5 sm:pr-6 lg:flex-col lg:gap-3 lg:border-b-0 lg:py-6 ${i ? "lg:border-l lg:pl-6" : ""}`}>
-            <span className="font-display text-sm font-semibold text-brand">{String(i + 1).padStart(2, "0")}</span>
-            <span className="text-[0.98rem] leading-snug text-cream/85">{h}</span>
+      <ul className="mt-10 flex flex-wrap gap-2 sm:mt-14">
+        {highlights.map((h) => (
+          <li key={h} className="rounded-full border border-line px-4 py-2 text-sm text-cream/85">
+            {h}
           </li>
         ))}
       </ul>

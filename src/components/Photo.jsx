@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Crown } from "./Logo";
 
-// An <img> that swaps to `fallback` when the file is missing. The effect also
-// catches images that failed before the prerendered page finished hydrating.
+// An image that swaps to `fallback` when the file is missing (the effect also catches images that
+// failed before the prerendered page finished hydrating). WebP sources get their AVIF twin first:
+// every .webp in /public/portfolio has a smaller .avif next to it.
 export default function Photo({ src, fallback = null, ...imgProps }) {
   const ref = useRef(null);
   const [failed, setFailed] = useState(!src);
@@ -13,7 +14,14 @@ export default function Photo({ src, fallback = null, ...imgProps }) {
   }, []);
 
   if (failed) return fallback;
-  return <img ref={ref} src={src} onError={() => setFailed(true)} {...imgProps} />;
+  const img = <img ref={ref} src={src} onError={() => setFailed(true)} {...imgProps} />;
+  if (!src.endsWith(".webp")) return img;
+  return (
+    <picture className="contents">
+      <source srcSet={src.replace(/\.webp$/, ".avif")} type="image/avif" />
+      {img}
+    </picture>
+  );
 }
 
 // Round photo of the owner (/public/me.jpg), with the crown mark until the photo exists.

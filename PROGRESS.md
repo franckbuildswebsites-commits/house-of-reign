@@ -11,9 +11,14 @@ Not merged into `main`; the live site is unchanged.
   Averlo's structure: Menu pill + full-screen menu, light/dark toggle, full-screen tilting service panels, work
   marquee, pinned process stage, FAQ with hairline column, fanned closing section with "Get a text", footer with
   cycling word, Lenis smooth scrolling, custom cursor.
+- **Round 3 (2026-10-30):** polish + speed. Wordmark "Reign"; type scale and spacing measured against Averlo and
+  applied site-wide; visible copy cut 39% (list in `REFERENCE.md`); two-step contact form; FAQ shows 6 of 11;
+  transform/opacity-only motion; AVIF images; offscreen animations pause; lighter effects on phones/low-power
+  devices; 44px tap targets; no sideways scroll at any width; anchor jumps land under the header; styled 404 page.
 - Palette: near-black `#0C0907`, cream `#F4ECDF`, Reign orange `#E8622C` (orange buttons use dark text, 5.6:1).
   Light theme swaps the background and text tokens.
-- Lighthouse (mobile, local build): Performance 90–95, Accessibility 100, Best Practices 100, SEO 100.
+- Lighthouse (mobile, local build): Performance 94–97, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
+- Throttled phone scroll test (4× CPU, touch gestures, whole page): 0.1% of frames over 34ms.
 
 ## Decisions (confirmed)
 

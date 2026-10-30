@@ -79,8 +79,7 @@ export const projects = [
 export const featured = {
   id: "go-digital-hero",
   name: "Go Digital Hero",
-  description:
-    "One website for three brands: a virtual assistant agency, an event planning company, and a volunteer organization. Fully bilingual.",
+  description: "One bilingual site for three brands: a VA agency, an event planner and a volunteer group.",
   url: "",
   address: "godigitalhero.com",
   screens: {
@@ -92,12 +91,6 @@ export const featured = {
       { src: "/portfolio/gdh-volunteer-desktop.webp", label: "Volunteer Hero", alt: "Volunteer Hero page" },
     ],
   },
-  highlights: [
-    "3 brands, 1 site: each division gets its own page and color theme",
-    "Full English + Spanish with a language toggle",
-    "Smart contact form that routes each inquiry to the right division",
-    "Booking and newsletter kept working through the client's existing tools",
-    "Built from scratch, mobile-first",
-  ],
+  highlights: ["3 brands, 1 site", "English + Spanish", "Smart contact routing", "Built mobile-first"],
   published: true,
 };

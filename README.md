@@ -24,6 +24,7 @@ npm run preview  # serve the production build locally
 | Service panels and their mockups | `src/components/ServicePanels.jsx`, `src/components/Mockups.jsx` |
 | Work: marquee rows, featured case study, filterable grid | `src/components/WorkMarquee.jsx`, `src/components/Work.jsx`, `src/data/projects.js` |
 | Marquee / closing-section card images (600×375 crops) | `public/portfolio/cards/` |
+| Image formats | every `.webp` in `public/portfolio/` has a smaller `.avif` twin; add both when you add an image |
 | Full-page screenshots (grid) and Go Digital Hero shots | `public/portfolio/` |
 | Testimonial | `src/data/testimonials.js` |
 | "A note from me" | `src/components/About.jsx` |
@@ -35,7 +36,9 @@ npm run preview  # serve the production build locally
 | Smooth scrolling | `src/lib/scroll.js` |
 | Your photo ("A note from me") | `public/me.jpg` (the crown mark shows until it exists) |
 | Social share image, favicon, home-screen icon | `public/og-image.jpg` (1200 × 630), `public/favicon.svg`, `public/apple-touch-icon.png` |
-| Sitemap / robots | `public/sitemap.xml`, `public/robots.txt` |
+| Sitemap / robots / 404 page | `public/sitemap.xml`, `public/robots.txt`, `public/404.html` |
+| Share-image source | `scripts/og-image.html` (open at 1200×630, screenshot to `public/og-image.jpg`) |
+| Type scale, spacing tokens | `.t-h1` … `.t-small`, `.label`, `.btn`, `.section-gap` in `src/index.css` |
 
 The page title, description, canonical URL, Open Graph tags and schema in `index.html` are generated from
 `src/config.js` at build time. Restart `npm run dev` after editing the config to see those changes.
@@ -69,7 +72,9 @@ In `src/data/projects.js`, set `published: false` to hide it or `true` to show i
 page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see
 everything. The hero headline animates with CSS alone; scroll animations only hide content that's still below the
 screen after the page loads; Framer Motion's animation engine loads in a separate chunk after the page is up.
-Nothing moves when the visitor prefers reduced motion.
+Nothing moves when the visitor prefers reduced motion. Animations use only transform and opacity, looping ones pause
+when off screen (`src/lib/offscreen.js`), and phones / low-power devices get a lighter mode (`html.lite`, set in
+`index.html`) without the drifting wall, glows or 3D panel tilt.
 
 ## Deploy
 

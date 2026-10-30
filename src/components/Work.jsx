@@ -5,6 +5,7 @@ import FeaturedCaseStudy from "./FeaturedCaseStudy";
 import WorkMarquee from "./WorkMarquee";
 import Reveal from "./Reveal";
 import { BrowserFrame } from "./Devices";
+import Photo from "./Photo";
 import { ArrowUpRight } from "./Icons";
 import { categories, projects } from "../data/projects";
 
@@ -37,8 +38,8 @@ function FilterTabs({ active, onChange }) {
             type="button"
             aria-pressed={on}
             onClick={() => onChange(t.id)}
-            className={`relative rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 ${
-              on ? "text-night" : "text-cream/75 hover:text-cream"
+            className={`relative min-h-11 rounded-full px-4 text-sm font-semibold transition-colors duration-300 ${
+              on ? "text-night" : "text-cream/75 hover:text-cream focus-visible:text-cream"
             }`}
           >
             {on && (
@@ -77,7 +78,7 @@ function ProjectCard({ project }) {
       <div className="transition-transform duration-500 ease-[var(--ease-out-soft)] motion-safe:group-hover:-translate-y-1.5">
         <BrowserFrame url={url} className="transition-[box-shadow] duration-500 group-hover:shadow-[0_30px_60px_-30px_rgb(232_98_44/0.45)]">
           <div ref={shotRef} className="shot relative aspect-[16/10] overflow-hidden bg-night" style={{ "--scroll-to": scrollTo(full) }}>
-            <img
+            <Photo
               src={full.src}
               alt={`${name} website, full page`}
               width={full.width}
@@ -91,7 +92,7 @@ function ProjectCard({ project }) {
       </div>
       <div className="mt-4 flex items-start justify-between gap-3 px-1">
         <div className="min-w-0">
-          <h3 className="truncate font-display text-xl font-semibold tracking-tight sm:text-2xl">{name}</h3>
+          <h3 className="t-h4 truncate">{name}</h3>
           <p className="mt-0.5 flex items-center gap-2 text-sm text-dim">
             {categoryLabel[category]}
             {tag === "Concept" && <span className="rounded-full border border-line px-2 py-0.5 text-xs font-semibold text-cream/80">Concept</span>}
@@ -111,23 +112,23 @@ export default function Work() {
   const shown = visible.filter((p) => tab === "all" || p.category === tab);
 
   return (
-    <section id="work" aria-labelledby="work-title" className="pb-28 sm:pb-36">
+    <section id="work" aria-labelledby="work-title" className="section-gap">
       <div className="px-section mx-auto max-w-[100rem]">
         <SectionHeading id="work-title" variant="reverse" title="Recent work." dim="Built to sell.">
-          Custom sites for local shops, restaurants and brands. Hover a card to pause, click to visit.
+          Real sites for local businesses.
         </SectionHeading>
       </div>
 
-      <div className="mt-10 sm:mt-14">
+      <div>
         <WorkMarquee />
       </div>
 
       <div className="px-section mx-auto max-w-[100rem]">
-        <div id="featured" className="mt-20 scroll-mt-24 sm:mt-28">
+        <div id="featured" className="mt-16 sm:mt-24">
           <FeaturedCaseStudy />
         </div>
 
-        <div className="mt-20 flex flex-col gap-4 sm:mt-28 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-4 sm:mt-24 sm:flex-row sm:items-center sm:justify-between">
           <p className="label">All projects</p>
           <LayoutGroup>
             <FilterTabs active={tab} onChange={setTab} />

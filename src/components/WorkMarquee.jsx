@@ -1,4 +1,7 @@
+import { useRef } from "react";
+import Photo from "./Photo";
 import { ArrowUpRight } from "./Icons";
+import { usePauseOffscreen } from "../lib/offscreen";
 import { categories, projects, featured } from "../data/projects";
 
 // Two rows of project cards drifting in opposite directions (CSS, transform only). Hovering or
@@ -26,7 +29,7 @@ function Card({ c, copy }) {
         {...(c.external && { target: "_blank", rel: "noopener noreferrer" })}
         className="group relative block aspect-[16/10] overflow-hidden rounded-[18px] bg-ember ring-1 ring-line"
       >
-        <img
+        <Photo
           src={`/portfolio/cards/${c.img}.webp`}
           alt={copy ? "" : `${c.name} website`}
           width="600"
@@ -41,7 +44,7 @@ function Card({ c, copy }) {
         </span>
         <span className="absolute inset-x-5 bottom-4 flex translate-y-3 items-end justify-between gap-3 text-paper opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
           <span>
-            <span className="block font-display text-[clamp(1.25rem,2.2vw,2rem)] font-medium leading-tight tracking-[-0.03em]">{c.name}</span>
+            <span className="t-card block">{c.name}</span>
             <span className="text-sm text-paper/75">{c.sub}</span>
           </span>
           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-paper text-ink">
@@ -55,8 +58,10 @@ function Card({ c, copy }) {
 }
 
 export default function WorkMarquee() {
+  const ref = useRef(null);
+  usePauseOffscreen(ref);
   return (
-    <div className="flex flex-col gap-3 overflow-hidden py-2 sm:gap-4">
+    <div ref={ref} className="flex flex-col gap-3 overflow-hidden py-2 sm:gap-4">
       {rows.map((row, r) => (
         <div key={r} className="marquee-row">
           <ul className={`marquee flex w-max ${row.reverse ? "reverse" : ""}`} style={{ "--dur": row.dur }}>

@@ -23,7 +23,7 @@ export default function ThemeToggle({ className = "" }) {
       type="button"
       onClick={toggle}
       aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
-      className={`grid h-9 w-9 place-items-center rounded-full border border-line transition-colors duration-300 hover:bg-cream/10 ${className}`}
+      className={`grid h-11 w-11 place-items-center rounded-full transition-colors duration-200 hover:bg-cream/10 focus-visible:bg-cream/10 ${className}`}
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
         {light ? (

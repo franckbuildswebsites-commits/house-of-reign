@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Reveal from "./Reveal";
+import Photo from "./Photo";
 import Words from "./Words";
 import { ArrowRight, ArrowUpRight } from "./Icons";
 import { STUDIO_NAME, PHONE, WEB3FORMS_KEY } from "../config";
@@ -27,7 +28,7 @@ function Fan() {
       {/* pivot point, below the section; every card hangs above it and rotates around it */}
       <div className="absolute left-[62%] top-[120%] h-0 w-0 lg:left-[66%] lg:top-[135%]">
         {fan.map((id, i) => (
-          <img
+          <Photo
             key={i}
             src={`/portfolio/cards/${id}.webp`}
             alt=""
@@ -77,7 +78,7 @@ function GetAText() {
 
   if (status === "done") {
     return (
-      <p role="status" className="mt-8 font-display text-[clamp(2rem,4vw,3.5rem)] font-medium leading-none tracking-[-0.04em]">
+      <p role="status" className="t-h3 mt-8">
         Got it. I'll text you soon.
       </p>
     );
@@ -102,7 +103,7 @@ function GetAText() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="group inline-flex shrink-0 items-center gap-3 self-start whitespace-nowrap font-display text-[clamp(2.2rem,4vw,3.5rem)] font-medium leading-none tracking-[-0.04em] transition-colors hover:text-brand disabled:opacity-60 sm:self-auto"
+        className="t-h3 group inline-flex min-h-11 shrink-0 items-center gap-3 self-start whitespace-nowrap transition-colors hover:text-brand focus-visible:text-brand disabled:opacity-60 sm:self-auto"
       >
         {status === "sending" ? "Sending…" : "Get a text"}
         <ArrowRight className="h-[0.6em] w-[0.6em] transition-transform duration-300 group-hover:translate-x-1.5" />
@@ -124,7 +125,7 @@ export default function ClosingCTA() {
       <div className="relative min-h-[620px] overflow-hidden lg:min-h-[720px]">
         <Fan />
         <div className="px-section relative mx-auto flex min-h-[620px] max-w-[100rem] flex-col pb-12 pt-10 lg:min-h-[720px] lg:pb-16 lg:pt-14">
-          <div className="grid grid-cols-2 gap-6 pt-14 text-[0.9rem] [text-shadow:0_1px_14px_rgb(0_0_0/0.95)] lg:grid-cols-4 lg:pt-16">
+          <div className="grid grid-cols-2 gap-6 pt-14 text-[0.9375rem] [text-shadow:0_1px_14px_rgb(0_0_0/0.95)] lg:grid-cols-4 lg:pt-16">
             <p className="font-medium">{STUDIO_NAME}</p>
             <ul className="space-y-1 text-paper/75">
               {meta.map((x) => (
@@ -136,7 +137,7 @@ export default function ClosingCTA() {
               Hablamos español
             </p>
           </div>
-          <Reveal as="h2" id="text-me-title" className="reveal-words mt-auto pt-40 font-display text-[clamp(2.7rem,6.2vw,5.6rem)] font-medium leading-[0.98] tracking-[-0.045em]">
+          <Reveal as="h2" id="text-me-title" className="reveal-words t-h2 mt-auto pt-40">
             <span className="block">
               <Words text="Your next customer" />
             </span>
@@ -149,23 +150,21 @@ export default function ClosingCTA() {
 
       <div className="grid lg:grid-cols-2">
         <div className="px-section border-t border-white/10 py-12 lg:py-16 lg:pr-12">
-          <p className="text-[0.95rem] text-paper/80">Text me directly</p>
+          <p className="label !text-paper/80">Text me directly</p>
           <GetAText />
-          <p className="mt-6 text-sm text-paper/60">
-            Or text me yourself at{" "}
-            <a href={smsHref} className="font-semibold text-paper underline underline-offset-4">
+          <p className="mt-4 flex items-center gap-1.5 text-sm text-paper/60">
+            Or text
+            <a href={smsHref} className="inline-flex min-h-11 items-center font-semibold text-paper underline-offset-4 hover:underline focus-visible:underline">
               {PHONE}
             </a>
-            . I reply within 24 hours.
           </p>
         </div>
-        <a href={telHref} className="group px-section block bg-paper py-12 text-ink transition-colors duration-500 hover:bg-brand lg:py-16 lg:pl-12">
-          <p className="text-[0.95rem] text-ink/70">or call me.</p>
-          <p className="mt-8 flex items-center gap-4 font-display text-[clamp(2.2rem,4vw,3.5rem)] font-medium leading-none tracking-[-0.04em]">
+        <a href={telHref} className="group px-section block bg-paper py-12 text-ink transition-colors duration-500 hover:bg-brand focus-visible:bg-brand lg:py-16 lg:pl-12">
+          <p className="label !text-ink/70">or call me.</p>
+          <p className="t-h3 mt-8 flex items-center gap-4">
             {PHONE}
             <ArrowUpRight className="h-[0.55em] w-[0.55em] transition-transform duration-500 group-hover:rotate-45" />
           </p>
-          <p className="mt-6 text-sm text-ink/60">English or español.</p>
         </a>
       </div>
     </section>
