@@ -9,6 +9,11 @@ gradients), this section wins.
 what the "Reign now" columns below show; Apple's alternating gray sections and device-following dark mode were
 dropped on purpose.
 
+**Round 7 (later still):** a new hero, nav and services replaced the sections noted in the Motion table below (screenshot
+wall, pinned service panels, nav links). Motion is now spring-based; rules that still hold: transform only, nothing fades
+on scroll, light first. Ring notes: each tile carries its whole orbit in one CSS transform, because Safari drops the tilt
+when the ring is split across nested 3D layers. Check painted pixels in WebKit, not just layout numbers, when changing it.
+
 ## Apple pass: measured (2026-10-31)
 
 Playwright, computed styles at 1440×900 and 390×844, light mode. Sources: apple.com/iphone and apple.com/macbook-air,
@@ -90,8 +95,9 @@ at 1200px and stays centered.
 
 - **Scroll audit:** effective opacity of every on-screen element, at every scroll step, whole page, both themes, both
   widths: 0 elements below 100%.
-- **Lighthouse mobile (local build, 3 runs):** Performance 99, Accessibility 100, Best Practices 100, SEO 100,
-  CLS 0, LCP 2.1–2.2s, TBT 20–60ms.
+- **Lighthouse mobile (local build, 3 runs):** Performance 100, Accessibility 100, Best Practices 100, SEO 100,
+  CLS 0, LCP 0.9s, TBT 0–30ms.
+- **Frame timing:** whole-page scroll on a 4× throttled phone profile: 16.7ms frames, 0 over 34ms, 0 long tasks.
 - **Light first:** with the device set to dark, in Chromium and WebKit at 1440px and 390px, the site opens white with no
   dark flash; dark only comes from the switch and is remembered after reload.
 - **Contrast:** axe-core WCAG AA, both themes, both widths, with FAQ open, form step 2 and phone menu open: 0 violations.

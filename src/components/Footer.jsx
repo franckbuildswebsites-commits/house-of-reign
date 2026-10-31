@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, m } from "motion/react";
 import { Wordmark } from "./Logo";
+import { SPRING_SOFT } from "./Press";
 import { STUDIO_NAME, EMAIL, PHONE } from "../config";
 import { smsHref } from "../lib/utils";
 
@@ -32,7 +33,7 @@ function CyclingWord() {
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           exit={{ y: "-100%" }}
-          transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+          transition={SPRING_SOFT}
           className="absolute left-0 top-0 text-dim"
         >
           {cycle[i]}

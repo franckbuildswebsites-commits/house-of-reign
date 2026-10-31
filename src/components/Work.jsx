@@ -4,6 +4,8 @@ import SectionHeading from "./SectionHeading";
 import FeaturedCaseStudy from "./FeaturedCaseStudy";
 import WorkMarquee from "./WorkMarquee";
 import Reveal from "./Reveal";
+import Press, { SPRING, SPRING_SOFT } from "./Press";
+import Parallax from "./Parallax";
 import { BrowserFrame } from "./Devices";
 import Photo from "./Photo";
 import { ArrowUpRight } from "./Icons";
@@ -19,8 +21,6 @@ const tabs = [
 ];
 const countFor = (id) => (id === "all" ? visible.length : visible.filter((p) => p.category === id).length);
 
-const EASE = [0.2, 0.8, 0.2, 1];
-
 // The frame shows the top 16:10 of the page; scrolling to the bottom moves the image up by
 // everything below that, as a share of the image's own height.
 const FRAME_RATIO = 10 / 16;
@@ -33,9 +33,11 @@ function FilterTabs({ active, onChange }) {
       {tabs.map((t) => {
         const on = active === t.id;
         return (
-          <button
+          <m.button
             key={t.id}
             type="button"
+            whileTap={{ scale: 0.96 }}
+            transition={SPRING}
             aria-pressed={on}
             onClick={() => onChange(t.id)}
             className={`relative min-h-9 rounded-full px-3.5 text-sm transition-colors duration-300 [@media(pointer:coarse)]:min-h-11 ${
@@ -45,14 +47,14 @@ function FilterTabs({ active, onChange }) {
             {on && (
               <m.span
                 layoutId="work-tab"
-                transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                transition={SPRING}
                 className="absolute inset-0 rounded-full bg-accent/10"
               />
             )}
             <span className="relative">
               {t.label} <span className={on ? "" : "text-caption"}>{countFor(t.id)}</span>
             </span>
-          </button>
+          </m.button>
         );
       })}
     </div>
@@ -74,8 +76,8 @@ function ProjectCard({ project }) {
   }, []);
 
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="group block rounded-[18px]">
-      <div>
+    <Press href={url} target="_blank" rel="noopener noreferrer" lift={4} press={0.985} className="group block rounded-[18px]">
+      <Parallax>
         <BrowserFrame url={url}>
           <div ref={shotRef} className="shot relative aspect-[16/10] overflow-hidden bg-page" style={{ "--scroll-to": scrollTo(full) }}>
             <Photo
@@ -89,7 +91,7 @@ function ProjectCard({ project }) {
             />
           </div>
         </BrowserFrame>
-      </div>
+      </Parallax>
       <div className="mt-4 flex items-start justify-between gap-3 px-1">
         <div className="min-w-0">
           <h3 className="t-h4 truncate">{name}</h3>
@@ -101,7 +103,7 @@ function ProjectCard({ project }) {
         <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-accent transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
       </div>
       <span className="sr-only">(opens in a new tab)</span>
-    </a>
+    </Press>
   );
 }
 
@@ -129,17 +131,17 @@ export default function Work() {
           </LayoutGroup>
         </div>
 
-        {/* Filtering: cards that leave fade and shrink out, the rest glide to their new spots. */}
+        {/* Filtering: cards that leave spring down to nothing, the rest glide to their new spots. */}
         <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-12 sm:mt-12 [&>li]:w-full sm:[&>li]:w-[calc((100%-1.5rem)/2)] lg:[&>li]:w-[calc((100%-3rem)/3)]">
           <AnimatePresence initial={false} mode="popLayout">
             {shown.map((p, i) => (
               <m.li
                 key={p.id}
                 layout
-                initial={{ opacity: 0, scale: 0.92, y: 24 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.2, ease: "easeIn" } }}
-                transition={{ duration: 0.6, ease: EASE }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                transition={SPRING_SOFT}
               >
                 <Reveal delay={(i % 3) * 60}>
                   <ProjectCard project={p} />

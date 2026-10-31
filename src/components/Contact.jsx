@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Reveal from "./Reveal";
+import Press from "./Press";
 import SectionHeading from "./SectionHeading";
 import { ArrowUpRight, Chat, Check } from "./Icons";
 import { STUDIO_NAME, EMAIL, PHONE, WEB3FORMS_KEY } from "../config";
@@ -34,7 +35,7 @@ const PROJECT_TO_NEED = { "Custom Build": CUSTOM };
 
 // Tap targets are at least 44px tall. The real input stays in the DOM (visually hidden) for keyboard and form data.
 const pill =
-  "flex min-h-11 items-center gap-2 rounded-full border border-field px-4 py-2 text-[0.9375rem] transition-colors hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-accent/10 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-accent/25";
+  "tap flex min-h-11 items-center gap-2 rounded-full border border-field px-4 py-2 text-[0.9375rem] transition-colors hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-accent/10 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-accent/25";
 
 function Field({ label, id, optional, children }) {
   return (
@@ -94,7 +95,7 @@ function NeedCards({ value, onChange }) {
       {NEEDS.map((o) => (
         <label
           key={o}
-          className="flex min-h-14 items-center gap-3 rounded-[18px] border border-field px-5 py-3 text-base transition-colors hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-accent/10 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-accent/25"
+          className="tap flex min-h-14 items-center gap-3 rounded-[18px] border border-field px-5 py-3 text-base transition-colors hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-accent/10 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-accent/25"
         >
           <input
             type="radio"
@@ -287,9 +288,9 @@ export default function Contact() {
                   </Group>
 
                   <div className="sm:col-span-2">
-                    <button type="button" onClick={next} className="btn btn-primary w-full sm:w-auto">
+                    <Press as="button" type="button" onClick={next} className="btn btn-primary w-full sm:w-auto">
                       Next: your project
-                    </button>
+                    </Press>
                   </div>
                 </div>
 
@@ -380,13 +381,14 @@ export default function Contact() {
                     <button type="button" onClick={() => setStep(1)} className="min-h-11 text-[0.9375rem] text-accent hover:underline">
                       Back
                     </button>
-                    <button
+                    <Press
+                      as="button"
                       type="submit"
                       disabled={status === "sending"}
                       className="btn btn-primary grow disabled:opacity-60 sm:grow-0"
                     >
                       {status === "sending" ? "Sending…" : "Send message"}
-                    </button>
+                    </Press>
                   </div>
                 </div>
               </form>

@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { LayoutGroup, m } from "motion/react";
 import Reveal from "./Reveal";
+import { SPRING_SOFT } from "./Press";
 import { faq } from "../data/faq";
 
 const FIRST = 6; // shown before "More questions"
-const EASE = [0.2, 0.8, 0.2, 1];
 
 // After the reference: a narrow label column with a full-height hairline, the headline and
-// hairline rows on the right. One answer open at a time. Motion is transform/opacity only:
-// the rows below glide to their new place (Framer "position" layout, which moves them with
-// transforms). Every answer stays in the HTML for search engines.
+// hairline rows on the right. One answer open at a time. Motion is transform only, on a spring:
+// the answer settles into place and the rows below glide to theirs (Framer "position" layout,
+// which moves them with transforms). Every answer stays in the HTML for search engines.
 export default function FAQ() {
   const [open, setOpen] = useState(null);
   const [all, setAll] = useState(false);
@@ -31,7 +31,7 @@ export default function FAQ() {
               {shown.map((item, i) => {
                 const isOpen = open === i;
                 return (
-                  <m.li key={item.q} layout="position" transition={{ duration: 0.45, ease: EASE }} className="border-t border-line">
+                  <m.li key={item.q} layout="position" transition={SPRING_SOFT} className="border-t border-line">
                     <h3>
                       <button
                         type="button"
@@ -46,14 +46,16 @@ export default function FAQ() {
                       </button>
                     </h3>
                     <div id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`} hidden={!isOpen}>
-                      <p className="max-w-[34rem] pb-6 text-dim">{item.a}</p>
+                      <m.p initial={false} animate={{ y: isOpen ? 0 : -10 }} transition={SPRING_SOFT} className="max-w-[34rem] pb-6 text-dim">
+                        {item.a}
+                      </m.p>
                     </div>
                   </m.li>
                 );
               })}
             </ul>
             {!all && (
-              <m.div layout="position" className="border-t border-line">
+              <m.div layout="position" transition={SPRING_SOFT} className="border-t border-line">
                 <button type="button" onClick={() => setAll(true)} className="link-more mt-2">
                   More questions ({faq.length - FIRST})
                 </button>

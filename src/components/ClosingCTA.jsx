@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Reveal from "./Reveal";
+import Press from "./Press";
+import Parallax from "./Parallax";
 import Photo from "./Photo";
 import { ArrowUpRight } from "./Icons";
 import { STUDIO_NAME, PHONE, WEB3FORMS_KEY } from "../config";
@@ -98,9 +100,9 @@ function GetAText() {
         placeholder="Your phone number"
         className="field sm:!w-auto sm:min-w-0 sm:flex-1"
       />
-      <button type="submit" disabled={status === "sending"} className="btn btn-primary shrink-0 disabled:opacity-60">
+      <Press as="button" type="submit" disabled={status === "sending"} className="btn btn-primary shrink-0 disabled:opacity-60">
         {status === "sending" ? "Sending…" : "Get a text"}
-      </button>
+      </Press>
       {status === "error" && (
         <p role="alert" className="w-full text-sm">
           That didn't go through. Text us at <a href={smsHref} className="text-accent underline">{PHONE}</a> instead.
@@ -129,9 +131,9 @@ export default function ClosingCTA() {
           </p>
         </div>
 
-        <div className="mt-10">
+        <Parallax y={20} className="mt-10">
           <Fan />
-        </div>
+        </Parallax>
 
         <Reveal as="h2" id="text-us-title" className="t-h2 mt-12 lg:mt-16">
           <span className="block">Your next customer</span>
@@ -149,13 +151,13 @@ export default function ClosingCTA() {
               </a>
             </p>
           </div>
-          <a href={telHref} className="group flex flex-col justify-between gap-4 rounded-[24px] border border-line bg-page p-6 sm:p-8">
+          <Press href={telHref} lift={3} press={0.985} className="group flex flex-col justify-between gap-4 rounded-[24px] border border-line bg-page p-6 sm:p-8">
             <p className="label">or call us.</p>
             <p className="t-h3 flex items-center gap-3">
               {PHONE}
-              <ArrowUpRight className="h-[0.5em] w-[0.5em] text-accent transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <ArrowUpRight className="h-[0.5em] w-[0.5em] text-accent" />
             </p>
-          </a>
+          </Press>
         </div>
       </div>
     </section>

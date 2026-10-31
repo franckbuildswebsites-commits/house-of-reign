@@ -27,7 +27,12 @@ Not merged into `main`; the live site is unchanged.
 - **Round 6 (2026-10-31):** always opens light, even on devices set to dark; dark only from the header switch (saved
   in localStorage). Less gray: white sections with hairline dividers, `#f5f5f7` only behind the closing section, white
   hairline cards, secondary text `#424245`, gray `#6e6e73` only for small captions and labels.
-- Lighthouse (mobile, local build, 3 runs): Performance 99, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
+- **Round 7 (2026-10-31):** new hero (ring of client app-icon tiles, huge two-tone statement), minimal nav (logo, Menu +
+  theme pill, Start a project) that thins after the hero, full-screen menu on every size. Services rebuilt to scan in
+  seconds: one Websites card, then Online / Brand / Print groups of small cards with prices. Spring motion site-wide
+  (`Press.jsx`, `--spring`), scroll parallax on images, all transform only. Screenshot wall and pinned service panels removed.
+- Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
+- Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 
 ## Decisions (confirmed)
 
@@ -44,4 +49,9 @@ Not merged into `main`; the live site is unchanged.
 - **Connect takereign.com** to the Cloudflare Worker (custom domain) after the merge; canonical/OG URLs and the sitemap already point there.
 - **Test the contact form and "Get a text"** with a real submission (both send to Web3Forms; not tested by me on purpose).
 - Automatic Cloudflare preview builds for branches still fail (log not readable with the current login); previews are uploaded by hand (README → Deploy).
+- **Two project links are dead:** Wicked Bread (`wicked-bread-co.pages.dev` no longer resolves) and Past Present Future
+  (`ppf-comics.franckbuildswebsites.workers.dev` returns 404; that Worker no longer exists). Both Work cards still link to
+  them from the grid and marquee. Redeploy the sites or update `url` in `src/data/projects.js`.
+- Champions4Character has no logo mark; its tile is a "C4C" monogram made from its wordmark's font and purple. Swap in a
+  real mark if they have one (`public/portfolio/tiles/`).
 - Spanish version, footer social icons (add Instagram to `src/config.js`), privacy page, `public/me.jpg` (your photo).

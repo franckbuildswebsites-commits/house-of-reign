@@ -36,10 +36,10 @@ function Card({ c, copy }) {
           height="375"
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover object-top transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
+          className="h-full w-full object-cover object-top transition-transform duration-700 ease-[var(--spring)] group-hover:scale-[1.03]"
         />
         <span className="frost absolute left-3 top-3 rounded-full px-3 py-1 text-xs [@media(hover:hover)]:hidden">{c.name}</span>
-        <span className="frost absolute inset-x-3 bottom-3 flex translate-y-20 items-center justify-between gap-3 rounded-[14px] px-4 py-3 transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:translate-y-0 group-focus-visible:translate-y-0">
+        <span className="frost absolute inset-x-3 bottom-3 flex translate-y-20 items-center justify-between gap-3 rounded-[14px] px-4 py-3 transition-transform duration-700 ease-[var(--spring)] group-hover:translate-y-0 group-focus-visible:translate-y-0">
           <span className="min-w-0">
             <span className="t-h4 block truncate">{c.name}</span>
             <span className="text-sm text-caption">{c.sub}</span>

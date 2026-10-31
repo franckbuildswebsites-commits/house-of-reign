@@ -8,12 +8,14 @@
     <meta name="color-scheme" content="light" />
     <script>
       // Before the first paint: dark mode, only if the visitor chose it with the switch (ThemeToggle.jsx;
-      // the device setting is ignored on purpose, everyone opens in light), and "lite" mode for touch devices, low-core CPUs or Save-Data, which drops the heaviest
-      // continuous effects (index.css).
+      // the device setting is ignored on purpose, everyone opens in light); "lite" mode for touch
+      // devices, low-core CPUs or Save-Data, which skips scroll parallax (Parallax.jsx); and "saver"
+      // for Save-Data, which also holds the hero ring still (index.css).
       try {
         var n = navigator, c = n.connection;
         if (matchMedia("(hover: none)").matches || (n.hardwareConcurrency || 8) <= 4 || (n.deviceMemory || 8) <= 4 || (c && c.saveData))
           document.documentElement.classList.add("lite");
+        if (c && c.saveData) document.documentElement.classList.add("saver");
       } catch (e) {}
       try {
         if (localStorage.getItem("theme") === "dark") {
@@ -31,17 +33,6 @@
       } catch (e) {}
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- Preload only what the hero needs: the wall images (phone or desktop set, AVIF).
-         Everything below the fold loads lazily. -->
-    <link rel="preload" href="/portfolio/wall/col-1-sm.avif" as="image" type="image/avif" media="(max-width: 639px)" />
-    <link rel="preload" href="/portfolio/wall/col-2-sm.avif" as="image" type="image/avif" media="(max-width: 639px)" />
-    <link rel="preload" href="/portfolio/wall/col-3-sm.avif" as="image" type="image/avif" media="(max-width: 639px)" />
-    <link rel="preload" href="/portfolio/wall/col-4-sm.avif" as="image" type="image/avif" media="(max-width: 639px)" />
-    <link rel="preload" href="/portfolio/wall/col-1.avif" as="image" type="image/avif" media="(min-width: 640px)" />
-    <link rel="preload" href="/portfolio/wall/col-2.avif" as="image" type="image/avif" media="(min-width: 640px)" />
-    <link rel="preload" href="/portfolio/wall/col-3.avif" as="image" type="image/avif" media="(min-width: 640px)" />
-    <link rel="preload" href="/portfolio/wall/col-4.avif" as="image" type="image/avif" media="(min-width: 640px)" />
   </head>
   <body>
     <div id="root"></div>

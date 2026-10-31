@@ -1,54 +1,43 @@
 import { useRef } from "react";
-import HeroWall from "./HeroWall";
+import Orbit from "./Orbit";
+import Press from "./Press";
 import { usePauseOffscreen } from "../lib/offscreen";
-import { SITE_DESCRIPTION } from "../config";
 
-// Every service we do, drifting up the right side of the hero (desktop).
-const tags = ["Web design", "Redesigns", "Google Business Profile", "Menus & signage", "Social posts", "Logos & flyers", "Online ordering", "Site care"];
-
-// Full-screen opener, laid out like the reference: a tilted wall of our work across the top,
-// services ticking up on the right, the intro line and a two-tone headline bottom-left.
-// The text rises once with CSS on first paint (no waiting for JavaScript).
+// One screen: the ring of client tiles with a short line in its center, then a huge two-tone
+// statement, left-aligned, with the two actions. The text rises once with CSS on first paint.
 export default function Hero() {
   const ref = useRef(null);
   usePauseOffscreen(ref);
   return (
-    <section ref={ref} id="top" className="site-wrap relative">
-      <div className="flex h-[min(100svh,860px)] min-h-[680px] flex-col gap-8 pb-20 pt-[calc(var(--nav-h)+1.5rem)] lg:gap-10 lg:pb-14">
-        <div className="relative min-h-0 flex-1">
-          <HeroWall className="absolute inset-0 rounded-[28px] lg:right-[15rem]" />
-
-          <div
-            aria-hidden="true"
-            className="absolute inset-y-[8%] right-0 hidden w-[13rem] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_18%,#000_82%,transparent)] lg:block"
-          >
-            <ul className="ticker flex flex-col items-end gap-2">
-              {[...tags, ...tags].map((t, i) => (
-                <li key={i} className="rounded-full border border-line px-3.5 py-1.5 text-sm text-dim">
-                  {t}
-                </li>
-              ))}
-            </ul>
+    <section ref={ref} id="top" className="site-wrap">
+      <div className="relative flex h-svh max-h-[60rem] min-h-[34rem] flex-col gap-2 pb-20 pt-[var(--nav-h)] lg:gap-4 lg:pb-12">
+        <Orbit className="min-h-0 flex-1">
+          <div className="absolute inset-0 grid place-items-center">
+            <p className="rise max-w-[11rem] text-center text-[0.9375rem] leading-snug tracking-[-0.01em] text-dim lg:max-w-[14rem] lg:text-[1.0625rem]">
+              Websites for South Florida businesses.
+            </p>
           </div>
-        </div>
+        </Orbit>
 
         <div>
-          <p className="rise t-small max-w-[24rem]" style={{ "--d": "120ms" }}>
-            {SITE_DESCRIPTION}
-          </p>
-          <h1 className="rise t-h1 mt-4">
+          <h1 className="rise t-hero">
             <span className="block">Websites that get you</span>
-            <span className="block text-dim">more clients.</span>
+            <span className="block text-caption">more clients.</span>
           </h1>
-          <div className="rise mt-6 flex flex-wrap items-center gap-x-6 gap-y-1" style={{ "--d": "200ms" }}>
-            <a href="#contact" className="btn btn-primary">
+          <div className="rise mt-5 flex flex-wrap items-center gap-x-6 gap-y-1 lg:mt-6" style={{ "--d": "80ms" }}>
+            <Press href="#contact" className="btn btn-primary">
               Start a project
-            </a>
+            </Press>
             <a href="#work" className="link-more">
               See our work
             </a>
           </div>
         </div>
+
+        <a href="#services" className="scroll-cue label absolute bottom-6 right-0 flex items-center gap-1.5 lg:bottom-12">
+          Scroll
+          <span aria-hidden="true" className="scroll-cue-line" />
+        </a>
       </div>
     </section>
   );

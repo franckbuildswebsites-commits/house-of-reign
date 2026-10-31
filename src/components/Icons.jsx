@@ -57,3 +57,31 @@ export const Wave = (p) => (
     <path d="M4.6 8.4c.1-1.3.6-2.5 1.5-3.4M2.6 7.6c.2-1.9 1-3.6 2.3-4.8" />
   </svg>
 );
+
+export const Calendar = (p) => (
+  <svg {...line} {...p}><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4M8.5 14.5l2.5 2.5 4.5-4.5" /></svg>
+);
+
+export const Shield = (p) => (
+  <svg {...line} {...p}><path d="M12 3l7.5 2.8v5.7c0 4.6-3.1 7.9-7.5 9.5-4.4-1.6-7.5-4.9-7.5-9.5V5.8z" /><path d="m8.8 12 2.3 2.3 4.2-4.3" /></svg>
+);
+
+export const Spark = (p) => (
+  <svg {...line} {...p}><path d="M12 3.5l1.9 5.6a2 2 0 0 0 1.3 1.3L20.5 12l-5.3 1.6a2 2 0 0 0-1.3 1.3L12 20.5l-1.9-5.6a2 2 0 0 0-1.3-1.3L3.5 12l5.3-1.6a2 2 0 0 0 1.3-1.3z" /></svg>
+);
+
+export const Grid = (p) => (
+  <svg {...line} {...p}><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.8" /><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.8" /><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.8" /><rect x="13" y="13" width="7.5" height="7.5" rx="1.8" /></svg>
+);
+
+export const MenuBoard = (p) => (
+  <svg {...line} {...p}><rect x="5" y="3" width="14" height="18" rx="2.5" /><path d="M9 8h6M9 12h6M9 16h3.5" /></svg>
+);
+
+export const Flyer = (p) => (
+  <svg {...line} {...p}><path d="M6.5 3h8l4 4v12a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" /><path d="M14 3v4.5h4.5M8 13h8M8 16.5h5" /></svg>
+);
+
+export const IdCard = (p) => (
+  <svg {...line} {...p}><rect x="2.5" y="5.5" width="19" height="13" rx="2.5" /><circle cx="8" cy="11" r="2" /><path d="M5 15.5c.6-1.3 1.7-2 3-2s2.4.7 3 2M14 10h4.5M14 13.5h4.5" /></svg>
+);

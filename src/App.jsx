@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { LazyMotion, MotionConfig } from "motion/react";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
-import ServicePanels from "./components/ServicePanels";
+import Services from "./components/Services";
 import Work from "./components/Work";
 import Testimonials from "./components/Testimonials";
 import About from "./components/About";
@@ -43,7 +43,7 @@ export default function App() {
         <main id="main">
           <Hero />
           <Divider />
-          <ServicePanels />
+          <Services />
           <Divider />
           <Work />
           <Divider />

@@ -66,7 +66,15 @@ html[data-theme="dark"] {
      at 1440px wide, then the content stops at 1200px and stays centered. */
   --gutter: clamp(1.5rem, calc(9.14vw - 0.73rem), 7.5rem);
   --content-max: 75rem;
-  --nav-h: 3rem;
+  --nav-h: 3.5rem;
+  /* CSS version of the site's spring (a real damped spring, sampled): for the small things that don't
+     need Framer Motion. Browsers without linear() get the soft curve instead. */
+  --spring: var(--ease-out-soft);
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(0, 0.06, 0.203, 0.382, 0.563, 0.726, 0.858, 0.957, 1.024, 1.063, 1.081, 1.083, 1.075, 1.061, 1.046, 1.031, 1.019, 1.008, 1.001, 0.997, 0.994, 0.993, 0.993, 0.994, 0.995, 0.997, 0.998, 0.999, 1);
+  }
 }
 
 @layer base {
@@ -114,7 +122,10 @@ html[data-theme="dark"] {
   /* Type scale, matched to apple.com (numbers in REFERENCE.md). Desktop / phone:
        t-h1 80/44 · t-h2 56/36 · t-h3 40/28 · t-card 28/24 · t-h4 21/19 · t-lead 21/19 · body 17 · t-small + label 14.
      Headlines 600 with tight tracking, everything else 400. */
-  .t-h1, .t-h2, .t-h3, .t-card, .t-h4 { font-weight: 600; }
+  .t-hero, .t-h1, .t-h2, .t-h3, .t-card, .t-h4 { font-weight: 600; }
+  /* The hero statement. Capped by screen height too, so the whole hero fits on one screen. */
+  .t-hero { font-size: clamp(2.5rem, min(6.4vw, 10.5svh), 5.75rem); line-height: 1.04; letter-spacing: -0.032em; }
+  @media (width < 40rem) { .t-hero { font-size: min(11.3vw, 6.4svh); } }
   .t-h1 { font-size: clamp(2.75rem, 5.6vw, 5rem); line-height: 1.05; letter-spacing: -0.03em; }
   .t-h2 { font-size: clamp(2.25rem, 3.9vw, 3.5rem); line-height: 1.07; letter-spacing: -0.026em; }
   .t-h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1.1; letter-spacing: -0.022em; }
@@ -146,8 +157,12 @@ html[data-theme="dark"] {
   @media (pointer: coarse) { .btn { min-height: 2.75rem; } }
   .btn-primary { background: var(--color-accent); color: var(--color-on-accent); }
   .btn-primary:hover { background: var(--color-accent-hover); }
-  /* Small pill in the header. */
-  .btn-sm { min-height: 1.75rem; padding: 0.25rem 0.75rem; font-size: 0.75rem; }
+  /* Keeps a slim control at a full 44px tap height. */
+  .hit { position: relative; }
+  .hit::after { content: ""; position: absolute; inset: -0.25rem 0; }
+
+  /* Pill in the header. */
+  .btn-nav { min-height: 2.25rem; padding: 0.25rem 0.9375rem; font-size: 0.8125rem; }
 
   /* Secondary action: a text link with a ">" that nudges on hover, like "Learn more >". */
   .link-more {
@@ -167,9 +182,9 @@ html[data-theme="dark"] {
     border-top: 1.5px solid currentColor;
     border-right: 1.5px solid currentColor;
     transform: rotate(45deg);
-    transition: transform 0.24s var(--ease-out-soft);
+    transition: transform 0.5s var(--spring);
   }
-  .link-more:hover::after { transform: translateX(2px) rotate(45deg); }
+  .link-more:hover::after { transform: translateX(3px) rotate(45deg); }
 
   /* Underline that sweeps in from the left on hover (a scaled pseudo-element, no text repaint). */
   .link-sweep { position: relative; }
@@ -217,7 +232,7 @@ html[data-theme="dark"] {
      never touched, so nothing fades in or out while scrolling. Content is in place in the prerendered
      HTML; JS only offsets elements that are still below the fold after load. */
   .reveal {
-    transition: transform 0.6s var(--ease-out-soft);
+    transition: transform 0.8s var(--spring);
     transition-delay: var(--reveal-delay, 0ms);
   }
   .reveal.is-hidden {
@@ -226,38 +241,77 @@ html[data-theme="dark"] {
   }
   @media (prefers-reduced-motion: no-preference) {
     .rise {
-      animation: rise 0.7s var(--ease-out-soft) both;
+      animation: rise 0.8s var(--spring) both;
       animation-delay: var(--d, 0ms);
     }
   }
 
-  /* Hero wall: columns of our project screenshots drifting up/down on a tilted plane. */
-  .wall-col {
-    --avif: var(--avif-sm);
-    --webp: var(--webp-sm);
-    background-image: var(--webp);
-    animation: wall-up var(--dur, 60s) linear infinite;
+  /* The hero ring (Orbit.jsx). Each tile carries its whole orbit in one transform: tilt the ring, turn
+     to the tile's place, step out to the rim, turn back to face you. Only the turn animates, as a CSS
+     animation on transform, so it runs on the compositor. Keep it in one list: Safari loses the tilt
+     when this is split across nested 3D layers. Sizes come from the box the ring sits in. */
+  .orbit {
+    position: relative;
+    container-type: size;
+    perspective: clamp(50rem, 100vw, 90rem);
   }
-  @media (width >= 40rem) {
-    .wall-col { --avif: var(--avif-lg); --webp: var(--webp-lg); }
+  .orbit-layer {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    --tile: clamp(4.25rem, min(8.6cqw, 19cqh), 6.5rem);
+    --radius: min(28cqw, 58cqh);
+    --tilt: 27deg;
+    --lean: calc(var(--tilt) * 0.72); /* tiles keep a little of the tilt, so they feel like they sit on the ring */
   }
-  @supports (background-image: image-set(url("x.avif") type("image/avif"))) {
-    .wall-col { background-image: image-set(var(--avif) type("image/avif"), var(--webp) type("image/webp")); }
+  @container (width < 40rem) {
+    .orbit-layer { --tile: min(19.5cqw, 24cqh); --radius: min(37cqw, 44cqh); --tilt: 58deg; }
   }
-  .wall-col.down { animation-direction: reverse; }
-  .wall-paused .wall-col { animation-play-state: paused; }
+  .orbit-slot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--tile);
+    height: var(--tile);
+    margin: calc(var(--tile) / -2);
+    transform: rotateX(calc(var(--tilt) * -1)) rotateY(var(--t)) translateZ(var(--radius)) rotateY(calc(var(--t) * -1)) rotateX(var(--lean));
+    animation: orbit-turn 64s linear infinite;
+  }
+  .orbit-tile {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 23%;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14), 0 14px 28px -14px rgb(0 0 0 / 0.35);
+  }
+  .is-offscreen .orbit-slot,
+  html.saver .orbit-slot { animation-play-state: paused; }
+
+  /* Hero "Scroll" cue: a small line that drips downward. */
+  .scroll-cue-line { position: relative; display: block; width: 1px; height: 0.875rem; overflow: hidden; background: var(--color-line); }
+  .scroll-cue-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-caption);
+    animation: scroll-cue 2.4s var(--ease-out-soft) infinite;
+  }
+  .is-offscreen .scroll-cue-line::after { animation-play-state: paused; }
+
   /* Any looping animation stops while its section is off screen (lib/offscreen.js adds .is-offscreen). */
-  .is-offscreen .marquee,
-  .is-offscreen .ticker,
-  .is-offscreen .wall-col { animation-play-state: paused; }
+  .is-offscreen .marquee { animation-play-state: paused; }
+
+  /* An odd card at the end of a two-up grid on phones takes the whole row. */
+  @media (width < 48rem) {
+    .group-cards > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  }
 
   /* Horizontal marquee rows (WorkMarquee.jsx); pause on hover. */
   .marquee { animation: marquee var(--dur, 60s) linear infinite; }
   .marquee.reverse { animation-direction: reverse; }
   .marquee-row:hover .marquee,
   .marquee-row:focus-within .marquee { animation-play-state: paused; }
-  /* Hero service tags ticker */
-  .ticker { animation: ticker-up 22s linear infinite; }
 
   /* Work grid (Work.jsx): the full-page screenshot scrolls inside its frame on hover/focus (desktop)
      or while the card is on screen (touch). Reduced motion: never moves. */
@@ -277,7 +331,7 @@ html[data-theme="dark"] {
   }
 
   /* Process stage (Process.jsx): every step is stacked in place and slides, never fades. */
-  .step-slide { transition: transform 0.6s var(--ease-out-soft); }
+  .step-slide { transition: transform 0.75s var(--spring); }
 
   /* FAQ "+" that turns into "−" (FAQ.jsx) */
   .plus { position: relative; width: 16px; height: 16px; flex-shrink: 0; }
@@ -291,7 +345,7 @@ html[data-theme="dark"] {
     height: 1px;
     margin-top: -0.5px;
     background: currentColor;
-    transition: transform 0.45s var(--ease-out-soft);
+    transition: transform 0.6s var(--spring);
   }
   .plus::after { transform: rotate(90deg); }
   [aria-expanded="true"] .plus::after { transform: rotate(0deg); }
@@ -305,13 +359,13 @@ html[data-theme="dark"] {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
 }
-@keyframes ticker-up {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, -50%, 0); }
+@keyframes orbit-turn {
+  from { transform: rotateX(calc(var(--tilt) * -1)) rotateY(var(--t)) translateZ(var(--radius)) rotateY(calc(var(--t) * -1)) rotateX(var(--lean)); }
+  to { transform: rotateX(calc(var(--tilt) * -1)) rotateY(calc(var(--t) + 360deg)) translateZ(var(--radius)) rotateY(calc(var(--t) * -1 - 360deg)) rotateX(var(--lean)); }
 }
-@keyframes wall-up {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, -50%, 0); }
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(100%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -320,9 +374,8 @@ html[data-theme="dark"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .wall-col, .marquee, .ticker { animation: none !important; }
+  .marquee, .orbit-slot, .scroll-cue-line::after { animation: none !important; }
   .reveal.is-hidden { transform: none; }
-  .panel-scale { transform: none !important; }
 }
 
 /* Closing section fan (ClosingCTA.jsx): cards sit stacked, then rotate out along an arc.
@@ -338,7 +391,7 @@ html[data-theme="dark"] {
   width: var(--card-w);
   transform-origin: 0 0; /* the pivot */
   transform: rotate(calc(var(--a) * 0.12)) translate(-50%, calc(-100% - var(--r)));
-  transition: transform 1.4s var(--ease-out-soft);
+  transition: transform 1.3s var(--spring);
   transition-delay: calc(var(--i) * 30ms);
 }
 .fan.is-open .fan-card { transform: rotate(var(--a)) translate(-50%, calc(-100% - var(--r))); }
@@ -346,7 +399,6 @@ html[data-theme="dark"] {
   .fan .fan-card { transform: rotate(var(--a)) translate(-50%, calc(-100% - var(--r))); }
 }
 
-/* Low-power devices (html.lite, set in index.html: phones/tablets, ≤4 CPU cores, Save-Data):
-   keep the look, drop the heaviest continuous effects. */
-html.lite .wall-col { animation: none; }
-html.lite .panel-scale { transform: none !important; }
+/* Press-in for the small things that aren't Framer Motion components (form choices). */
+.tap { transition: transform 0.5s var(--spring); }
+.tap:active { transform: scale(0.97); }

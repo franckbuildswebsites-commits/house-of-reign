@@ -39,7 +39,7 @@ export default function Process() {
         ))}
       </ol>
 
-      <div ref={ref} className="relative" style={{ height: `${steps.length * 85 + 15}svh` }}>
+      <div ref={ref} className="relative -mt-10 lg:-mt-24" style={{ height: `${steps.length * 85 + 15}svh` }}>
         <div
           aria-hidden="true"
           className="site-wrap sticky top-0 grid h-svh grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] gap-x-10 gap-y-5 overflow-hidden pb-20 pt-20 lg:grid-cols-[10rem_minmax(0,1fr)_17rem] lg:grid-rows-[minmax(0,1fr)_auto] lg:pb-10 lg:pt-24"

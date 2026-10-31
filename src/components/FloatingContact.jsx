@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { m } from "motion/react";
+import { SPRING_SOFT } from "./Press";
 import { Chat } from "./Icons";
 import { smsHref } from "../lib/utils";
 
@@ -26,18 +28,19 @@ export default function FloatingContact() {
   return (
     // The wrapper rises in on load; the link itself slides away (an animation's fill would override it).
     <aside aria-label="Quick contact" className="rise fixed left-1/2 z-40 -translate-x-1/2" style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))", "--d": "900ms" }}>
-      <a
+      <m.a
         href={smsHref}
         inert={hidden || undefined}
-        className={`frost flex items-center gap-2.5 rounded-full border border-line py-1 pl-4 pr-1 text-[0.9375rem] tracking-[-0.01em] transition-transform duration-500 ease-[var(--ease-out-soft)] ${
-          hidden ? "pointer-events-none translate-y-[calc(100%+2rem)]" : ""
-        }`}
+        animate={{ y: hidden ? 110 : 0 }}
+        whileTap={{ scale: 0.96 }}
+        transition={SPRING_SOFT}
+        className="frost flex items-center gap-2.5 rounded-full border border-line py-1 pl-4 pr-1 text-[0.9375rem] tracking-[-0.01em]"
       >
         Message us
         <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-on-accent">
           <Chat className="h-4 w-4" />
         </span>
-      </a>
+      </m.a>
     </aside>
   );
 }

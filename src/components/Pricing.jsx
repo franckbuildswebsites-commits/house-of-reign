@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import Press from "./Press";
 import SectionHeading from "./SectionHeading";
 import { Check } from "./Icons";
 import { services, HOURLY_RATE, REVISION_NOTE } from "../data/services";
@@ -15,7 +16,8 @@ export default function Pricing() {
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {services.map((s, i) => (
-            <Reveal key={s.name} delay={i * 50} className="flex flex-col rounded-[24px] border border-line p-6 sm:p-7">
+            <Reveal key={s.name} delay={i * 50} className="h-full">
+              <Press as="div" lift={3} press={0.99} className="flex h-full flex-col rounded-[24px] border border-line p-6 sm:p-7">
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="t-h4">{s.name}</h3>
                 <span className="text-sm text-caption">{s.timeline}</span>
@@ -35,10 +37,11 @@ export default function Pricing() {
                 ))}
               </ul>
               <div className="mt-auto pt-7">
-                <a href="#contact" onClick={s.project ? () => selectProject(s.project) : undefined} className="btn btn-primary">
+                <Press href="#contact" onClick={s.project ? () => selectProject(s.project) : undefined} className="btn btn-primary">
                   {s.cta ?? "Get a free mockup"}
-                </a>
+                </Press>
               </div>
+              </Press>
             </Reveal>
           ))}
         </div>

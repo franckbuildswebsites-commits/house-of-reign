@@ -1,9 +1,10 @@
 import Reveal from "./Reveal";
+import Parallax from "./Parallax";
 import Photo from "./Photo";
 import { BrowserFrame, PhoneFrame } from "./Devices";
 import { featured } from "../data/projects";
 
-const lift = "transition-transform duration-700 ease-[var(--ease-out-soft)]";
+const lift = "transition-transform duration-700 ease-[var(--spring)]";
 
 function Shot({ src, alt }) {
   return (
@@ -89,9 +90,9 @@ export default function FeaturedCaseStudy() {
         )}
       </div>
 
-      <div className="mt-10 sm:mt-14">
+      <Parallax y={18} className="mt-10 sm:mt-14">
         <Composition project={project} />
-      </div>
+      </Parallax>
 
       <ul className="mt-10 flex flex-wrap gap-2 sm:mt-14">
         {highlights.map((h) => (
