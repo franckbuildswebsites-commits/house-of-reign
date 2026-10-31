@@ -30,11 +30,11 @@
         img.href = "/blob/drop-" + (document.documentElement.dataset.theme === "dark" ? "dark" : "light") + (matchMedia("(max-width: 639px)").matches ? "-640" : "-1100") + ".avif";
         document.head.appendChild(img);
       } catch (e) {}
-      // Apple devices use the system font; everyone else needs Inter right away (no layout shift).
+      // Apple devices use the system font; everyone else needs Inter Tight right away (no layout shift).
       try {
         if (!/Mac|iPhone|iPad|iPod/.test(navigator.platform)) {
           var f = document.createElement("link");
-          f.rel = "preload"; f.as = "font"; f.type = "font/woff2"; f.href = "/fonts/inter-latin.woff2"; f.crossOrigin = "";
+          f.rel = "preload"; f.as = "font"; f.type = "font/woff2"; f.href = "/fonts/inter-tight-latin.woff2"; f.crossOrigin = "";
           document.head.appendChild(f);
         }
       } catch (e) {}

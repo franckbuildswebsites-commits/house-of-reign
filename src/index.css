@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
-/* Type. Apple devices get the system font (San Francisco). Windows and Android get Inter (OFL,
-   self-hosted, preloaded for them only in index.html). Caveat (OFL) only for the founder's signature. */
+/* Type. Apple devices get the system font (San Francisco). Windows and Android get Inter Tight (OFL,
+   self-hosted, preloaded for them only in index.html), the closest free match to SF Pro. Caveat (OFL)
+   only for the founder's signature. */
 @font-face {
-  font-family: "Inter";
-  src: url("/fonts/inter-latin.woff2") format("woff2");
+  font-family: "Inter Tight";
+  src: url("/fonts/inter-tight-latin.woff2") format("woff2");
   font-weight: 100 900;
   font-display: swap;
 }
-/* Arial, resized to Inter's proportions, while the real font loads (no layout shift). */
+/* Arial, resized to Inter Tight's proportions, while the real font loads (no layout shift). */
 @font-face {
-  font-family: "Inter Fallback";
+  font-family: "Inter Tight Fallback";
   src: local("Arial"), local("Helvetica Neue"), local("Helvetica");
-  size-adjust: 107.4%;
-  ascent-override: 90.2%;
-  descent-override: 22.5%;
+  size-adjust: 96%;
+  ascent-override: 98%;
+  descent-override: 24%;
   line-gap-override: 0%;
 }
 @font-face {
@@ -41,7 +42,7 @@
   --color-pill-soft: #2c2c2e; /* the icon circle on a pill */
   --color-on-pill: #ffffff;
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Inter Fallback", system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter Tight", "Inter Tight Fallback", system-ui, sans-serif;
   --font-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
 
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -74,7 +75,7 @@ html[data-theme="dark"] {
      at 1440px wide, then the content stops at 1200px and stays centered. */
   --gutter: clamp(1.5rem, calc(9.14vw - 0.73rem), 7.5rem);
   --content-max: 75rem;
-  --nav-h: 3.5rem;
+  --nav-h: 5.25rem; /* header height, measured from averlo.co: 84px on phones, 115px on desktop */
   /* CSS version of the site's spring (a real damped spring, sampled): for the small things that don't
      need Framer Motion. Browsers without linear() get the soft curve instead. */
   --spring: var(--ease-out-soft);
@@ -83,6 +84,10 @@ html[data-theme="dark"] {
   :root {
     --spring: linear(0, 0.06, 0.203, 0.382, 0.563, 0.726, 0.858, 0.957, 1.024, 1.063, 1.081, 1.083, 1.075, 1.061, 1.046, 1.031, 1.019, 1.008, 1.001, 0.997, 0.994, 0.993, 0.993, 0.994, 0.995, 0.997, 0.998, 0.999, 1);
   }
+}
+
+@media (width >= 64rem) {
+  :root { --nav-h: 7.1875rem; }
 }
 
 @layer base {
@@ -131,9 +136,8 @@ html[data-theme="dark"] {
        t-h1 80/44 · t-h2 56/36 · t-h3 40/28 · t-card 28/24 · t-h4 21/19 · t-lead 21/19 · body 17 · t-small + label 14.
      Headlines 600 with tight tracking, everything else 400. */
   .t-hero, .t-h1, .t-h2, .t-h3, .t-card, .t-h4 { font-weight: 600; }
-  /* The hero statement. Capped by screen height too, so the whole hero fits on one screen. */
-  .t-hero { font-size: clamp(2.5rem, min(6.9vw, 11svh), 6.25rem); line-height: 1.04; letter-spacing: -0.032em; }
-  @media (width < 40rem) { .t-hero { font-size: min(12.3vw, 6.9svh); } }
+  /* The hero statement: averlo.co's exact metrics, 80px on desktop, 40px on a 390px phone (REFERENCE.md). */
+  .t-hero { font-size: clamp(2.5rem, 5.6vw, 5rem); line-height: 1; letter-spacing: -0.04em; }
   .t-h1 { font-size: clamp(2.75rem, 5.6vw, 5rem); line-height: 1.05; letter-spacing: -0.03em; }
   .t-h2 { font-size: clamp(2.25rem, 3.9vw, 3.5rem); line-height: 1.07; letter-spacing: -0.026em; }
   .t-h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1.1; letter-spacing: -0.022em; }
@@ -167,13 +171,16 @@ html[data-theme="dark"] {
   .btn-primary:hover { background: var(--color-accent-hover); }
   /* Keeps a slim control at a full 44px tap height. */
   .hit { position: relative; }
-  .hit::after { content: ""; position: absolute; inset: -0.25rem 0; }
+  .hit::after { content: ""; position: absolute; inset: -0.5625rem 0; }
 
-  /* Pill in the header, sized to match the Menu pill. */
-  .btn-nav { min-height: 2.5rem; padding: 0.25rem 1rem; font-size: 0.8125rem; }
+  /* Header controls: averlo.co's exact metrics (REFERENCE.md). 44px tall, 25px side padding, 14px text. */
+  .btn-nav { min-height: 2.75rem; min-width: 7.5625rem; gap: 0.5rem; padding: 0 1.5625rem; border: 1px solid var(--color-pill); font-size: 0.875rem; line-height: 1; letter-spacing: -0.04em; }
+  /* The system font's Display cut at small sizes, the tighter one (macOS would pick Text at 14px). */
+  .btn-nav, .nav-pill button { font-variation-settings: "opsz" 28; }
+  .nav-pill { display: inline-flex; align-items: center; gap: 1.875rem; height: 2.75rem; padding: 0.4375rem 0.4375rem 0.4375rem 0.9375rem; border-radius: 9999px; }
   /* Floating solid pills: nav and "Message us". */
   .pill-solid { background: var(--color-pill); color: var(--color-on-pill); box-shadow: var(--shadow-pill); }
-  .pill-solid button:focus-visible { outline-color: var(--color-on-pill); outline-offset: -3px; }
+  .pill-solid button:focus-visible { outline-color: var(--color-on-pill); outline-offset: 2px; }
 
   /* Secondary action: a text link with a ">" that nudges on hover, like "Learn more >". */
   .link-more {

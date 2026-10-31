@@ -29,7 +29,7 @@ export default function ThemeToggle({ className = "" }) {
       whileTap={{ scale: 0.9 }}
       transition={SPRING}
       aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-      className={`hit grid h-9 w-9 place-items-center rounded-full text-on-pill/80 transition-colors duration-200 hover:text-on-pill ${className}`}
+      className={`hit grid h-7 w-7 place-items-center rounded-full border border-on-pill/25 text-on-pill ${className}`}
     >
       <AnimatePresence initial={false} mode="popLayout">
         <m.svg

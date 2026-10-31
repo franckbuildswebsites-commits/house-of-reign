@@ -9,12 +9,12 @@ export function Crown({ className = "" }) {
   );
 }
 
-// The indigo crown plus the "Reign" wordmark. The crown is sized to the cap height of the letters
-// so the two read as one mark.
-export function Wordmark({ className = "" }) {
+// The indigo crown plus the "Reign" wordmark. In the header the crown is averlo.co's logo size,
+// 46px wide (REFERENCE.md); elsewhere it scales with the text.
+export function Wordmark({ className = "", crown = "h-[0.74em] -translate-y-[0.04em]" }) {
   return (
     <span className={`inline-flex items-center gap-[0.3em] font-semibold leading-none tracking-[-0.03em] ${className}`}>
-      <Crown className="h-[0.74em] w-auto -translate-y-[0.04em] text-accent" />
+      <Crown className={`w-auto text-accent ${crown}`} />
       {BRAND}
     </span>
   );
@@ -22,8 +22,8 @@ export function Wordmark({ className = "" }) {
 
 export default function Logo({ className = "", onClick }) {
   return (
-    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`inline-flex min-h-11 items-center text-[1.3125rem] ${className}`}>
-      <Wordmark />
+    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`inline-flex h-11 items-center text-[1.75rem] max-[22rem]:text-[1.375rem] lg:h-12 ${className}`}>
+      <Wordmark crown="h-11" className="gap-2 tracking-[-0.04em]" />
     </a>
   );
 }

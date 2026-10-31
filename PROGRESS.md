@@ -44,6 +44,8 @@ Not merged into `main`; the live site is unchanged.
 - **Round 12 (2026-10-31):** client cards replaced by a WebGL liquid glass drop (OGL, loaded after the page is up), with a
   static fallback exported from the same shader. The small center line is gone; the headline says it. Client logos and
   screenshots are out of the hero.
+- **Round 13 (2026-10-31):** header and hero type measured from averlo.co and applied (table in `REFERENCE.md`): nav sits
+  lower, controls are larger, headline is 80 / 40px at −0.04em. Off Apple devices the font is now Inter Tight.
 - Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
 - Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 

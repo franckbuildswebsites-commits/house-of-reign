@@ -17,6 +17,52 @@ Round 12 replaced the hero visual with a WebGL drop. Tuning notes: keep the nois
 as a screensaver), keep one soft window highlight (several spots read as plastic), and re-export `public/blob/` after any
 shader change so the image-to-live hand-over stays invisible.
 
+## Header and hero metrics: averlo.co vs Reign (2026-10-31)
+
+Playwright, computed styles at 1440×900 and 390×844, light mode. Sizes are width × height in px; "y" is the top offset from
+the viewport. Where one number is given, it's the same at both widths.
+
+| Element | Property | Averlo 1440 | Averlo 390 | Reign 1440 | Reign 390 |
+| --- | --- | --- | --- | --- | --- |
+| Header | Height | 115 | 84 | 115 | 84 |
+| Header | Top padding | 30 | 20 | 30 | 20 |
+| Logo | Position (x, y) | 60, 30 | hidden | 120, 30 | 24, 20 |
+| Logo | Size | 46 × 48 (mark) | hidden | crown 46 × 44 in a 48 box, plus "Reign" 28px / 600 | crown 46 × 44, plus "Reign" 28px / 600 |
+| Menu pill | y | 35.5 | 20 | 35.5 | 20 |
+| Menu pill | Height | 44 | 44 | 44 | 44 |
+| Menu pill | Width | 237.3 (includes language picker) | 237.3 | 147 (no language picker) | 147 |
+| Menu pill | Padding T/R/B/L | 7 / 7 / 7 / 15 | same | 7 / 7 / 7 / 15 | same |
+| Menu pill | Radius | 999 | 999 | 9999 (full) | 9999 (full) |
+| Menu pill | Gap between items | 30 | 30 | 30 | 30 |
+| Menu pill | Color | `#191b25`, white text | same | `#111111`, white text (white, black text in dark mode) | same |
+| Menu button | Size | 67.3 × 26 | same | ≈ 66.7 × 26 | same |
+| Menu button | Icon box, gap to text | 26 × 26, gap 10 | same | 26 × 26, gap 10 | same |
+| Menu text | Type | 14 / 14, 400, −0.56px | same | 14 / 14, 400, −0.56px | same |
+| Theme toggle | Size, y | 28 × 28, y 43.5 | 28 × 28, y 28 | 28 × 28, y 43.5 | 28 × 28, y 28 |
+| Theme toggle | Border, icon | 1px white 25%, icon 16 | same | 1px white 25%, icon 16 | same |
+| Get Started | Position (y), size | y 35.5, 121 × 44 | hidden | y 35.5, 121 × 44 | in the menu |
+| Get Started | Padding T/R/B/L | 0 / 25 / 0 / 25 | hidden | 0 / 25 / 0 / 25 | in the menu |
+| Get Started | Radius, gap, border | 999, 8, 1px | hidden | full, 8, 1px | in the menu |
+| Get Started | Type | 14 / 14, 400, −0.56px | hidden | 14 / 14, 400, −0.56px | same |
+| Get Started | Color | `#191b25`, white text | hidden | `#111111`, white text | same |
+| Headline | Position | x 60, y 680 | x 20, y 618 | x 120, y 680 | x 24, y 644 |
+| Headline | Type | 80 / 80, 600, −3.2px | 40 / 40, 600, −1.6px | 80 / 80, 600, −3.2px | 40 / 40, 600, −1.6px |
+| Headline | Line 1 color | `#191b25` | same | `#1d1d1f` | same |
+| Headline | Line 2 color | `#191b25` at 35% | same | `#6e6e73` | same |
+| Subline | Type | 14 / 16.1, 400, normal tracking, `#191b25` | same | none (removed in round 12) | none |
+| Subline | Box | centered, max 190 wide | 280 wide | none | none |
+| Font | Family | sfPro: self-hosted SF Pro Display | same | system font, Inter Tight off Apple devices | same |
+
+Kept ours on purpose: colors, logo, side margins (120 / 24 from the one page container, versus Averlo's 60 / 20), and the
+phone layout (logo left, pill right, versus Averlo's centered pill and hidden logo). Line 2 stays `#6e6e73` because 35% ink
+on white fails the 3:1 contrast minimum for large text.
+
+**Font:** Averlo self-hosts Apple's SF Pro Display. It's Apple's font, licensed for Apple-platform work; it isn't sold, so
+there's no web license to buy. Apple devices already show real SF through the system font (no file is shipped). For
+Windows and Android we self-host Inter Tight (OFL), the closest free match: at 80px and −0.04em its width is 2.6% off SF
+versus 10.6% for Inter. Nav text asks the system font for its Display cut with `font-variation-settings: "opsz" 28`,
+which puts "Get Started" at 59.3px against Averlo's 60.7px.
+
 ## Apple pass: measured (2026-10-31)
 
 Playwright, computed styles at 1440×900 and 390×844, light mode. Sources: apple.com/iphone and apple.com/macbook-air,

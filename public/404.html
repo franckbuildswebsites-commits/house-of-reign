@@ -10,8 +10,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style>
       /* Standalone 404 in the site's style (served by Cloudflare for unknown paths, see wrangler.jsonc). */
-      @font-face { font-family: "Inter"; src: url("/fonts/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
-      :root { --page: #ffffff; --ink: #1d1d1f; --dim: #424245; --accent: #4338ca; --accent-hover: #3730a3; --on-accent: #ffffff; --gutter: clamp(1.5rem, calc(9.14vw - 0.73rem), 7.5rem); --ease: cubic-bezier(0.2, 0.8, 0.2, 1); --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif; }
+      @font-face { font-family: "Inter Tight"; src: url("/fonts/inter-tight-latin.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+      :root { --page: #ffffff; --ink: #1d1d1f; --dim: #424245; --accent: #4338ca; --accent-hover: #3730a3; --on-accent: #ffffff; --gutter: clamp(1.5rem, calc(9.14vw - 0.73rem), 7.5rem); --ease: cubic-bezier(0.2, 0.8, 0.2, 1); --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter Tight", system-ui, sans-serif; }
       :root.dark { --page: #000000; --ink: #ffffff; --dim: #a1a1a6; --accent: #818cf8; --accent-hover: #a5b4fc; --on-accent: #000000; color-scheme: dark; }
       * { box-sizing: border-box; margin: 0; }
       body { min-height: 100svh; display: flex; flex-direction: column; background: var(--page); color: var(--ink); font: 400 1.0625rem/1.47 var(--font); letter-spacing: -0.012em; -webkit-font-smoothing: antialiased; overflow-x: clip; }

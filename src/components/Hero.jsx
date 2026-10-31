@@ -31,7 +31,7 @@ export default function Hero() {
   usePauseOffscreen(ref);
   return (
     <section ref={ref} id="top" className="site-wrap">
-      <div className="relative flex h-svh max-h-[60rem] min-h-[34rem] flex-col gap-2 pb-20 pt-[var(--nav-h)] lg:gap-4 lg:pb-24">
+      <div className="relative flex h-svh max-h-[60rem] min-h-[34rem] flex-col gap-2 pb-20 pt-[var(--nav-h)] lg:gap-4 lg:pb-[3.75rem]">
         <div className="blob-stage relative min-h-0 flex-1">
           <Blob />
           <ServiceSlider />

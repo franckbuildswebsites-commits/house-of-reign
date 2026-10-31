@@ -58,19 +58,19 @@ export default function Nav() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <nav aria-label="Main" className="relative z-10">
-        <div className="site-wrap relative flex h-16 items-center justify-between gap-4">
-          <div className="pointer-events-auto relative">
+        <div className="site-wrap relative flex h-16 items-start justify-between gap-2 pt-5 lg:h-[5.3125rem] lg:items-center lg:pt-[1.875rem]">
+          <div className="pointer-events-auto relative lg:self-start">
             <m.span
               aria-hidden="true"
               initial={false}
               animate={{ scale: pastHero && !open ? 1 : 0 }}
               transition={SPRING}
-              className="frost absolute -inset-x-3 inset-y-1 rounded-full border border-line"
+              className="frost absolute -inset-x-3 -inset-y-1 rounded-full border border-line"
             />
             <Logo onClick={close} className="relative" />
           </div>
 
-          <div className="pill-solid pointer-events-auto flex items-center rounded-full p-0.5 sm:absolute sm:left-1/2 sm:-translate-x-1/2">
+          <div className="pill-solid nav-pill pointer-events-auto sm:absolute sm:left-1/2 sm:-translate-x-1/2">
             <m.button
               type="button"
               aria-expanded={open}
@@ -78,15 +78,14 @@ export default function Nav() {
               onClick={() => setOpen((o) => !o)}
               whileTap={{ scale: 0.95 }}
               transition={SPRING}
-              className="hit flex h-9 items-center gap-2 rounded-full pl-3.5 pr-2.5 text-[0.8125rem] tracking-[-0.01em]"
+              className="hit flex h-[1.625rem] items-center gap-2.5 rounded-full text-sm leading-none tracking-[-0.04em]"
             >
-              <span aria-hidden="true" className="relative h-2 w-3.5">
-                <m.span initial={false} animate={open ? { y: 4, rotate: 45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute left-0 top-0 h-px w-3.5 bg-current" />
-                <m.span initial={false} animate={open ? { y: -3, rotate: -45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute bottom-0 left-0 h-px w-3.5 bg-current" />
+              <span aria-hidden="true" className="relative h-[1.625rem] w-[1.625rem]">
+                <m.span initial={false} animate={open ? { y: 4, rotate: 45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute left-1.5 top-2.5 h-px w-3.5 bg-current" />
+                <m.span initial={false} animate={open ? { y: -3, rotate: -45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute bottom-2 left-1.5 h-px w-3.5 bg-current" />
               </span>
               {open ? "Close" : "Menu"}
             </m.button>
-            <span aria-hidden="true" className="h-4 w-px bg-on-pill/25" />
             <ThemeToggle />
           </div>
 

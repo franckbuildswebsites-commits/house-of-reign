@@ -17,7 +17,7 @@ npm run preview  # serve the production build locally
 | What | File |
 | --- | --- |
 | Brand ("Reign"), full name ("Reign Studio"), email, phone, Instagram, form key, site URL | `src/config.js` |
-| Colors (light + dark theme), fonts, type scale, the one page container (`.site-wrap`), motion helpers | `src/index.css` (system font first; Inter + Caveat self-hosted in `public/fonts/`) |
+| Colors (light + dark theme), fonts, type scale, the one page container (`.site-wrap`), motion helpers | `src/index.css` (system font first; Inter Tight + Caveat self-hosted in `public/fonts/`) |
 | Logo / "Reign" wordmark (indigo crown + 600 weight text) | `src/components/Logo.jsx` |
 | Floating logo and pills, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
 | Hero (liquid glass drop, services slider, headline) | `src/components/Hero.jsx`, `src/components/Blob.jsx` |

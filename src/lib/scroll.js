@@ -5,7 +5,7 @@ import Lenis from "lenis";
 let lenis = null;
 
 // Space to leave above a section when jumping to it: the fixed header plus a little air.
-export const headerOffset = () => 72;
+export const headerOffset = () => (window.innerWidth >= 1024 ? 139 : 108);
 
 export function startSmoothScroll() {
   if (lenis || matchMedia("(prefers-reduced-motion: reduce)").matches || matchMedia("(hover: none)").matches) return;
