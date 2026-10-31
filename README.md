@@ -18,8 +18,8 @@ npm run preview  # serve the production build locally
 | --- | --- |
 | Brand ("Reign"), full name ("Reign Studio"), email, phone, Instagram, form key, site URL | `src/config.js` |
 | Colors (light + dark theme), fonts, type scale, the one page container (`.site-wrap`), motion helpers | `src/index.css` (system font first; Inter Tight + Caveat self-hosted in `public/fonts/`) |
-| Header logo and favicon (placeholder "R"; replace this one file, keep `fill="currentColor"`) | `src/assets/logo-mark.svg` |
-| Footer wordmark (crown + text) | `src/components/Logo.jsx` |
+| Logo files, favicons and app icons | `public/brand/` (`favicon.ico` and `apple-touch-icon.png` also sit in `public/`) |
+| Logo component | `src/components/Logo.jsx` |
 | Floating logo and pills, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
 | Hero (liquid glass drop, services slider, headline) | `src/components/Hero.jsx`, `src/components/Blob.jsx` |
 | The drop: shaders, colors, morph speed, render loop | `src/lib/blob-engine.js` (WebGL via OGL, loaded after the page is up) |
@@ -40,7 +40,7 @@ npm run preview  # serve the production build locally
 | Footer (cycling word, local time) | `src/components/Footer.jsx` |
 | Smooth scrolling | `src/lib/scroll.js` |
 | Your photo ("A note from me") | `public/me.jpg` (the crown mark shows until it exists) |
-| Social share image, favicon, home-screen icon | `public/og-image.jpg` (1200 × 630), `public/apple-touch-icon.png` |
+| Social share image, favicon, home-screen icon | `public/og-image.jpg` (1200 × 630), `public/favicon.ico`, `public/apple-touch-icon.png` |
 | Sitemap / robots / 404 page | `public/sitemap.xml`, `public/robots.txt`, `public/404.html` |
 | Share-image source | `scripts/og-image.html` (open at 1200×630, screenshot to `public/og-image.jpg`) |
 | Type scale, spacing tokens | `.t-h1` … `.t-small`, `.label`, `.btn`, `.link-more`, `.section-y` in `src/index.css` |

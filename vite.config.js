@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { readFileSync } from "node:fs";
 import * as config from "./src/config.js";
 
 const isPlaceholder = (v) => !v || /^\[.*\]$/.test(String(v).trim());
@@ -13,11 +12,6 @@ const esc = (s) =>
 function siteMeta() {
   return {
     name: "site-meta",
-    // The favicon is the logo file, black, or white on dark browser tabs.
-    generateBundle() {
-      const source = readFileSync("src/assets/logo-mark.svg", "utf8").replace(/>/, "><style>svg{color:#000}@media(prefers-color-scheme:dark){svg{color:#fff}}</style>");
-      this.emitFile({ type: "asset", fileName: "favicon.svg", source });
-    },
     transformIndexHtml(html) {
       const { BRAND, STUDIO_NAME, OWNER, SITE_DESCRIPTION, SITE_URL, EMAIL, PHONE } = config;
       const url = isPlaceholder(SITE_URL) ? "" : SITE_URL.replace(/\/$/, "");
@@ -44,7 +38,8 @@ function siteMeta() {
         `<meta name="robots" content="index, follow" />`,
         `<meta name="author" content="${esc(OWNER)}" />`,
         url && `<link rel="canonical" href="${esc(url)}/" />`,
-        `<link rel="apple-touch-icon" href="/apple-touch-icon.png" />`,
+        `<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />`,
+        `<link rel="manifest" href="/site.webmanifest" />`,
         `<meta property="og:type" content="website" />`,
         `<meta property="og:site_name" content="${esc(STUDIO_NAME)}" />`,
         `<meta property="og:title" content="${esc(title)}" />`,

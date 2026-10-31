@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────
 
 export const BRAND = "Reign"; // the wordmark (logo, footer)
-export const STUDIO_NAME = "Reign Studio"; // full name: titles, meta tags, legal text
+export const STUDIO_NAME = "Reign Studios"; // full name: titles, meta tags, legal text
 export const OWNER = "Francisco"; // shown as the founder
 export const EMAIL = "franckbuildswebsites@gmail.com";
 export const PHONE = "(754) 277-6110"; // shown as written; the "Message us" buttons use the digits

@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <style>
       /* Standalone 404 in the site's style (served by Cloudflare for unknown paths, see wrangler.jsonc). */
       @font-face { font-family: "Inter Tight"; src: url("/fonts/inter-tight-latin.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
@@ -20,7 +20,7 @@
       header, main { width: 100%; max-width: calc(75rem + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
       header { height: 3rem; display: flex; align-items: center; }
       .mark { display: inline-flex; align-items: center; gap: 0.3em; font-weight: 600; font-size: 1.3125rem; line-height: 1; letter-spacing: -0.03em; text-decoration: none; }
-      .mark svg { height: 2rem; width: auto; fill: var(--ink); }
+      .mark img { height: 2rem; width: auto; display: block; }
       main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 4rem; }
       .big { font-weight: 600; font-size: clamp(1.1875rem, 1.5vw, 1.3125rem); color: var(--dim); }
       h1 { margin-top: 0.5rem; font-weight: 600; font-size: clamp(2.75rem, 5.6vw, 5rem); line-height: 1.05; letter-spacing: -0.03em; }
@@ -48,8 +48,8 @@
   </head>
   <body>
     <header>
-      <a class="mark" href="/" aria-label="Reign Studio, home">
-        <svg viewBox="0 0 46 48"><path d="M0 0h13v48H0z" /><path d="M16 0h12a14.5 14.5 0 0 1 0 29H16z" /><path d="M20 32h12l14 16H33z" /></svg>
+      <a class="mark" href="/" aria-label="Reign Studios, home">
+        <img src="/brand/reign-mark-header.png" alt="" height="32" />
       </a>
     </header>
     <main class="rise">
