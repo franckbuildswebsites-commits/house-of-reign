@@ -5,7 +5,7 @@ export const faq = [
   },
   {
     q: "What if I don't like the mockup?",
-    a: "Tell me what's not working. A fresh direction needs a 50% deposit, or walk away and it costs you nothing.",
+    a: "Tell us what's not working. A fresh direction needs a 50% deposit, or walk away and it costs you nothing.",
   },
   {
     q: "How many revisions do I get?",
@@ -17,7 +17,7 @@ export const faq = [
   },
   {
     q: "Do I own my site and domain?",
-    a: "Yes, once it's paid. Your domain is always in your name, and if you leave I hand everything over for free.",
+    a: "Yes, once it's paid. Your domain is always in your name, and if you leave we hand everything over for free.",
   },
   {
     q: "What happens after launch?",
@@ -33,11 +33,11 @@ export const faq = [
   },
   {
     q: "I already have a website. Can you redo it?",
-    a: "Yes. I keep what works (links, ordering, booking) and rebuild the rest.",
+    a: "Yes. We keep what works (links, ordering, booking) and rebuild the rest.",
   },
   {
     q: "What kinds of businesses do you work with?",
-    a: "Shops, restaurants, salons, home and professional services. If you serve South Florida, I can help.",
+    a: "Shops, restaurants, salons, home and professional services. If you serve South Florida, we can help.",
   },
   {
     q: "Do you speak Spanish?",

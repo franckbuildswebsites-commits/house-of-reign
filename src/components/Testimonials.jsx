@@ -13,25 +13,25 @@ function Quote({ t }) {
     .slice(0, 2);
 
   return (
-    <figure className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2.4fr)] md:gap-10">
+    <figure className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,2.6fr)] md:gap-12">
       <Reveal className="flex items-start md:justify-start">
-        <span aria-hidden="true" className="h-display text-[clamp(4.5rem,9vw,8rem)] leading-[0.7] text-brand">
+        <span aria-hidden="true" className="text-[clamp(3.5rem,6vw,5rem)] font-semibold leading-[0.8] text-accent">
           “
         </span>
       </Reveal>
       <div>
         <Reveal delay={80} as="blockquote" lang={original ? t.originalLangCode : undefined}>
-          <p className="max-w-[40rem] font-display text-[clamp(1.2rem,2.6vw,2.25rem)] font-normal leading-[1.22] tracking-[-0.025em]">
+          <p className="t-card max-w-[38rem] !font-normal !leading-[1.3]">
             {original ? t.original : t.quote}
           </p>
         </Reveal>
-        <Reveal delay={160} className="mt-12 flex max-w-[40rem] flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
+        <Reveal delay={160} className="mt-10 flex max-w-[38rem] flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
           <figcaption className="flex items-center gap-4">
-            <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-brand font-display font-medium text-ink">
+            <span aria-hidden="true" className="grid h-11 w-11 place-items-center rounded-full bg-page text-[0.9375rem] font-semibold">
               {initials}
             </span>
             <span>
-              <span className="block font-display text-lg font-medium">{t.name}</span>
+              <span className="block font-semibold">{t.name}</span>
               <span className="text-sm text-dim">
                 {t.role}
                 {t.role && t.business && ", "}
@@ -46,7 +46,7 @@ function Quote({ t }) {
                 type="button"
                 onClick={() => setShowOriginal((v) => !v)}
                 aria-pressed={showOriginal}
-                className="link-sweep inline-flex min-h-11 items-center font-medium text-cream"
+                className="inline-flex min-h-11 items-center text-accent hover:underline"
               >
                 {showOriginal ? "View translation" : "View original"}
               </button>
@@ -61,8 +61,8 @@ function Quote({ t }) {
 export default function Testimonials() {
   if (!testimonials.length) return null;
   return (
-    <section aria-label="What clients say" className="px-section section-gap">
-      <div className="mx-auto flex max-w-[100rem] flex-col gap-24">
+    <section aria-label="What clients say" className="section-y bg-alt">
+      <div className="site-wrap flex flex-col gap-24">
         {testimonials.map((t) => (
           <Quote key={t.name} t={t} />
         ))}

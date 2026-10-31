@@ -9,12 +9,12 @@ export function Crown({ className = "" }) {
   );
 }
 
-// The crown plus a tight, bold "Reign" wordmark. The crown is sized to the cap height of the
-// letters so the two read as one mark.
+// The indigo crown plus the "Reign" wordmark. The crown is sized to the cap height of the letters
+// so the two read as one mark.
 export function Wordmark({ className = "" }) {
   return (
-    <span className={`inline-flex items-center gap-[0.3em] font-display font-semibold leading-none tracking-[-0.035em] ${className}`}>
-      <Crown className="h-[0.74em] w-auto -translate-y-[0.06em] text-brand transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:-rotate-12" />
+    <span className={`inline-flex items-center gap-[0.3em] font-semibold leading-none tracking-[-0.03em] ${className}`}>
+      <Crown className="h-[0.74em] w-auto -translate-y-[0.04em] text-accent" />
       {BRAND}
     </span>
   );
@@ -22,7 +22,7 @@ export function Wordmark({ className = "" }) {
 
 export default function Logo({ className = "", onClick }) {
   return (
-    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`group inline-flex min-h-11 items-center text-[1.6rem] ${className}`}>
+    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`inline-flex min-h-11 items-center text-[1.3125rem] ${className}`}>
       <Wordmark />
     </a>
   );

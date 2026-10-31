@@ -42,7 +42,7 @@ export default function HeroWall({ className = "" }) {
     <div
       ref={ref}
       aria-hidden="true"
-      className={`pointer-events-none overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_14%,#000_72%,transparent),linear-gradient(to_right,transparent,#000_8%,#000_86%,transparent)] [mask-composite:intersect] ${className}`}
+      className={`pointer-events-none overflow-hidden ${className}`}
     >
       <div className="absolute inset-x-[-12%] inset-y-[-30%] [perspective:1600px]">
         <div className="flex h-full justify-center gap-2.5 [transform:rotateX(26deg)_rotateZ(-11deg)] sm:gap-4">

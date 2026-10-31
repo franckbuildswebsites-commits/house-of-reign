@@ -22,12 +22,12 @@ const rows = [
 
 function Card({ c, copy }) {
   return (
-    <li className="w-[min(72vw,30rem)] shrink-0 pr-3 sm:pr-4" aria-hidden={copy || undefined}>
+    <li className="w-[min(72vw,26rem)] shrink-0 pr-3" aria-hidden={copy || undefined}>
       <a
         href={c.href}
         tabIndex={copy ? -1 : undefined}
         {...(c.external && { target: "_blank", rel: "noopener noreferrer" })}
-        className="group relative block aspect-[16/10] overflow-hidden rounded-[18px] bg-ember ring-1 ring-line"
+        className="group relative block aspect-[16/10] overflow-hidden rounded-[18px] bg-alt ring-1 ring-line"
       >
         <Photo
           src={`/portfolio/cards/${c.img}.webp`}
@@ -36,20 +36,15 @@ function Card({ c, copy }) {
           height="375"
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover object-top transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"
+          className="h-full w-full object-cover object-top transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
         />
-        <span className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100" />
-        <span className="absolute left-3 top-3 rounded-full bg-ink/75 px-3 py-1 text-xs font-medium text-paper backdrop-blur-sm [@media(hover:hover)]:hidden">
-          {c.name}
-        </span>
-        <span className="absolute inset-x-5 bottom-4 flex translate-y-3 items-end justify-between gap-3 text-paper opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-          <span>
-            <span className="t-card block">{c.name}</span>
-            <span className="text-sm text-paper/75">{c.sub}</span>
+        <span className="frost absolute left-3 top-3 rounded-full px-3 py-1 text-xs [@media(hover:hover)]:hidden">{c.name}</span>
+        <span className="frost absolute inset-x-3 bottom-3 flex translate-y-20 items-center justify-between gap-3 rounded-[14px] px-4 py-3 transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:translate-y-0 group-focus-visible:translate-y-0">
+          <span className="min-w-0">
+            <span className="t-h4 block truncate">{c.name}</span>
+            <span className="text-sm text-dim">{c.sub}</span>
           </span>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-paper text-ink">
-            <ArrowUpRight className="h-4 w-4" />
-          </span>
+          <ArrowUpRight className="h-4 w-4 shrink-0 text-accent" />
         </span>
         {c.external && !copy && <span className="sr-only">(opens in a new tab)</span>}
       </a>
@@ -61,7 +56,7 @@ export default function WorkMarquee() {
   const ref = useRef(null);
   usePauseOffscreen(ref);
   return (
-    <div ref={ref} className="flex flex-col gap-3 overflow-hidden py-2 sm:gap-4">
+    <div ref={ref} className="flex flex-col gap-3 overflow-hidden rounded-[18px]">
       {rows.map((row, r) => (
         <div key={r} className="marquee-row">
           <ul className={`marquee flex w-max ${row.reverse ? "reverse" : ""}`} style={{ "--dur": row.dur }}>

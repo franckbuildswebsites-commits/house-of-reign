@@ -8,7 +8,7 @@ export const BRAND = "Reign"; // the wordmark (logo, footer)
 export const STUDIO_NAME = "Reign Studio"; // full name: titles, meta tags, legal text
 export const OWNER = "Francisco"; // shown as the founder
 export const EMAIL = "franckbuildswebsites@gmail.com";
-export const PHONE = "(754) 277-6110"; // shown as written; the "Text me" buttons use the digits
+export const PHONE = "(754) 277-6110"; // shown as written; the "Message us" buttons use the digits
 export const INSTAGRAM = ""; // handle without the @. Leave "" to keep Instagram off the site.
 export const WEB3FORMS_KEY = "34d2b10c-64d1-445b-a01a-1e28cf70cdf4"; // from https://web3forms.com (meant to be public)
 

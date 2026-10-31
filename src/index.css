@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
-/* Self-hosted fonts. Inter Tight (OFL) is the closest free match to the reference's SF Pro: one
-   variable file (weights 400–700) for headings and text alike. Caveat (OFL) only for the signature. */
+/* Type. Apple devices get the system font (San Francisco). Windows and Android get Inter (OFL,
+   self-hosted, preloaded for them only in index.html). Caveat (OFL) only for the founder's signature. */
 @font-face {
-  font-family: "Inter Tight";
-  src: url("/fonts/inter-tight-latin.woff2") format("woff2");
-  font-weight: 400 700;
+  font-family: "Inter";
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
   font-display: swap;
 }
-/* Arial, resized to Inter Tight's proportions, while the real font loads (no layout shift). */
+/* Arial, resized to Inter's proportions, while the real font loads (no layout shift). */
 @font-face {
-  font-family: "Inter Tight Fallback";
+  font-family: "Inter Fallback";
   src: local("Arial"), local("Helvetica Neue"), local("Helvetica");
-  size-adjust: 96%;
-  ascent-override: 98%;
-  descent-override: 24%;
+  size-adjust: 107.4%;
+  ascent-override: 90.2%;
+  descent-override: 22.5%;
   line-gap-override: 0%;
 }
 @font-face {
@@ -25,142 +25,151 @@
 }
 
 @theme {
-  /* Theme colors. "night" is always the page background and "cream" the main text; the light
-     theme (html[data-theme="light"], below) swaps their values, so components never change. */
-  --color-night: #0c0907; /* near-black: page background */
-  --color-coal: #15100c; /* raised surfaces: cards, form */
-  --color-ember: #1f1813; /* chips, inputs, browser bars */
-  --color-cream: #f4ecdf; /* main text */
-  --color-dim: #a5978a; /* secondary text, 7:1 on night */
-  --color-line: rgb(244 236 223 / 0.12); /* hairlines */
-  --color-quiet: rgb(244 236 223 / 0.42); /* dimmed second line of big headings (3:1+, large text) */
-  /* Fixed colors that don't flip with the theme: text on orange, paper-colored cards. */
-  --color-ink: #0c0907;
-  --color-paper: #f4ecdf;
-  --color-brand: #e8622c; /* Reign orange: buttons, accents (5.6:1 on night) */
-  --color-brand-hover: #ff7a42;
-  --color-brand-deep: #c94f1e;
+  /* Light is the default. The dark theme (html[data-theme="dark"], below) swaps these values, so
+     components never change. */
+  --color-page: #ffffff; /* page background */
+  --color-alt: #f5f5f7; /* alternating sections, card fills */
+  --color-ink: #1d1d1f; /* main text */
+  --color-dim: #6e6e73; /* secondary text */
+  --color-line: #d2d2d7; /* hairlines */
+  --color-field: #86868b; /* form control borders (3:1 on the page) */
+  --color-accent: #4338ca; /* royal indigo: main button, links, crown, small highlights */
+  --color-accent-hover: #3730a3;
+  --color-on-accent: #ffffff; /* text on the accent */
 
-  --font-display: "Inter Tight", "Inter Tight Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter Tight", "Inter Tight Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Inter Fallback", system-ui, sans-serif;
   --font-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
 
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --shadow-deep: 0 24px 60px -32px rgb(0 0 0 / 0.55);
+  --shadow-soft: 0 12px 32px -16px rgb(0 0 0 / 0.14);
 }
 
-/* Light theme (toggle in the header, remembered in localStorage; set before first paint in index.html). */
-html[data-theme="light"] {
-  --color-night: #f6f1e8;
-  --color-coal: #fffdf9;
-  --color-ember: #eee6d9;
-  --color-cream: #17110c;
-  --color-dim: #65574b;
-  --color-line: rgb(23 17 12 / 0.13);
-  --color-quiet: rgb(23 17 12 / 0.5);
-  /* Orange *text* gets darker on the light background (5:1+); orange fills and buttons don't change. */
-  --color-brand-text: #b4471a;
-  --shadow-deep: 0 30px 70px -34px rgb(60 36 16 / 0.45);
-  color-scheme: light;
+/* Dark theme: follows the device, or the switch in the header (index.html sets it before first paint). */
+html[data-theme="dark"] {
+  --color-page: #000000;
+  --color-alt: #1d1d1f;
+  --color-ink: #ffffff;
+  --color-dim: #a1a1a6;
+  --color-line: #424245;
+  --color-field: #86868b;
+  --color-accent: #818cf8;
+  --color-accent-hover: #a5b4fc;
+  --color-on-accent: #000000;
+  --shadow-soft: 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
+
+:root {
+  /* One container for every section (.site-wrap): 24px side margins on phones, growing to 120px
+     at 1440px wide, then the content stops at 1200px and stays centered. */
+  --gutter: clamp(1.5rem, calc(9.14vw - 0.73rem), 7.5rem);
+  --content-max: 75rem;
+  --nav-h: 3rem;
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    /* Anchor jumps land just under the fixed header (5rem phones, 7.25rem desktop). */
-    scroll-padding-top: 5.75rem;
-    background: var(--color-night);
-    color-scheme: dark;
+    /* Anchor jumps land just under the fixed header. */
+    scroll-padding-top: calc(var(--nav-h) + 1.5rem);
+    background: var(--color-page);
+    color-scheme: light;
   }
   /* Lenis smooth scrolling (lib/scroll.js) */
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
   .lenis.lenis-stopped { overflow: clip; }
-  @media (width >= 64rem) {
-    html { scroll-padding-top: 8rem; }
-  }
   body {
-    @apply bg-night text-cream font-sans antialiased;
-    font-size: 1rem;
+    @apply bg-page text-ink font-sans antialiased;
+    font-size: 1.0625rem;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.47;
+    letter-spacing: -0.012em;
     overflow-x: clip; /* nothing may scroll sideways */
     text-rendering: optimizeLegibility;
   }
+  /* The normal system cursor everywhere, a pointer on anything clickable. */
+  a, button, label, summary, select, [role="button"] { cursor: pointer; }
+  button:disabled { cursor: default; }
   ::selection {
-    background: var(--color-brand);
-    color: var(--color-ink);
+    background: color-mix(in srgb, var(--color-accent) 22%, transparent);
   }
   :focus-visible {
-    outline: 2px solid var(--color-brand);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
   h1, h2, h3 { text-wrap: balance; }
 }
 
-@utility px-section {
-  /* Averlo-style gutters: 20px on phones, 60px on desktop. */
-  padding-inline: 1.25rem;
-  @media (width >= 64rem) { padding-inline: 3.75rem; }
+@utility site-wrap {
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
 @layer components {
-  /* Type scale, matched to the reference (numbers in REFERENCE.md). Desktop / phone:
-       t-h1 80/40 · t-h2 80/44 · t-h3 55/36 · t-card 40/28 · t-h4 28/22 · t-lead 22/18 · body 16 · t-small + label 14.
-     Light, tight headings (500, −0.035em) and quiet 400-weight text with normal spacing. */
-  .h-display, .t-h1, .t-h2, .t-h3, .t-card, .t-h4 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.035em;
-  }
-  .t-h1 { font-size: clamp(2.5rem, 5.6vw, 5rem); font-weight: 560; line-height: 0.98; }
-  .t-h2 { font-size: clamp(2.75rem, 5.6vw, 5rem); }
-  .t-h3 { font-size: clamp(2.25rem, 3.85vw, 3.45rem); letter-spacing: -0.032em; }
-  .t-card { font-size: clamp(1.75rem, 2.8vw, 2.5rem); letter-spacing: -0.03em; }
-  .t-h4 { font-size: clamp(1.375rem, 1.9vw, 1.75rem); line-height: 1.1; letter-spacing: -0.025em; }
-  .t-lead { font-size: clamp(1.125rem, 1.55vw, 1.375rem); font-weight: 450; line-height: 1.2; letter-spacing: -0.012em; }
-  .t-small { font-size: 0.875rem; line-height: 1.4; color: var(--color-dim); max-width: 34ch; }
-  .label {
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--color-dim);
-  }
-  /* Vertical rhythm: every regular section ends with the same space. */
-  .section-gap { padding-bottom: 6.5rem; }
-  @media (width >= 64rem) { .section-gap { padding-bottom: 10rem; } }
+  /* Type scale, matched to apple.com (numbers in REFERENCE.md). Desktop / phone:
+       t-h1 80/44 · t-h2 56/36 · t-h3 40/28 · t-card 28/24 · t-h4 21/19 · t-lead 21/19 · body 17 · t-small + label 14.
+     Headlines 600 with tight tracking, everything else 400. */
+  .t-h1, .t-h2, .t-h3, .t-card, .t-h4 { font-weight: 600; }
+  .t-h1 { font-size: clamp(2.75rem, 5.6vw, 5rem); line-height: 1.05; letter-spacing: -0.03em; }
+  .t-h2 { font-size: clamp(2.25rem, 3.9vw, 3.5rem); line-height: 1.07; letter-spacing: -0.026em; }
+  .t-h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1.1; letter-spacing: -0.022em; }
+  .t-card { font-size: clamp(1.5rem, 2vw, 1.75rem); line-height: 1.14; letter-spacing: -0.018em; }
+  .t-h4 { font-size: clamp(1.1875rem, 1.5vw, 1.3125rem); line-height: 1.24; letter-spacing: -0.014em; }
+  .t-lead { font-size: clamp(1.1875rem, 1.5vw, 1.3125rem); line-height: 1.4; letter-spacing: -0.014em; }
+  .t-small { font-size: 0.875rem; line-height: 1.43; letter-spacing: -0.008em; color: var(--color-dim); max-width: 34ch; }
+  .label { font-size: 0.875rem; line-height: 1.3; letter-spacing: -0.008em; color: var(--color-dim); }
 
+  /* Vertical rhythm: every section gets the same space above and below. */
+  .section-y { padding-block: 7rem; }
+  @media (width >= 64rem) { .section-y { padding-block: 9rem; } }
+
+  /* Thin pill buttons. 40px with a mouse, 44px on touch screens. */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    min-height: 2.75rem; /* 44px tap target */
+    gap: 0.375rem;
+    min-height: 2.5rem;
     border-radius: 9999px;
-    padding: 0.65rem 1.35rem;
+    padding: 0.375rem 1.125rem;
     font-size: 0.9375rem;
-    font-weight: 500;
     line-height: 1.2;
+    letter-spacing: -0.01em;
     white-space: nowrap;
-    transition: transform 0.35s var(--ease-out-soft), background-color 0.24s var(--ease-out-soft),
-      color 0.24s var(--ease-out-soft), border-color 0.24s var(--ease-out-soft);
+    transition: background-color 0.24s var(--ease-out-soft), color 0.24s var(--ease-out-soft);
   }
-  .btn:active { transform: scale(0.97); }
-  /* Night text on orange: 5.6:1, fine at any size. */
-  .btn-primary { background: var(--color-brand); color: var(--color-ink); }
-  .btn-primary:hover { background: var(--color-brand-hover); }
-  .btn-ghost { border: 1px solid var(--color-line); color: var(--color-cream); }
-  .btn-ghost:hover { border-color: rgb(244 236 223 / 0.4); background: rgb(244 236 223 / 0.06); }
-  .btn-cream { background: var(--color-cream); color: var(--color-night); }
-  .btn-cream:hover { background: #fff; }
-  .btn-night { background: var(--color-ink); color: var(--color-paper); }
-  .btn-paper { background: var(--color-paper); color: var(--color-ink); }
-  .btn-paper:hover { background: #fff; }
-  .btn-night:hover { background: #2a201a; }
+  @media (pointer: coarse) { .btn { min-height: 2.75rem; } }
+  .btn-primary { background: var(--color-accent); color: var(--color-on-accent); }
+  .btn-primary:hover { background: var(--color-accent-hover); }
+  /* Small pill in the header. */
+  .btn-sm { min-height: 1.75rem; padding: 0.25rem 0.75rem; font-size: 0.75rem; }
 
-  /* Underline that sweeps in from the left on hover. */
-  /* (transform only: a scaled pseudo-element, no repaint of the text) */
+  /* Secondary action: a text link with a ">" that nudges on hover, like "Learn more >". */
+  .link-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    min-height: 2.75rem;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+    color: var(--color-accent);
+  }
+  .link-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .link-more::after {
+    content: "";
+    width: 0.42em;
+    height: 0.42em;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.24s var(--ease-out-soft);
+  }
+  .link-more:hover::after { transform: translateX(2px) rotate(45deg); }
+
+  /* Underline that sweeps in from the left on hover (a scaled pseudo-element, no text repaint). */
   .link-sweep { position: relative; }
   .link-sweep::after {
     content: "";
@@ -181,57 +190,41 @@ html[data-theme="light"] {
   .field {
     width: 100%;
     border-radius: 12px;
-    border: 1px solid var(--color-line);
-    background: rgb(244 236 223 / 0.02);
-    color: var(--color-cream);
-    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-field);
+    background: var(--color-page);
+    color: var(--color-ink);
+    padding: 0.75rem 1rem;
     font-size: 1rem; /* 16px avoids iOS zoom-on-focus */
     transition: border-color 0.24s, box-shadow 0.24s;
   }
-  .field:hover { border-color: rgb(244 236 223 / 0.28); }
   .field:focus {
     outline: none;
-    border-color: var(--color-brand);
-    box-shadow: 0 0 0 4px rgb(232 98 44 / 0.2);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 22%, transparent);
   }
-  .field::placeholder { color: rgb(165 151 138 / 0.8); }
+  .field::placeholder { color: var(--color-dim); }
 
-  /* Scroll-in reveal. Content is visible in the prerendered HTML; JS only adds .is-hidden to
-     elements that are still below the fold after load (Reveal.jsx). */
+  /* Frosted header bar. Sits on the nav, not the header: a backdrop filter would trap the fixed menu sheet. */
+  .frost {
+    background: color-mix(in srgb, var(--color-page) 72%, transparent);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  /* One-time entrance: a slight slide-up the first time something appears (Reveal.jsx). Opacity is
+     never touched, so nothing fades in or out while scrolling. Content is in place in the prerendered
+     HTML; JS only offsets elements that are still below the fold after load. */
   .reveal {
-    transition: opacity 0.9s var(--ease-out-soft), transform 0.9s var(--ease-out-soft);
+    transition: transform 0.6s var(--ease-out-soft);
     transition-delay: var(--reveal-delay, 0ms);
   }
   .reveal.is-hidden {
-    opacity: 0;
-    transform: translate3d(0, 32px, 0);
+    transform: translate3d(0, 16px, 0);
     transition: none;
   }
-
-  /* Word-by-word rise: each word sits in a clipping box and slides up into place.
-     .words-in (hero) runs on first paint with CSS only; .reveal-words waits for Reveal. */
-  .w {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: top;
-    padding-bottom: 0.08em;
-    margin-bottom: -0.08em;
-  }
-  .w > span { display: inline-block; }
-  .reveal-words.is-hidden { opacity: 1; transform: none; }
-  .reveal-words .w > span {
-    transition: transform 1s var(--ease-out-soft);
-    transition-delay: calc(var(--reveal-delay, 0ms) + var(--i) * 55ms);
-  }
-  .reveal-words.is-hidden .w > span { transform: translate3d(0, 110%, 0); transition: none; }
-
   @media (prefers-reduced-motion: no-preference) {
-    .words-in .w > span {
-      animation: word-rise 1s var(--ease-out-soft) both;
-      animation-delay: calc(120ms + var(--i) * 70ms);
-    }
-    .fade-in {
-      animation: fade-up 0.9s var(--ease-out-soft) both;
+    .rise {
+      animation: rise 0.7s var(--ease-out-soft) both;
       animation-delay: var(--d, 0ms);
     }
   }
@@ -254,10 +247,7 @@ html[data-theme="light"] {
   /* Any looping animation stops while its section is off screen (lib/offscreen.js adds .is-offscreen). */
   .is-offscreen .marquee,
   .is-offscreen .ticker,
-  .is-offscreen .glow,
   .is-offscreen .wall-col { animation-play-state: paused; }
-  /* Soft glows drawn with a radial gradient (a blur filter is expensive on phones). */
-  .glow-blob { border-radius: 9999px; background: radial-gradient(closest-side, var(--c), transparent); }
 
   /* Horizontal marquee rows (WorkMarquee.jsx); pause on hover. */
   .marquee { animation: marquee var(--dur, 60s) linear infinite; }
@@ -266,8 +256,6 @@ html[data-theme="light"] {
   .marquee-row:focus-within .marquee { animation-play-state: paused; }
   /* Hero service tags ticker */
   .ticker { animation: ticker-up 22s linear infinite; }
-  /* Slow glowing blobs (footer, menu, closing section) */
-  .glow { animation: drift-glow 14s ease-in-out infinite; }
 
   /* Work grid (Work.jsx): the full-page screenshot scrolls inside its frame on hover/focus (desktop)
      or while the card is on screen (touch). Reduced motion: never moves. */
@@ -286,8 +274,11 @@ html[data-theme="light"] {
     }
   }
 
+  /* Process stage (Process.jsx): every step is stacked in place and slides, never fades. */
+  .step-slide { transition: transform 0.6s var(--ease-out-soft); }
+
   /* FAQ "+" that turns into "−" (FAQ.jsx) */
-  .plus { position: relative; width: 18px; height: 18px; flex-shrink: 0; }
+  .plus { position: relative; width: 16px; height: 16px; flex-shrink: 0; }
   .plus::before,
   .plus::after {
     content: "";
@@ -295,8 +286,8 @@ html[data-theme="light"] {
     left: 0;
     top: 50%;
     width: 100%;
-    height: 1.5px;
-    margin-top: -0.75px;
+    height: 1px;
+    margin-top: -0.5px;
     background: currentColor;
     transition: transform 0.45s var(--ease-out-soft);
   }
@@ -304,21 +295,13 @@ html[data-theme="light"] {
   [aria-expanded="true"] .plus::after { transform: rotate(0deg); }
 }
 
-@keyframes word-rise {
-  from { transform: translate3d(0, 110%, 0); }
+@keyframes rise {
+  from { transform: translate3d(0, 16px, 0); }
   to { transform: none; }
-}
-@keyframes fade-up {
-  from { opacity: 0; transform: translate3d(0, 20px, 0); }
-  to { opacity: 1; transform: none; }
 }
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
-}
-@keyframes drift-glow {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(4%, -6%, 0) scale(1.08); }
 }
 @keyframes ticker-up {
   from { transform: translate3d(0, 0, 0); }
@@ -335,67 +318,33 @@ html[data-theme="light"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .wall-col, .marquee, .ticker, .glow { animation: none !important; }
-  .reveal.is-hidden { opacity: 1; transform: none; }
-  .reveal-words.is-hidden .w > span { transform: none; }
-  /* Scroll-scrubbed text (ScrubText.jsx) shows at full strength. */
-  .scrub span { opacity: 1 !important; }
+  .wall-col, .marquee, .ticker { animation: none !important; }
+  .reveal.is-hidden { transform: none; }
+  .panel-scale { transform: none !important; }
 }
 
-/* Trailing cursor dot (Cursor.jsx): difference blending keeps it visible on any color. */
-.cursor span {
-  display: block;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 9999px;
-  background: #fff;
-  mix-blend-mode: difference;
-  opacity: 0;
-  transform: scale(0.4);
-  transition: transform 0.35s var(--ease-out-soft), opacity 0.25s;
+/* Closing section fan (ClosingCTA.jsx): cards sit stacked, then rotate out along an arc.
+   Everything scales with the screen so the whole arc (±40°) fits inside the container. */
+.fan {
+  --r: clamp(8rem, 33vw, 30rem); /* arc radius */
+  --card-w: clamp(6rem, 24vw, 21rem);
+  --card-h: calc(var(--card-w) * 0.625);
+  height: calc(var(--r) * 0.234 + var(--card-h) + var(--card-w) * 0.32 + 0.5rem);
 }
-.cursor.is-on span { opacity: 1; transform: scale(1); }
-.cursor.is-on.is-link span { transform: scale(3.4); }
-.cursor { mix-blend-mode: difference; }
-
-/* Trailing cursor dot (Cursor.jsx): difference blending keeps it visible on any color. */
-.cursor { mix-blend-mode: difference; }
-.cursor span {
-  display: block;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 9999px;
-  background: #fff;
-  opacity: 0;
-  transform: scale(0.4);
-  transition: transform 0.35s var(--ease-out-soft), opacity 0.25s;
-}
-.cursor.is-on span { opacity: 1; transform: scale(1); }
-.cursor.is-on.is-link span { transform: scale(3.4); }
-
-@media (prefers-reduced-motion: reduce) {
-  .panel-tilt { transform: none !important; opacity: 1 !important; }
-}
-
-/* Closing section fan (ClosingCTA.jsx): cards sit stacked, then rotate out along an arc. */
+.fan-pivot { top: calc(var(--r) + var(--card-h) + 0.5rem); }
 .fan-card {
-  --r: clamp(26rem, 62vw, 50rem); /* arc radius */
+  width: var(--card-w);
   transform-origin: 0 0; /* the pivot */
   transform: rotate(calc(var(--a) * 0.12)) translate(-50%, calc(-100% - var(--r)));
-  transition: transform 1.6s var(--ease-out-soft);
-  transition-delay: calc(var(--i) * 45ms);
+  transition: transform 1.4s var(--ease-out-soft);
+  transition-delay: calc(var(--i) * 30ms);
 }
 .fan.is-open .fan-card { transform: rotate(var(--a)) translate(-50%, calc(-100% - var(--r))); }
 @media (prefers-reduced-motion: reduce) {
   .fan .fan-card { transform: rotate(var(--a)) translate(-50%, calc(-100% - var(--r))); }
 }
 
-/* Low-power devices (lib/device.js adds html.lite: phones/tablets, ≤4 CPU cores, Save-Data):
+/* Low-power devices (html.lite, set in index.html: phones/tablets, ≤4 CPU cores, Save-Data):
    keep the look, drop the heaviest continuous effects. */
-html[data-theme="light"] .text-brand { color: var(--color-brand-text); }
-
-html.lite .wall-col,
-html.lite .glow { animation: none; }
-html.lite .panel-tilt { transform: none !important; }
+html.lite .wall-col { animation: none; }
+html.lite .panel-scale { transform: none !important; }

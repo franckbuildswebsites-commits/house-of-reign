@@ -1,35 +1,30 @@
 import { useState } from "react";
 import { LayoutGroup, m } from "motion/react";
 import Reveal from "./Reveal";
-import Words from "./Words";
 import { faq } from "../data/faq";
 
 const FIRST = 6; // shown before "More questions"
 const EASE = [0.2, 0.8, 0.2, 1];
 
 // After the reference: a narrow label column with a full-height hairline, the headline and
-// full-width rows on the right. One answer open at a time. Motion is transform/opacity only:
-// the answer fades up, and the rows below glide to their new place (Framer "position" layout,
-// which moves them with transforms). Every answer stays in the HTML for search engines.
+// hairline rows on the right. One answer open at a time. Motion is transform/opacity only:
+// the rows below glide to their new place (Framer "position" layout, which moves them with
+// transforms). Every answer stays in the HTML for search engines.
 export default function FAQ() {
   const [open, setOpen] = useState(null);
   const [all, setAll] = useState(false);
   const shown = all ? faq : faq.slice(0, FIRST);
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="border-y border-line">
-      <div className="mx-auto grid max-w-[100rem] md:grid-cols-[minmax(0,1fr)_minmax(0,2.2fr)]">
-        <div className="px-section pt-12 md:border-r md:border-line md:py-20 md:pr-10">
-          <Reveal as="p" className="label">FAQs</Reveal>
+    <section id="faq" aria-labelledby="faq-title" className="section-y bg-alt">
+      <div className="site-wrap grid md:grid-cols-[minmax(0,1fr)_minmax(0,2.6fr)]">
+        <div className="pb-4 md:border-r md:border-line md:pr-10">
+          <Reveal as="p" className="label md:pt-2">FAQs</Reveal>
         </div>
-        <div>
-          <Reveal as="h2" id="faq-title" className="reveal-words t-h2 px-section pb-12 pt-4 md:!pl-14 md:pb-16 md:pt-20">
-            <span className="block">
-              <Words text="Good questions." />
-            </span>
-            <span className="block text-quiet">
-              <Words text="Straight answers." start={2} />
-            </span>
+        <div className="md:pl-12">
+          <Reveal as="h2" id="faq-title" className="t-h2 pb-10 md:pb-12 md:pt-2">
+            <span className="block">Good questions.</span>
+            <span className="block text-dim">Straight answers.</span>
           </Reveal>
           <LayoutGroup>
             <ul>
@@ -44,14 +39,14 @@ export default function FAQ() {
                         aria-expanded={isOpen}
                         aria-controls={`faq-a-${i}`}
                         onClick={() => setOpen(isOpen ? null : i)}
-                        className="px-section group flex min-h-16 w-full items-center justify-between gap-6 py-5 text-left text-[1.0625rem] font-medium transition-colors duration-300 hover:bg-cream/[0.03] sm:text-lg md:!pl-14"
+                        className="flex min-h-14 w-full items-center justify-between gap-6 py-4 text-left"
                       >
-                        <span className="transition-transform duration-500 ease-[var(--ease-out-soft)] motion-safe:group-hover:translate-x-1.5">{item.q}</span>
-                        <span className={`plus h-5 w-5 transition-colors duration-300 ${isOpen ? "text-brand" : ""}`} aria-hidden="true" />
+                        {item.q}
+                        <span className={`plus transition-colors duration-300 ${isOpen ? "text-accent" : ""}`} aria-hidden="true" />
                       </button>
                     </h3>
                     <div id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`} hidden={!isOpen}>
-                      <p className="fade-in px-section max-w-[38rem] pb-8 text-[0.9375rem] leading-relaxed text-dim md:!pl-14">{item.a}</p>
+                      <p className="max-w-[34rem] pb-6 text-dim">{item.a}</p>
                     </div>
                   </m.li>
                 );
@@ -59,11 +54,7 @@ export default function FAQ() {
             </ul>
             {!all && (
               <m.div layout="position" className="border-t border-line">
-                <button
-                  type="button"
-                  onClick={() => setAll(true)}
-                  className="px-section flex min-h-16 w-full items-center gap-2 text-left text-sm font-medium text-dim transition-colors hover:text-cream md:!pl-14"
-                >
+                <button type="button" onClick={() => setAll(true)} className="link-more mt-2">
                   More questions ({faq.length - FIRST})
                 </button>
               </m.div>

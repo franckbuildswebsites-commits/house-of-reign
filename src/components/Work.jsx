@@ -29,7 +29,7 @@ const scrollTo = ({ width, height }) => `-${Math.max(0, (1 - (width * FRAME_RATI
 // Pills with a highlight that slides to the chosen one.
 function FilterTabs({ active, onChange }) {
   return (
-    <div role="group" aria-label="Filter projects by industry" className="flex flex-wrap gap-1 rounded-full border border-line p-1.5 sm:inline-flex">
+    <div role="group" aria-label="Filter projects by industry" className="flex flex-wrap gap-0.5 rounded-[20px] bg-alt p-1 sm:inline-flex sm:rounded-full">
       {tabs.map((t) => {
         const on = active === t.id;
         return (
@@ -38,19 +38,19 @@ function FilterTabs({ active, onChange }) {
             type="button"
             aria-pressed={on}
             onClick={() => onChange(t.id)}
-            className={`relative min-h-11 rounded-full px-4 text-sm font-medium transition-colors duration-300 ${
-              on ? "text-night" : "text-cream/75 hover:text-cream focus-visible:text-cream"
+            className={`relative min-h-9 rounded-full px-3.5 text-sm transition-colors duration-300 [@media(pointer:coarse)]:min-h-11 ${
+              on ? "text-ink" : "text-dim hover:text-ink focus-visible:text-ink"
             }`}
           >
             {on && (
               <m.span
                 layoutId="work-tab"
                 transition={{ type: "spring", stiffness: 420, damping: 36 }}
-                className="absolute inset-0 rounded-full bg-cream"
+                className="absolute inset-0 rounded-full bg-page ring-1 ring-line"
               />
             )}
             <span className="relative">
-              {t.label} <span className={on ? "text-night/55" : "text-dim"}>{countFor(t.id)}</span>
+              {t.label} <span className="text-dim">{countFor(t.id)}</span>
             </span>
           </button>
         );
@@ -74,10 +74,10 @@ function ProjectCard({ project }) {
   }, []);
 
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="group block rounded-[14px]">
-      <div className="transition-transform duration-500 ease-[var(--ease-out-soft)] motion-safe:group-hover:-translate-y-1.5">
-        <BrowserFrame url={url} className="transition-[box-shadow] duration-500 group-hover:shadow-[0_30px_60px_-30px_rgb(232_98_44/0.45)]">
-          <div ref={shotRef} className="shot relative aspect-[16/10] overflow-hidden bg-night" style={{ "--scroll-to": scrollTo(full) }}>
+    <a href={url} target="_blank" rel="noopener noreferrer" className="group block rounded-[18px]">
+      <div>
+        <BrowserFrame url={url}>
+          <div ref={shotRef} className="shot relative aspect-[16/10] overflow-hidden bg-page" style={{ "--scroll-to": scrollTo(full) }}>
             <Photo
               src={full.src}
               alt={`${name} website, full page`}
@@ -95,12 +95,10 @@ function ProjectCard({ project }) {
           <h3 className="t-h4 truncate">{name}</h3>
           <p className="mt-0.5 flex items-center gap-2 text-sm text-dim">
             {categoryLabel[category]}
-            {tag === "Concept" && <span className="rounded-full border border-line px-2 py-0.5 text-xs font-medium text-cream/80">Concept</span>}
+            {tag === "Concept" && <span className="rounded-full border border-line px-2 py-0.5 text-xs">Concept</span>}
           </p>
         </div>
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line transition-colors duration-300 group-hover:border-brand group-hover:bg-brand group-hover:text-ink">
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
-        </span>
+        <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-accent transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
       </div>
       <span className="sr-only">(opens in a new tab)</span>
     </a>
@@ -112,18 +110,14 @@ export default function Work() {
   const shown = visible.filter((p) => tab === "all" || p.category === tab);
 
   return (
-    <section id="work" aria-labelledby="work-title" className="section-gap">
-      <div className="px-section mx-auto max-w-[100rem]">
+    <section id="work" aria-labelledby="work-title" className="section-y">
+      <div className="site-wrap">
         <SectionHeading id="work-title" variant="reverse" title="Recent work." dim="Built to sell.">
           Real sites for local businesses.
         </SectionHeading>
-      </div>
 
-      <div>
         <WorkMarquee />
-      </div>
 
-      <div className="px-section mx-auto max-w-[100rem]">
         <div id="featured" className="mt-16 sm:mt-24">
           <FeaturedCaseStudy />
         </div>
@@ -136,7 +130,7 @@ export default function Work() {
         </div>
 
         {/* Filtering: cards that leave fade and shrink out, the rest glide to their new spots. */}
-        <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-12 sm:mt-12 lg:gap-x-8 [&>li]:w-full sm:[&>li]:w-[calc((100%-1.5rem)/2)] lg:[&>li]:w-[calc((100%-4rem)/3)]">
+        <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-12 sm:mt-12 [&>li]:w-full sm:[&>li]:w-[calc((100%-1.5rem)/2)] lg:[&>li]:w-[calc((100%-3rem)/3)]">
           <AnimatePresence initial={false} mode="popLayout">
             {shown.map((p, i) => (
               <m.li
@@ -147,7 +141,7 @@ export default function Work() {
                 exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.2, ease: "easeIn" } }}
                 transition={{ duration: 0.6, ease: EASE }}
               >
-                <Reveal delay={(i % 3) * 90}>
+                <Reveal delay={(i % 3) * 60}>
                   <ProjectCard project={p} />
                 </Reveal>
               </m.li>

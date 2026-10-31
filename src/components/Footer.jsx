@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, m } from "motion/react";
 import { Wordmark } from "./Logo";
 import { STUDIO_NAME, EMAIL, PHONE } from "../config";
 import { smsHref } from "../lib/utils";
-import { usePauseOffscreen } from "../lib/offscreen";
 
 const links = [
   ["Work", "#work"],
@@ -16,7 +15,7 @@ const links = [
 
 const cycle = ["business.", "café.", "shop.", "salon.", "brand."];
 
-// The last word of the footer headline swaps every couple of seconds (opacity + slide only).
+// The last word of the footer headline swaps every couple of seconds (it slides, never fades).
 function CyclingWord() {
   const [i, setI] = useState(0);
   useEffect(() => {
@@ -25,16 +24,16 @@ function CyclingWord() {
     return () => clearInterval(id);
   }, []);
   return (
-    <span className="relative block">
+    <span className="relative block overflow-hidden">
       <span className="invisible">business.</span>
       <AnimatePresence initial={false}>
         <m.span
           key={cycle[i]}
-          initial={{ opacity: 0, y: "0.3em" }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: "-0.3em" }}
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "-100%" }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="absolute left-0 top-0 text-brand"
+          className="absolute left-0 top-0 text-dim"
         >
           {cycle[i]}
         </m.span>
@@ -53,28 +52,14 @@ function LocalTime() {
     const id = setInterval(tick, 15000);
     return () => clearInterval(id);
   }, []);
-  return <span className="tabular-nums">{time || " "}</span>;
+  return <span className="tabular-nums">{time || " "}</span>;
 }
 
-const Clock = () => (
-  <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
-    <circle cx="12" cy="12" r="10" />
-    <path d="M12 6.5V12l3.5 2" />
-  </svg>
-);
-
 export default function Footer() {
-  const ref = useRef(null);
-  usePauseOffscreen(ref);
   return (
-    <footer ref={ref} className="relative overflow-hidden bg-[#0b0806] text-paper">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="glow glow-blob absolute bottom-[-35%] left-[25%] h-[80vmax] w-[80vmax] [--c:rgb(232_98_44/0.22)]" />
-        <div className="glow glow-blob absolute right-[-20%] top-[-25%] h-[55vmax] w-[55vmax] [--c:rgb(201_79_30/0.16)] [animation-delay:-7s]" />
-      </div>
-
-      <div className="px-section relative mx-auto max-w-[100rem] pb-10 pt-28 lg:pb-14 lg:pt-36">
-        <div className="grid gap-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)_auto] lg:gap-12">
+    <footer id="site-footer">
+      <div className="site-wrap pb-10 pt-24 lg:pb-12 lg:pt-32">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.4fr)_auto] lg:gap-12">
           <p className="t-h2">
             Long
             <br />
@@ -84,35 +69,29 @@ export default function Footer() {
             <CyclingWord />
           </p>
 
-          <div className="grid gap-12 self-center sm:grid-cols-2">
-            <div className="text-paper/70">
-              <span className="text-paper/80">
-                <Clock />
-              </span>
-              <p className="t-h4 mt-6 text-paper">South Florida</p>
-              <p className="mt-2 text-sm">
+          <div className="grid gap-8 sm:grid-cols-2 lg:pt-3">
+            <div className="text-sm text-dim">
+              <p className="t-h4 text-ink">South Florida</p>
+              <p className="mt-1.5">
                 Local time <LocalTime />
               </p>
-              <p className="mt-1 text-sm" lang="es">
+              <p className="mt-0.5" lang="es">
                 Hablamos español
               </p>
             </div>
-            <div className="text-paper/70">
-              <svg viewBox="0 0 24 24" className="h-8 w-8 text-paper/80" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
-                <path d="M20.5 11.5a8.5 8.5 0 0 1-12.3 7.6L3.5 20.5l1.4-4.6a8.5 8.5 0 1 1 15.6-4.4z" />
-              </svg>
-              <p className="t-h4 mt-6 text-paper">Text or call</p>
-              <a href={smsHref} className="mt-1 inline-flex min-h-11 items-center text-sm underline-offset-4 hover:text-brand hover:underline focus-visible:text-brand">
+            <div className="text-sm text-dim">
+              <p className="t-h4 text-ink">Text or call</p>
+              <a href={smsHref} className="inline-flex min-h-8 items-center text-accent hover:underline focus-visible:underline [@media(pointer:coarse)]:min-h-11">
                 {PHONE}
               </a>
-              <p className="mt-1 text-sm">Replies within 24 hours</p>
+              <p>Replies within 24 hours</p>
             </div>
           </div>
 
-          <ul className="grid grid-cols-2 text-sm uppercase sm:grid-cols-3 lg:flex lg:flex-col lg:pt-1">
+          <ul className="grid grid-cols-2 text-sm sm:grid-cols-3 lg:flex lg:flex-col lg:pt-3">
             {links.map(([label, href]) => (
               <li key={href}>
-                <a href={href} className="inline-flex min-h-11 min-w-11 items-center text-paper/85 transition-colors hover:text-brand focus-visible:text-brand">
+                <a href={href} className="inline-flex min-h-8 min-w-11 items-center text-dim transition-colors hover:text-ink focus-visible:text-ink [@media(pointer:coarse)]:min-h-11">
                   {label}
                 </a>
               </li>
@@ -120,15 +99,15 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="mt-24 flex flex-col gap-8 lg:mt-32 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mt-16 flex flex-col gap-6 border-t border-line pt-6 lg:mt-24 lg:flex-row lg:items-center lg:justify-between">
+          <Wordmark className="text-[1.3125rem]" />
           <div>
-            <p className="label !text-paper/70">Email me</p>
-            <a href={`mailto:${EMAIL}`} className="t-h4 mt-1 inline-flex min-h-11 items-center break-all underline decoration-1 underline-offset-[6px] transition-colors hover:text-brand focus-visible:text-brand">
+            <span className="label mr-2">Email us</span>
+            <a href={`mailto:${EMAIL}`} className="inline-flex min-h-11 items-center break-all text-sm text-accent hover:underline focus-visible:underline">
               {EMAIL}
             </a>
           </div>
-          <Wordmark className="text-[2rem]" />
-          <p className="text-sm text-paper/60 lg:text-right" suppressHydrationWarning>
+          <p className="text-xs text-dim lg:text-right" suppressHydrationWarning>
             © {new Date().getFullYear()} {STUDIO_NAME}. All rights reserved.
           </p>
         </div>

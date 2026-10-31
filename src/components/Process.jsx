@@ -1,27 +1,28 @@
 import { useRef, useState } from "react";
-import { AnimatePresence, m, useMotionValueEvent, useScroll } from "motion/react";
+import { useMotionValueEvent, useScroll } from "motion/react";
 import SectionHeading from "./SectionHeading";
 import { CallMock, BuildMock, LaunchMock, CareMock } from "./StepMockups";
 import { steps } from "../data/process";
 
-const EASE = [0.2, 0.8, 0.2, 1];
 const media = [CallMock, BuildMock, LaunchMock, CareMock];
 
-// A pinned stage, after the reference: step list on the left, the step's illustration in the
-// middle (the old one flies out up-left, the new one comes in from the bottom-right), the step's
-// text top-right and a giant step number bottom-left. Scrolling moves through the steps.
+// Where step i sits while step `active` is showing. Text slides out both ways in its clipped box.
+const textY = (i, active) => (i === active ? "translateY(0)" : i < active ? "translateY(-110%)" : "translateY(110%)");
+// Illustrations are opaque cards: each new one slides up and covers the last.
+const cardY = (i, active) => (i <= active ? "translateY(0)" : "translateY(110%)");
+
+// A pinned stage, after the reference: step list on the left, the step's illustration in the middle,
+// the step's text top-right and the step number bottom-left. Scrolling moves through the steps.
+// Every step is stacked in place and slides on transforms, so nothing ever fades.
 export default function Process() {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   useMotionValueEvent(scrollYProgress, "change", (p) => setActive(Math.min(steps.length - 1, Math.floor(p * steps.length))));
 
-  const s = steps[active];
-  const Media = media[active];
-
   return (
-    <section id="process" aria-labelledby="process-title">
-      <div className="px-section mx-auto max-w-[100rem]">
+    <section id="process" aria-labelledby="process-title" className="pt-28 lg:pt-36">
+      <div className="site-wrap">
         <SectionHeading id="process-title" variant="end" label="How it works" title="Mockup to launch." dim="Four simple steps." />
       </div>
 
@@ -33,85 +34,64 @@ export default function Process() {
               Step {st.n}: {st.title} ({st.timing})
             </h3>
             <p>You: {st.you}</p>
-            <p>Me: {st.me}</p>
+            <p>Us: {st.us}</p>
           </li>
         ))}
       </ol>
 
-      <div ref={ref} className="relative border-t border-line" style={{ height: `${steps.length * 85 + 15}svh` }}>
-        <div aria-hidden="true" className="px-section sticky top-0 mx-auto grid h-svh max-w-[100rem] grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] gap-x-6 gap-y-4 overflow-hidden pb-24 pt-24 lg:pb-8 lg:grid-cols-[14rem_minmax(0,1fr)_22rem] lg:grid-rows-[minmax(0,1fr)_auto] lg:pt-32">
+      <div ref={ref} className="relative" style={{ height: `${steps.length * 85 + 15}svh` }}>
+        <div
+          aria-hidden="true"
+          className="site-wrap sticky top-0 grid h-svh grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] gap-x-10 gap-y-5 overflow-hidden pb-20 pt-20 lg:grid-cols-[10rem_minmax(0,1fr)_17rem] lg:grid-rows-[minmax(0,1fr)_auto] lg:pb-10 lg:pt-24"
+        >
           {/* step list */}
-          <ol className="col-start-1 row-start-3 flex items-center self-end justify-self-end pb-3 lg:row-span-1 lg:row-start-1 lg:block lg:self-center lg:justify-self-auto lg:pb-0">
+          <ol className="col-start-1 row-start-3 flex items-center gap-1.5 self-end justify-self-end pb-2 lg:row-span-1 lg:row-start-1 lg:flex-col lg:items-start lg:gap-3 lg:self-center lg:justify-self-auto lg:pb-0">
             {steps.map((st, i) => (
-              <li key={st.n}>
-                <span
-                  className={`my-1 inline-flex items-center gap-2.5 rounded-full px-3 py-1.5 text-sm transition-colors duration-500 ${
-                    i === active ? "bg-cream/10 text-cream" : "text-dim"
-                  }`}
-                >
-                  <span className={`h-2 w-2 rounded-[2px] transition-colors duration-500 ${i <= active ? "bg-brand" : "bg-cream/20"}`} />
-                  {i === active && <span>{st.title}</span>}
-                </span>
+              <li key={st.n} className={`flex items-center gap-2.5 text-sm transition-colors duration-300 ${i === active ? "text-ink" : "text-dim"}`}>
+                <span className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${i <= active ? "bg-accent" : "bg-line"}`} />
+                <span className="hidden lg:inline">{st.title}</span>
               </li>
             ))}
           </ol>
 
           {/* step text */}
-          <div className="row-start-1 lg:col-start-3 lg:row-start-1 lg:self-start">
-            <AnimatePresence mode="wait" initial={false}>
-              <m.div
-                key={active}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.45, ease: EASE }}
-              >
-                <p className="t-card">{s.title}</p>
-                <p className="t-small mt-2">{s.timing}</p>
-                <dl className="mt-5 grid grid-cols-2 gap-4 text-[0.9375rem] leading-snug lg:grid-cols-1">
+          <div className="relative row-start-1 grid overflow-hidden lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:self-center">
+            {steps.map((st, i) => (
+              <div key={st.n} className="step-slide col-start-1 row-start-1" style={{ transform: textY(i, active) }}>
+                <p className="t-h3">{st.title}</p>
+                <p className="t-small mt-1">{st.timing}</p>
+                <dl className="mt-4 grid grid-cols-2 gap-4 text-[0.9375rem] leading-snug lg:grid-cols-1">
                   <div>
                     <dt className="label">You</dt>
-                    <dd className="mt-1 text-cream/85">{s.you}</dd>
+                    <dd className="mt-0.5">{st.you}</dd>
                   </div>
                   <div>
-                    <dt className="label text-brand">Me</dt>
-                    <dd className="mt-1 text-cream/85">{s.me}</dd>
+                    <dt className="label !text-accent">Us</dt>
+                    <dd className="mt-0.5">{st.us}</dd>
                   </div>
                 </dl>
-              </m.div>
-            </AnimatePresence>
+              </div>
+            ))}
           </div>
 
           {/* illustration */}
           <div className="relative row-start-2 grid min-h-0 place-items-center lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <AnimatePresence initial={false} mode="popLayout">
-              <m.div
-                key={active}
-                initial={{ opacity: 0, x: "45%", y: "55%", scale: 0.55 }}
-                animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-                exit={{ opacity: 0, x: "-55%", y: "-60%", scale: 0.5 }}
-                transition={{ duration: 0.9, ease: EASE }}
-                className="@container aspect-[4/4.4] max-h-full w-[min(100%,22rem)] overflow-hidden rounded-[18px] shadow-[var(--shadow-deep)] ring-1 ring-line lg:w-[min(100%,26rem)]"
-              >
-                <Media />
-              </m.div>
-            </AnimatePresence>
+            <div className="@container relative aspect-[4/4.4] max-h-full w-[min(100%,20rem)] overflow-hidden rounded-[24px] border border-line bg-page lg:w-[min(100%,24rem)]">
+              {media.map((Media, i) => (
+                <div key={i} className="step-slide absolute inset-0" style={{ transform: cardY(i, active) }}>
+                  <Media />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* giant number */}
-          <div className="col-start-1 row-start-3 h-[clamp(5rem,13vw,11rem)] overflow-hidden lg:row-start-2">
-            <AnimatePresence initial={false} mode="popLayout">
-              <m.p
-                key={active}
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                exit={{ y: "-100%" }}
-                transition={{ duration: 0.8, ease: EASE }}
-                className="font-display text-[clamp(5rem,13vw,11rem)] font-semibold leading-none tracking-[-0.04em]"
-              >
-                {s.n}
-              </m.p>
-            </AnimatePresence>
+          {/* step number */}
+          <div className="relative col-start-1 row-start-3 h-12 overflow-hidden lg:row-start-2">
+            {steps.map((st, i) => (
+              <p key={st.n} className="step-slide t-h2 absolute left-0 top-0 tabular-nums text-dim" style={{ transform: textY(i, active) }}>
+                {st.n}
+              </p>
+            ))}
           </div>
         </div>
       </div>

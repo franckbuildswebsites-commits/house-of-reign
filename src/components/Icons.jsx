@@ -9,10 +9,6 @@ const base = {
 };
 const line = { ...base, strokeWidth: 1.75 };
 
-export const ArrowRight = (p) => (
-  <svg {...base} {...p}><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-);
-
 export const ArrowUpRight = (p) => (
   <svg {...base} {...p}><path d="M7 17 17 7M8 7h9v9" /></svg>
 );

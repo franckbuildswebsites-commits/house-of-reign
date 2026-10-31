@@ -1,6 +1,7 @@
 # Reign Studio: website (takereign.com)
 
-Vite + React + Tailwind (v4) + Framer Motion (`motion`) + Lenis. Single page, dark theme with a light toggle.
+Vite + React + Tailwind (v4) + Framer Motion (`motion`) + Lenis. Single page, light by default; dark follows the device
+setting, with a small switch in the header.
 Deploys to Cloudflare (Workers static assets, see `wrangler.jsonc`). Design/motion reference and the
 Averlo checklist: `REFERENCE.md`. Project status: `PROGRESS.md`.
 
@@ -16,12 +17,12 @@ npm run preview  # serve the production build locally
 | What | File |
 | --- | --- |
 | Brand ("Reign"), full name ("Reign Studio"), email, phone, Instagram, form key, site URL | `src/config.js` |
-| Colors (dark + light theme), fonts, type scale, motion helpers | `src/index.css` (Inter Tight + Caveat, self-hosted in `public/fonts/`) |
-| Logo / "Reign" wordmark (crown + Inter Tight 600) | `src/components/Logo.jsx` |
-| Header, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
+| Colors (light + dark theme), fonts, type scale, the one page container (`.site-wrap`), motion helpers | `src/index.css` (system font first; Inter + Caveat self-hosted in `public/fonts/`) |
+| Logo / "Reign" wordmark (indigo crown + 600 weight text) | `src/components/Logo.jsx` |
+| Frosted header, phone menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
 | Hero (headline, wall of screenshots, service tags) | `src/components/Hero.jsx`, `src/components/HeroWall.jsx` |
 | Hero wall images (one pre-composed strip per column, 400px + 200px "-sm") | `public/portfolio/wall/` |
-| Service panels and their mockups | `src/components/ServicePanels.jsx`, `src/components/Mockups.jsx` |
+| Service cards, their "from $X" prices and mockups | `src/components/ServicePanels.jsx`, `src/components/Mockups.jsx` |
 | Work: marquee rows, featured case study, filterable grid | `src/components/WorkMarquee.jsx`, `src/components/Work.jsx`, `src/data/projects.js` |
 | Marquee / closing-section card images (600×375 crops) | `public/portfolio/cards/` |
 | Image formats | every `.webp` in `public/portfolio/` has a smaller `.avif` twin; add both when you add an image |
@@ -38,7 +39,7 @@ npm run preview  # serve the production build locally
 | Social share image, favicon, home-screen icon | `public/og-image.jpg` (1200 × 630), `public/favicon.svg`, `public/apple-touch-icon.png` |
 | Sitemap / robots / 404 page | `public/sitemap.xml`, `public/robots.txt`, `public/404.html` |
 | Share-image source | `scripts/og-image.html` (open at 1200×630, screenshot to `public/og-image.jpg`) |
-| Type scale, spacing tokens | `.t-h1` … `.t-small`, `.label`, `.btn`, `.section-gap` in `src/index.css` |
+| Type scale, spacing tokens | `.t-h1` … `.t-small`, `.label`, `.btn`, `.link-more`, `.section-y` in `src/index.css` |
 
 The page title, description, canonical URL, Open Graph tags and schema in `index.html` are generated from
 `src/config.js` at build time. Restart `npm run dev` after editing the config to see those changes.
@@ -70,11 +71,11 @@ In `src/data/projects.js`, set `published: false` to hide it or `true` to show i
 
 `npm run build` builds the site, then renders every section to plain HTML (`scripts/prerender.js`). The deployed
 page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see
-everything. The hero headline animates with CSS alone; scroll animations only hide content that's still below the
-screen after the page loads; Framer Motion's animation engine loads in a separate chunk after the page is up.
-Nothing moves when the visitor prefers reduced motion. Animations use only transform and opacity, looping ones pause
-when off screen (`src/lib/offscreen.js`), and phones / low-power devices get a lighter mode (`html.lite`, set in
-`index.html`) without the drifting wall, glows or 3D panel tilt.
+everything. The hero rises in with CSS alone; Framer Motion's animation engine loads in a separate chunk after the page
+is up. Nothing moves when the visitor prefers reduced motion. Scroll motion never touches opacity: the only entrance is
+a one-time slide-up (`Reveal.jsx`), so text stays at full strength while scrolling. Looping animations pause when off
+screen (`src/lib/offscreen.js`), and phones / low-power devices get a lighter mode (`html.lite`, set in `index.html`)
+without the drifting wall or the card scale.
 
 ## Deploy
 

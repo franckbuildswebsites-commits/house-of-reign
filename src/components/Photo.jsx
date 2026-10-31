@@ -27,7 +27,7 @@ export default function Photo({ src, fallback = null, ...imgProps }) {
 // Round photo of the owner (/public/me.jpg), with the crown mark until the photo exists.
 export function Avatar({ className = "" }) {
   return (
-    <span className={`relative grid shrink-0 place-items-center overflow-hidden rounded-full bg-brand text-ink ${className}`}>
+    <span className={`relative grid shrink-0 place-items-center overflow-hidden rounded-full bg-accent text-on-accent ${className}`}>
       <Photo
         src="/me.jpg"
         alt=""

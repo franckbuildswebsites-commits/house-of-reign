@@ -1,131 +1,128 @@
 import { useRef } from "react";
 import { m, useScroll, useTransform } from "motion/react";
 import SectionHeading from "./SectionHeading";
-import { ArrowRight } from "./Icons";
+import Reveal from "./Reveal";
 import { WebsiteMockup, GoogleMockup, MenuMockup, SocialMockup, BrandMockup, BookingMockup } from "./Mockups";
+import { HOURLY_RATE } from "../data/services";
 import { smsHref } from "../lib/utils";
 
-// "More than websites": one full-screen panel per service. Panels pin to the top; the next one
-// slides up over the last, which tilts back in 3D and fades a little (scroll-linked).
-// Each panel: title + big number, two hairline boxes (label + lead line with a quieter tail),
-// a pill button, then a live mockup of the service filling the rest of the screen.
+// "More than websites": one card per service. Cards pin under the header and hold for a moment;
+// the next one slides up over the last, which settles back a little (scroll-linked, scale only:
+// nothing fades).
+// Each card: title and number, two short points, a quiet starting price, the links, and a live
+// mockup of the service. Website pricing lives in the plans below (Pricing.jsx).
 const services = [
   {
     title: ["Websites", "& landing pages"],
     boxes: [
-      ["Mobile-first", "Fast sites built to", "bring in customers."],
-      ["Contact & booking built in", "Every button leads to", "a call, a booking or an order."],
+      ["Mobile-first", "Fast sites built to bring in customers."],
+      ["Contact & booking built in", "Every button leads to a call, a booking or an order."],
     ],
     Mock: WebsiteMockup,
-    cta: ["Start a project", "#contact"],
-    tone: "orange",
+    more: ["See plans", "#pricing"],
   },
   {
     title: ["Google Business", "Profile"],
     boxes: [
-      ["Photos, hours & links", "Get found by locals", "on Google Maps."],
-      ["Matches your site", "The same look and info", "everywhere people search."],
+      ["Photos, hours & links", "Get found by locals on Google Maps."],
+      ["Matches your site", "The same look and info everywhere people search."],
     ],
+    prices: ["Setup from $150"],
     Mock: GoogleMockup,
-    tone: "rust",
   },
   {
     title: ["Menus", "& signage"],
     boxes: [
-      ["Print-ready", "Menus, price boards", "and signs for your space."],
-      ["Matches your brand", "One look from", "your site to your counter."],
+      ["Print-ready", "Menus, price boards and signs for your space."],
+      ["Matches your brand", "One look from your site to your counter."],
     ],
+    prices: ["From $100"],
     Mock: MenuMockup,
-    tone: "cream",
   },
   {
     title: ["Social", "posts"],
     boxes: [
-      ["Specials & events", "On-brand templates", "for your feeds."],
-      ["Ready to post", "Openings, specials, holidays:", "ready to go."],
+      ["Specials & events", "On-brand templates for your feeds."],
+      ["Ready to post", "Openings, specials, holidays: ready to go."],
     ],
+    prices: ["Templates (set of 5) from $100"],
     Mock: SocialMockup,
-    tone: "orange",
   },
   {
     title: ["Logos, flyers", "& cards"],
     boxes: [
-      ["Logo", "A simple mark", "that works everywhere."],
-      ["Flyers & business cards", "Print that matches", "your logo."],
+      ["Logo", "A simple mark that works everywhere."],
+      ["Flyers & business cards", "Print that matches your logo."],
     ],
+    prices: ["Logo from $150", "Flyer or poster from $50", "Business cards from $60 (printing extra)"],
     Mock: BrandMockup,
-    tone: "ink",
   },
   {
     title: ["Online ordering", "& booking"],
     boxes: [
-      ["Keep your tools", "DoorDash, Square, Calendly,", "connected to your site."],
-      ["Set up for you", "Customers order or book", "in a few taps."],
+      ["Keep your tools", "DoorDash, Square, Calendly, connected to your site."],
+      ["Set up for you", "Customers order or book in a few taps."],
     ],
+    prices: ["Setup from $150"],
     Mock: BookingMockup,
-    tone: "paper",
   },
 ];
 
-// Fixed palettes (they don't flip with the light/dark theme, like colored print).
-const tones = {
-  orange: { bg: "bg-[linear-gradient(135deg,#f47a3a,#e8622c_45%,#c4401a)] text-ink", line: "border-ink/20", tail: "font-normal", stage: "bg-white/15 ring-1 ring-white/25", pill: "btn-paper" },
-  rust: { bg: "bg-[linear-gradient(135deg,#1a120e,#3a2216_55%,#8a3a17)] text-paper", line: "border-paper/20", tail: "font-normal text-paper/60", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
-  cream: { bg: "bg-[linear-gradient(135deg,#f6efe3,#efdfc8_55%,#ebbf96)] text-ink", line: "border-ink/15", tail: "font-normal text-ink/65", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
-  ink: { bg: "bg-[linear-gradient(135deg,#0b0807,#21160f_55%,#4a2414)] text-paper", line: "border-paper/20", tail: "font-normal text-paper/60", stage: "bg-white/[0.07] ring-1 ring-white/15", pill: "btn-paper" },
-  paper: { bg: "bg-[linear-gradient(135deg,#fbf4e8,#f2e3cd_55%,#f0c39b)] text-ink", line: "border-ink/15", tail: "font-normal text-ink/65", stage: "bg-ink/[0.05] ring-1 ring-ink/10", pill: "btn-night" },
-};
-
 function Panel({ s, i, n, progress }) {
-  const t = tones[s.tone];
   const last = i === n - 1;
-  // Panel i tilts while panel i+1 slides over it. The last panel never tilts (keep its range inside 0–1).
+  // Panel i settles back while panel i+1 slides over it. The last panel never moves.
   const range = last ? [0, 1] : [i / (n - 1), (i + 1) / (n - 1)];
-  const rotateX = useTransform(progress, range, [0, last ? 0 : 24]);
-  const opacity = useTransform(progress, range, [1, last ? 1 : 0.55]);
+  const scale = useTransform(progress, range, [1, last ? 1 : 0.95]);
   const { Mock } = s;
-  const [ctaLabel, ctaHref] = s.cta ?? ["Text me about it", smsHref];
+  const [moreLabel, moreHref] = s.more ?? ["Message us", smsHref];
 
   return (
-    <div className="sticky top-0 h-svh [perspective:1800px]">
+    <div className={`sticky top-[calc(var(--nav-h)+0.75rem)] pb-3 ${last ? "" : "mb-[16svh]"}`}>
       <m.article
-        style={{ rotateX, opacity }}
-        className={`panel-tilt group h-full origin-bottom overflow-hidden ${t.bg} [transform-style:preserve-3d]`}
+        style={{ scale }}
+        className="panel-scale group grid h-[calc(100svh-var(--nav-h)-1.5rem)] origin-top grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden rounded-[28px] border border-line bg-page p-5 sm:p-8 lg:max-h-[46rem] lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:grid-rows-1 lg:gap-10 lg:p-10"
       >
-        <div className="px-section mx-auto flex h-full max-w-[100rem] flex-col pb-6 pt-24 lg:pt-32">
+        <div className="flex min-h-0 flex-col">
           <div className="flex items-start justify-between gap-6">
             <h3 className="t-h3">
               {s.title[0]}
               <br />
               {s.title[1]}
             </h3>
-            <span className="font-display text-[clamp(3.5rem,7vw,6.25rem)] font-semibold leading-[0.85] tracking-[-0.04em]" aria-hidden="true">
+            <span className="label pt-1.5 tabular-nums" aria-hidden="true">
               {String(i + 1).padStart(2, "0")}
             </span>
           </div>
 
-          <div className={`mt-6 grid border-x border-t lg:mt-10 lg:grid-cols-2 ${t.line}`}>
-            {s.boxes.map(([label, lead, tail], b) => (
-              <div key={label} className={`px-4 pb-5 pt-4 lg:px-7 lg:pb-10 lg:pt-7 ${b ? `border-t lg:border-l lg:border-t-0 ${t.line}` : ""}`}>
-                <p className="flex items-center gap-2.5 text-sm font-medium">
-                  <span className="h-2 w-2 rounded-[2px] bg-current" />
-                  {label}
-                </p>
-                <p className="t-lead mt-3 !font-medium [text-indent:1.5em] lg:mt-5">
-                  {lead} <span className={t.tail}>{tail}</span>
-                </p>
+          <dl className="mt-4 flex flex-col gap-2.5 lg:mt-8 lg:gap-5">
+            {s.boxes.map(([label, text]) => (
+              <div key={label}>
+                <dt className="text-[0.9375rem] font-semibold leading-snug lg:text-[1.0625rem]">{label}</dt>
+                <dd className="text-[0.9375rem] leading-snug text-dim lg:mt-0.5 lg:text-[1.0625rem]">{text}</dd>
               </div>
             ))}
-          </div>
+          </dl>
 
-          <a href={ctaHref} className={`btn group/cta mx-auto mt-4 shadow-[var(--shadow-deep)] lg:-mt-5 ${t.pill}`}>
-            {ctaLabel}
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1" />
-          </a>
+          {s.prices && (
+            <ul className="t-small mt-3 !max-w-none lg:mt-6">
+              {s.prices.map((p) => (
+                <li key={p}>{p}</li>
+              ))}
+            </ul>
+          )}
 
-          <div aria-hidden="true" className={`@container relative mt-5 min-h-0 flex-1 overflow-hidden rounded-[24px] p-[3%] lg:mt-8 lg:rounded-[32px] ${t.stage}`}>
-            <Mock />
+          <div className="mt-3 flex flex-wrap items-center gap-x-5 lg:mt-auto lg:pt-6">
+            <a href="#contact" className="btn btn-primary">
+              Start a project
+            </a>
+            <a href={moreHref} className="link-more">
+              {moreLabel}
+            </a>
           </div>
+        </div>
+
+        <div aria-hidden="true" className="@container relative min-h-0 overflow-hidden rounded-[20px] bg-alt p-[4%]">
+          <Mock />
         </div>
       </m.article>
     </div>
@@ -137,16 +134,19 @@ export default function ServicePanels() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   return (
-    <section id="services" aria-labelledby="services-title">
-      <div className="px-section mx-auto max-w-[100rem]">
+    <section id="services" aria-labelledby="services-title" className="section-y bg-alt">
+      <div className="site-wrap">
         <SectionHeading id="services-title" label="Services" title="More than websites." dim="Everything matches.">
-          One look, everywhere. Graphics priced per job.
+          One look, everywhere.
         </SectionHeading>
-      </div>
-      <div ref={ref}>
-        {services.map((s, i) => (
-          <Panel key={s.title.join(" ")} s={s} i={i} n={services.length} progress={scrollYProgress} />
-        ))}
+        <div ref={ref}>
+          {services.map((s, i) => (
+            <Panel key={s.title.join(" ")} s={s} i={i} n={services.length} progress={scrollYProgress} />
+          ))}
+        </div>
+        <Reveal as="p" className="t-small mt-8 !max-w-none text-center">
+          Final price depends on the job. Extra work is {HOURLY_RATE}.
+        </Reveal>
       </div>
     </section>
   );

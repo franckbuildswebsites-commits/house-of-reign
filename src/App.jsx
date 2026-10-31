@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { LazyMotion, MotionConfig } from "motion/react";
-import Cursor from "./components/Cursor";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import ServicePanels from "./components/ServicePanels";
@@ -29,11 +28,10 @@ export default function App() {
       <MotionConfig reducedMotion="user">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[130] focus:rounded-full focus:bg-cream focus:px-4 focus:py-2 focus:text-night"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[130] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-page"
         >
           Skip to content
         </a>
-        <Cursor />
         <Nav />
         <main id="main">
           <Hero />

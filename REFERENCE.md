@@ -1,3 +1,98 @@
+# Design reference
+
+**Current direction (2026-10-31): Apple-style.** The section right below is the live reference. Everything under
+"Design reference: averlo.co" is the history of earlier rounds: Averlo's page **structure** still applies, but where its
+visual notes disagree with this section (dark theme, orange palette, Inter Tight, custom cursor, scroll-lit text, panel
+gradients), this section wins.
+
+## Apple pass: measured (2026-10-31)
+
+Playwright, computed styles at 1440×900 and 390×844, light mode. Sources: apple.com/iphone and apple.com/macbook-air,
+averlo.co. "Before" is commit `d316e9d`. Sizes are desktop / phone.
+
+### Type
+
+| Role | Apple | Averlo | Reign before | Reign now |
+| --- | --- | --- | --- | --- |
+| Font | SF Pro Display / Text | SF Pro (self-hosted) | Inter Tight | **System font** (San Francisco on Apple devices), **Inter** on Windows / Android |
+| Hero (h1) | 80 / 48px · 600 · −0.015em · lh 1.05 | 80 / 40px · 600 · −0.04em · lh 1.0 | 80 / 40px · 560 · −0.035em · lh 0.98 | **80 / 44px · 600 · −0.03em · lh 1.05** |
+| Section headings (h2) | 56–48 / 40–32px · 600 · ≈ −0.005em · lh 1.07 | 80 / 48px · 500 · −0.04em · lh 1.0 | 80 / 44px · 500 · −0.035em · lh 1.0 | **56 / 36px · 600 · −0.026em · lh 1.07** |
+| Card / panel titles | 40–28 / 28–21px · 600 | 55 and 40px · 500 | 55 / 36px · 500 | **40 / 28px · 600 · −0.022em** |
+| Small titles | 24–21 / 21–19px · 600 | — | 28 / 22px · 500 | **21 / 19px · 600** |
+| Body | 17px · 400 · −0.022em · lh 1.47 | 16px · lh 1.5 | 16px · lh 1.5 | **17px · 400 · −0.012em · lh 1.47** |
+| Small text | 14px · 400 · −0.016em · lh 1.29–1.43 | 14px · 400 · lh 1.0–1.15 | 14px · 400 · lh 1.4 | **14px · 400 · −0.008em · lh 1.43** |
+
+Tracking is tighter than Apple's on purpose (the brief asks for tight headlines), and safe because Inter is wider than SF.
+
+### Color
+
+| Role | Apple | Averlo | Reign before | Reign now (light) | Reign now (dark) |
+| --- | --- | --- | --- | --- | --- |
+| Background | `#ffffff` | `#ffffff` | `#0c0907` | **`#ffffff`** | **`#000000`** |
+| Alternate sections | `#f5f5f7` | — | — | **`#f5f5f7`** | **`#1d1d1f`** |
+| Text | `#1d1d1f` | `#191b25` | `#f4ecdf` | **`#1d1d1f`** | **`#ffffff`** |
+| Secondary text | `#6e6e73` | — | `#a5978a` | **`#6e6e73`** | **`#a1a1a6`** |
+| Hairlines | `#d2d2d7` | 25–35% opacity | 12% opacity | **`#d2d2d7`** | **`#424245`** |
+| Accent | `#0071e3` buttons, `#0066cc` links | none (ink pills) | `#e8622c` | **`#4338ca`**, hover `#3730a3` | **`#818cf8`**, hover `#a5b4fc` |
+| Text on accent | white | — | `#0c0907` | **white** | **black** (white on `#818cf8` fails contrast) |
+
+Form control borders use `#86868b`, like Apple's, so fields stay visible (3:1) on both backgrounds.
+
+### Buttons, cards, nav
+
+| Measure | Apple | Averlo | Reign before | Reign now |
+| --- | --- | --- | --- | --- |
+| Primary pill | 44 / 36px tall · 21 / 15px side padding · 17 / 14px · 400 | 44px · 25px padding · 14px · 400 | 44px · 21.6px padding · 15px · 500 | **40px (44px on touch) · 18px padding · 15px · 400** |
+| Header pill | 28px · 12px | 44px | 44px | **28px · 12px** |
+| Secondary action | blue text link with ">" | white pill | outlined pill | **indigo text link with ">"** |
+| Card radius | 28px | 25–30px | 18–28px | **18–28px** |
+| Card style | fill `#f5f5f7` or white, no border, no shadow | image cards, dark fill | hairline, soft shadow | **fill or 1px hairline, no shadow** (one faint shadow on mockups) |
+| Header | 44 / 48px, translucent (80% fill) | 115 / 84px, transparent | 116 / 80px, transparent | **48px, frosted (72% + saturate 180% + blur 20px)** |
+| Header links | 12px | — (Menu pill) | — (Menu pill) | **12px** on desktop, Menu sheet on phones |
+
+### Spacing and width
+
+| Measure | Apple | Averlo | Reign before | Reign now |
+| --- | --- | --- | --- | --- |
+| Section padding | 144 / 112px | ≈ 80 / 48px bridges | 160 / 104px, bottom only | **144 / 112px, top and bottom** |
+| Side margin at 1440px | **90px** outer, **247px** text | **60px** | **60px** | **120px** |
+| Side margin at 390px | **24px** | **20px** | **20px** | **24px** |
+| Max content width | **1260px** (87.5%), text 946–980px | **1320px** | **1480–1600px** | **1200px** |
+| Side margin at 1920px | 330px | 300px | 160–220px | **360px** |
+| Consistency | several widths | one container | one padding, several max widths | **one `.site-wrap` on every section** |
+
+**Averlo's real margins:** the brief asked to match Averlo by doubling ours, but at 1440px Averlo's side margin (60px)
+is the same as what we had. We followed the stated goal, double the margin and bring everything toward the center, so
+we landed at 120px / 1200px, which sits between Apple's outer container (90px) and its text column (247px). Margins
+scale smoothly: 24px up to 390px wide, 59px at 768, 82px at 1024, 105px at 1280, 120px at 1440, then the content stops
+at 1200px and stays centered.
+
+### Motion
+
+| Effect | Before | Now |
+| --- | --- | --- |
+| Scroll-lit About text | word opacity tied to scroll | **removed**, plain text |
+| Service cards | tilt + fade to 55% | **scale to 95% only**, no opacity |
+| Process stage | steps cross-faded | **slide only**, stacked in place |
+| Reveal on scroll | fade + 32px rise, 0.9s | **slide-up only, 16px, 0.6s, once**, no opacity |
+| Word-by-word heading rise | every heading | **removed** |
+| Floating "Message us" pill | fades out | **slides out** |
+| Footer cycling word | fades | **slides** |
+| Custom cursor | trailing dot | **removed**, normal system cursor, pointer on links and buttons |
+| Glows, gradients | footer, menu, closing, panels | **removed** |
+
+### Results
+
+- **Scroll audit:** effective opacity of every on-screen element, at every scroll step, whole page, both themes, both
+  widths: 0 elements below 100%.
+- **Lighthouse mobile (local build, 3 runs):** Performance 97–99, Accessibility 100, Best Practices 100, SEO 100,
+  CLS 0, LCP 2.2–2.5s, TBT 20–70ms.
+- **Contrast:** axe-core WCAG AA, both themes, both widths, with FAQ open, form step 2 and phone menu open: 0 violations.
+- **Layout:** 11 widths from 320 to 2560px, system font and Inter: same container on every section, no sideways scroll,
+  no service card overflow. Service cards pin correctly in Safari's engine.
+
+---
+
 # Design reference: averlo.co (studied 2026-10-29)
 
 The bar for `redesign-v2` (Reign Studio). Second study pass on 2026-10-29: menu, panel transitions, process, closing section, footer. We borrow **techniques** only: no text, logo, images or exact layouts.
@@ -284,8 +379,8 @@ All text passes WCAG AA in both themes at both widths (axe-core, 0 violations). 
 - **Orange panels:** the quieter half of each lead line is set in a lighter weight instead of a fainter colour (a fade light enough to show fails contrast on orange).
 - **Light theme:** orange *text* switches to `#B4471A`, and the faded heading lines use 50% instead of 42%.
 
-## Status (2026-10-30)
+## Status (2026-10-31)
 
-Done: every ✅ item above, the type/density pass and the "skinny and airy" pass (preview on `redesign-v2`).
+Done: the Apple pass (top of this file), plus every still-relevant ✅ item above (preview on `redesign-v2`).
 Still open: merge to `main`, connect takereign.com, a real test of the contact form and "Get a text",
 and the ✗ items above (language picker, social icons, privacy page).

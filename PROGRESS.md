@@ -18,14 +18,20 @@ Not merged into `main`; the live site is unchanged.
 - **Round 4 (2026-10-30):** "skinny and airy". Clash Display + DM Sans → **Inter Tight** (closest free match to
   Averlo's SF Pro), weights down to 500/400, hairline-only cards, lighter shadows, more space between and inside
   blocks, narrower text. Measurements in `REFERENCE.md`. Contrast checked in both themes (0 violations).
-- Palette: near-black `#0C0907`, cream `#F4ECDF`, Reign orange `#E8622C` (orange buttons use dark text, 5.6:1).
-  Light theme swaps the background and text tokens.
-- Lighthouse (mobile, local build): Performance 97, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
-- Throttled phone scroll test (4× CPU, touch gestures, whole page): 0 frames over 34ms, 0 long tasks.
+- **Round 5 (2026-10-31):** Apple-style pass. Light by default, white / `#f5f5f7` / `#1d1d1f`, indigo `#4338CA`
+  accent, dark mode follows the device with a switch in the header. System font first, Inter for Windows and Android.
+  Thin pills, text links with ">", frosted 48px header, hairline cards, no gradients. One 1200px container with
+  120px / 24px side margins on every section. Nothing fades on scroll. Custom cursor removed. Site copy moved from
+  I/me to we/us (About stays in the founder's voice). "From $X" prices on the service cards. Measurements and results
+  in `REFERENCE.md`.
+- Lighthouse (mobile, local build, 3 runs): Performance 97–99, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
 
 ## Decisions (confirmed)
 
 - Pricing: Launch Page $750, Business Site $1,200, Site Care $125/mo, Custom Build from $2,500, plus $75/hr.
+- Services from: logo $150, flyer/poster $50, social templates (set of 5) $100, business cards $60 (printing extra),
+  menu & signage $100, Google Business Profile setup $150, ordering/booking setup $150.
+- Voice: "we/us" everywhere; only the About note is first person. No claims about team size or staff.
 - Service mockups use placeholders ("Your Café", "4.9 ★"); they're illustrations and hidden from screen readers.
 - Jason's quote is its own section.
 

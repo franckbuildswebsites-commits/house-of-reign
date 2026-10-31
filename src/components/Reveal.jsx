@@ -1,9 +1,10 @@
 import { useLayoutEffect, useRef, useState } from "react";
 
-// Scroll-in reveal as an enhancement only. Everything renders visible (that's what the
-// prerendered HTML, crawlers and link previews get). After hydration, elements that are
-// still below the fold are hidden and fade in when scrolled to. Above-the-fold content
-// is never hidden, and nothing is hidden with reduced motion or without IntersectionObserver.
+// A one-time entrance: a slight slide-up the first time something scrolls into view, as an
+// enhancement only. Everything renders in place (that's what the prerendered HTML, crawlers and
+// link previews get) and stays at full opacity. After hydration, elements that are still below the
+// fold are offset, and they settle once when scrolled to. Above-the-fold content never moves, and
+// nothing moves with reduced motion or without IntersectionObserver.
 export default function Reveal({ as: Tag = "div", delay = 0, className = "", style, children, ...rest }) {
   const ref = useRef(null);
   const [hidden, setHidden] = useState(false);
