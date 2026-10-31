@@ -37,7 +37,8 @@
   --color-accent: #4338ca; /* royal indigo: main button, links, crown, small highlights */
   --color-accent-hover: #3730a3;
   --color-on-accent: #ffffff; /* text on the accent */
-  --color-pill: #111111; /* floating nav pills: black here, white in dark mode */
+  --color-pill: #111111; /* floating pills: black here, white in dark mode */
+  --color-pill-soft: #2c2c2e; /* the icon circle on a pill */
   --color-on-pill: #ffffff;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Inter Fallback", system-ui, sans-serif;
@@ -61,6 +62,7 @@ html[data-theme="dark"] {
   --color-accent-hover: #a5b4fc;
   --color-on-accent: #000000;
   --color-pill: #ffffff;
+  --color-pill-soft: #e5e5ea;
   --color-on-pill: #000000;
   --shadow-soft: 0 12px 32px -16px rgb(0 0 0 / 0.6);
   --shadow-pill: 0 10px 28px -12px rgb(255 255 255 / 0.22);
@@ -169,7 +171,7 @@ html[data-theme="dark"] {
 
   /* Pill in the header, sized to match the Menu pill. */
   .btn-nav { min-height: 2.5rem; padding: 0.25rem 1rem; font-size: 0.8125rem; }
-  /* Floating solid pills: the nav pills and the tile name labels. */
+  /* Floating solid pills: nav and "Message us". */
   .pill-solid { background: var(--color-pill); color: var(--color-on-pill); box-shadow: var(--shadow-pill); }
   .pill-solid button:focus-visible { outline-color: var(--color-on-pill); outline-offset: -3px; }
 
@@ -230,7 +232,7 @@ html[data-theme="dark"] {
   }
   .field::placeholder { color: var(--color-caption); }
 
-  /* Frosted glass: the logo chip, the floating "Message us" pill, marquee labels. */
+  /* Frosted glass: the logo chip, marquee labels. */
   .frost {
     background: color-mix(in srgb, var(--color-page) 72%, transparent);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -255,45 +257,63 @@ html[data-theme="dark"] {
     }
   }
 
-  /* Hero cluster (Cluster.jsx). Positions and sizes are in units of the box it sits in, so it fits
-     any screen. Each tile's slow float and its glass swirl are CSS animations on transform. */
-  .cluster { position: relative; container-type: size; }
-  .cluster-slot {
-    --u: min(1cqw, 2.3cqh);
-    --x: var(--ax);
-    --y: var(--ay);
-    --s: var(--as);
-    position: absolute;
-    left: calc(50% + (var(--x) - var(--s) / 2) * var(--u));
-    top: calc(50% + (var(--y) - var(--s) / 2) * var(--u));
-    width: calc(var(--s) * var(--u));
-  }
-  .cluster-slot:hover, .cluster-slot:focus-within { z-index: 10; }
-  @container (width < 40rem) {
-    .cluster-slot { --u: min(1cqw, 0.72cqh); --x: var(--bx); --y: var(--by); --s: var(--bs); }
-  }
-  .cluster-bob { animation: cluster-bob var(--bob) ease-in-out var(--bob-delay) infinite; }
-
-  /* Liquid glass: blobs of the brand's colors turning slowly under a gloss layer. */
-  .liquid {
+  /* Hero fan (Deck.jsx). Everything scales from the box it sits in, so it fits any screen. Each card
+     opens from the stack with the spring on first paint, then floats, both CSS on transform. */
+  .deck-stage { container-type: size; }
+  .deck {
+    --h: min(17.5rem, 68cqh, 46cqw);
+    --w: calc(var(--h) * 0.786);
     position: relative;
+    width: calc(var(--w) * 2.3);
+    height: var(--h);
+    flex-shrink: 0;
+  }
+  .deck-slot {
+    --fan: translateX(calc(var(--side) * var(--w) * 0.62)) translateY(calc(var(--side) * var(--side) * var(--h) * 0.03)) rotate(calc(var(--side) * 10deg));
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: var(--w);
+    height: var(--h);
+    margin-left: calc(var(--w) / -2);
+    z-index: calc(2 - var(--side) * var(--side));
+    transform-origin: 50% 120%;
+    transform: var(--fan);
+    animation: deck-open 1s var(--spring) 120ms backwards;
+  }
+  .deck-slot:hover, .deck-slot:focus-within { z-index: 10; }
+  .deck-bob { animation: deck-bob var(--bob) ease-in-out var(--bob-delay) infinite; }
+  .deck-card {
+    position: relative;
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid var(--color-line);
+    background: var(--color-page);
+    box-shadow: 0 24px 44px -24px rgb(0 0 0 / 0.42), 0 6px 14px -8px rgb(0 0 0 / 0.16);
+  }
+  /* The logo's glossy little badge: the brand's colors under a highlight. */
+  .deck-badge {
+    position: absolute;
+    left: 7%;
+    bottom: 6%;
+    width: 21%;
+    min-width: 2.125rem;
+  }
+  .liquid {
     display: grid;
     place-items: center;
     aspect-ratio: 1;
     overflow: hidden;
     isolation: isolate;
     border-radius: 27%;
-    background: var(--c2);
-    box-shadow: 0 16px 30px -16px var(--c3), 0 4px 10px -6px rgb(0 0 0 / 0.25);
-  }
-  .liquid-flow {
-    position: absolute;
-    inset: -45%;
     background:
-      radial-gradient(38% 38% at 30% 32%, var(--c1), transparent 72%),
-      radial-gradient(34% 34% at 72% 34%, var(--c4), transparent 72%),
-      radial-gradient(46% 46% at 58% 74%, var(--c3), transparent 74%);
-    animation: liquid-flow var(--flow) linear infinite;
+      radial-gradient(70% 70% at 25% 25%, var(--c1), transparent 72%),
+      radial-gradient(55% 55% at 85% 25%, var(--c4), transparent 72%),
+      radial-gradient(75% 75% at 60% 90%, var(--c3), transparent 74%),
+      var(--c2);
+    box-shadow: 0 6px 12px -6px rgb(0 0 0 / 0.5);
   }
   .liquid-gloss {
     position: absolute;
@@ -305,12 +325,10 @@ html[data-theme="dark"] {
     box-shadow:
       inset 0 1px 1px rgb(255 255 255 / 0.6),
       inset 0 0 0 1px rgb(255 255 255 / 0.14),
-      inset 0 -12px 18px -12px rgb(0 0 0 / 0.32);
+      inset 0 -6px 9px -6px rgb(0 0 0 / 0.32);
   }
-  .is-offscreen .cluster-bob,
-  .is-offscreen .liquid-flow,
-  html.saver .cluster-bob,
-  html.saver .liquid-flow { animation-play-state: paused; }
+  .is-offscreen .deck-bob,
+  html.saver .deck-bob { animation-play-state: paused; }
 
   /* Hero services slider: darkest in the middle, melting away toward both edges. */
   .slider {
@@ -393,13 +411,12 @@ html[data-theme="dark"] {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
 }
-@keyframes cluster-bob {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, var(--rise), 0) rotate(var(--rock)); }
+@keyframes deck-open {
+  from { transform: translateY(1rem) scale(0.96); }
 }
-@keyframes liquid-flow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes deck-bob {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -5px, 0) rotate(0.5deg); }
 }
 @keyframes ticker-up {
   from { transform: translate3d(0, 0, 0); }
@@ -416,7 +433,7 @@ html[data-theme="dark"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .marquee, .ticker, .cluster-bob, .liquid-flow, .scroll-cue-line::after { animation: none !important; }
+  .marquee, .ticker, .deck-slot, .deck-bob, .scroll-cue-line::after { animation: none !important; }
   .reveal.is-hidden { transform: none; }
 }
 

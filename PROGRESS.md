@@ -38,6 +38,9 @@ Not merged into `main`; the live site is unchanged.
   Headline scaled up and lifted clear of the "Message us" pill.
 - **Round 10 (2026-10-31):** copy is location-neutral (we work with businesses anywhere; "Based in South Florida" stays
   once, in the footer; schema `areaServed` is the United States). Services slider added to the right side of the hero.
+- **Round 11 (2026-10-31):** hero tiles replaced by a fan of three client cards with real homepage screenshots and logo
+  badges; the Reign tile is gone and the center line sits under the fan. "Message us" is now a solid pill whose icon and
+  text swap sides on hover or tap.
 - Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
 - Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 
@@ -59,7 +62,7 @@ Not merged into `main`; the live site is unchanged.
 - **Two project links are dead:** Wicked Bread (`wicked-bread-co.pages.dev` no longer resolves) and Past Present Future
   (`ppf-comics.franckbuildswebsites.workers.dev` returns 404; that Worker no longer exists). Both Work cards still link to
   them from the grid and marquee. Redeploy the sites or update `url` in `src/data/projects.js`.
-- Champions4Character has no logo mark; its tile is a "C4C" monogram made from its wordmark's font and purple. Swap in a
-  real mark if they have one (`public/portfolio/tiles/`). Its tile links to the Netlify address; update `Cluster.jsx`
+- Champions4Character has no logo mark; its badge is a "C4C" monogram made from its wordmark's font and purple. Swap in a
+  real mark if they have one (`public/portfolio/tiles/`). Its card links to the Netlify address; update `Deck.jsx`
   and `src/data/projects.js` if they get a real domain.
 - Spanish version, footer social icons (add Instagram to `src/config.js`), privacy page, `public/me.jpg` (your photo).
