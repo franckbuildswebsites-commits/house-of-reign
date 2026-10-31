@@ -10,7 +10,7 @@
       // Before the first paint: dark mode, only if the visitor chose it with the switch (ThemeToggle.jsx;
       // the device setting is ignored on purpose, everyone opens in light); "lite" mode for touch
       // devices, low-core CPUs or Save-Data, which skips scroll parallax (Parallax.jsx); and "saver"
-      // for Save-Data, which also holds the hero ring still (index.css).
+      // for Save-Data, which also holds the hero tiles still (index.css).
       try {
         var n = navigator, c = n.connection;
         if (matchMedia("(hover: none)").matches || (n.hardwareConcurrency || 8) <= 4 || (n.deviceMemory || 8) <= 4 || (c && c.saveData))

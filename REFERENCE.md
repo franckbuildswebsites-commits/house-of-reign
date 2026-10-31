@@ -11,8 +11,8 @@ dropped on purpose.
 
 **Round 7 (later still):** a new hero, nav and services replaced the sections noted in the Motion table below (screenshot
 wall, pinned service panels, nav links). Motion is now spring-based; rules that still hold: transform only, nothing fades
-on scroll, light first. Ring notes: each tile carries its whole orbit in one CSS transform, because Safari drops the tilt
-when the ring is split across nested 3D layers. Check painted pixels in WebKit, not just layout numbers, when changing it.
+on scroll, light first. Round 8 then swapped the ring for a floating cluster and removed the top bar. Lesson from the ring:
+Safari drops transforms split across nested 3D layers, so check painted pixels in WebKit, not just layout numbers.
 
 ## Apple pass: measured (2026-10-31)
 

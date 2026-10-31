@@ -19,9 +19,9 @@ npm run preview  # serve the production build locally
 | Brand ("Reign"), full name ("Reign Studio"), email, phone, Instagram, form key, site URL | `src/config.js` |
 | Colors (light + dark theme), fonts, type scale, the one page container (`.site-wrap`), motion helpers | `src/index.css` (system font first; Inter + Caveat self-hosted in `public/fonts/`) |
 | Logo / "Reign" wordmark (indigo crown + 600 weight text) | `src/components/Logo.jsx` |
-| Frosted header, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
-| Hero (ring of client tiles, headline) | `src/components/Hero.jsx`, `src/components/Orbit.jsx` |
-| Client tiles: logos, gradients (add one to `tiles` in `Orbit.jsx`) | `public/portfolio/tiles/` |
+| Floating logo and pills, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
+| Hero (floating client tiles, headline) | `src/components/Hero.jsx`, `src/components/Cluster.jsx` |
+| Client tiles: link, colors, position (the `tiles` list in `Cluster.jsx`), logos | `public/portfolio/tiles/` |
 | Services: Websites card, grouped small cards with prices | `src/components/Services.jsx` (mockup in `src/components/Mockups.jsx`) |
 | Hover / tap / menu springs (`SPRING`, `SPRING_SOFT`, `<Press>`) | `src/components/Press.jsx` (`--spring` in `src/index.css` is the CSS version) |
 | Scroll parallax on images | `src/components/Parallax.jsx` |
@@ -74,10 +74,10 @@ In `src/data/projects.js`, set `published: false` to hide it or `true` to show i
 `npm run build` builds the site, then renders every section to plain HTML (`scripts/prerender.js`). The deployed
 page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see
 everything. The hero rises in with CSS alone; Framer Motion's animation engine loads in a separate chunk after the page
-is up. Everything animates transform only, so text stays at full strength while scrolling. The hero ring is two CSS
-animations (no JavaScript per frame); the mouse adds a spring sway on desktop. Looping animations pause when off screen
+is up. Everything animates transform only, so text stays at full strength while scrolling. The hero tiles bob on CSS
+animations (no JavaScript per frame); the mouse adds a spring drift on desktop. Looping animations pause when off screen
 (`src/lib/offscreen.js`), phones and low-power devices skip scroll parallax (`html.lite`, set in `index.html`), Save-Data
-also holds the ring still (`html.saver`), and with reduced motion nothing moves at all, ring included.
+also holds the tiles still (`html.saver`), and with reduced motion nothing moves at all, tiles included.
 
 ## Deploy
 

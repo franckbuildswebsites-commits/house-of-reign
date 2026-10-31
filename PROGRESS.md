@@ -31,6 +31,9 @@ Not merged into `main`; the live site is unchanged.
   theme pill, Start a project) that thins after the hero, full-screen menu on every size. Services rebuilt to scan in
   seconds: one Websites card, then Online / Brand / Print groups of small cards with prices. Spring motion site-wide
   (`Press.jsx`, `--spring`), scroll parallax on images, all transform only. Screenshot wall and pinned service panels removed.
+- **Round 8 (2026-10-31):** hero ring replaced by a floating cluster of four liquid glass tiles (Go Digital Hero, Token
+  Forge, Champions4Character, Reign), each opening its site with a name label on hover. Top bar removed: logo floats
+  left, black Menu + theme pill center, black "Get Started" right (in the menu on phones); pills invert in dark mode.
 - Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
 - Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 
@@ -53,5 +56,6 @@ Not merged into `main`; the live site is unchanged.
   (`ppf-comics.franckbuildswebsites.workers.dev` returns 404; that Worker no longer exists). Both Work cards still link to
   them from the grid and marquee. Redeploy the sites or update `url` in `src/data/projects.js`.
 - Champions4Character has no logo mark; its tile is a "C4C" monogram made from its wordmark's font and purple. Swap in a
-  real mark if they have one (`public/portfolio/tiles/`).
+  real mark if they have one (`public/portfolio/tiles/`). Its tile links to the Netlify address; update `Cluster.jsx`
+  and `src/data/projects.js` if they get a real domain.
 - Spanish version, footer social icons (add Instagram to `src/config.js`), privacy page, `public/me.jpg` (your photo).

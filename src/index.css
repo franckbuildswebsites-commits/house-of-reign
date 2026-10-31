@@ -37,12 +37,15 @@
   --color-accent: #4338ca; /* royal indigo: main button, links, crown, small highlights */
   --color-accent-hover: #3730a3;
   --color-on-accent: #ffffff; /* text on the accent */
+  --color-pill: #111111; /* floating nav pills: black here, white in dark mode */
+  --color-on-pill: #ffffff;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Inter Fallback", system-ui, sans-serif;
   --font-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
 
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
   --shadow-soft: 0 12px 32px -16px rgb(0 0 0 / 0.14);
+  --shadow-pill: 0 10px 28px -10px rgb(0 0 0 / 0.38), 0 2px 6px -2px rgb(0 0 0 / 0.18);
 }
 
 /* Dark theme: only from the switch in the header (index.html applies a saved choice before first paint). */
@@ -57,7 +60,10 @@ html[data-theme="dark"] {
   --color-accent: #818cf8;
   --color-accent-hover: #a5b4fc;
   --color-on-accent: #000000;
+  --color-pill: #ffffff;
+  --color-on-pill: #000000;
   --shadow-soft: 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  --shadow-pill: 0 10px 28px -12px rgb(255 255 255 / 0.22);
   color-scheme: dark;
 }
 
@@ -161,8 +167,11 @@ html[data-theme="dark"] {
   .hit { position: relative; }
   .hit::after { content: ""; position: absolute; inset: -0.25rem 0; }
 
-  /* Pill in the header. */
-  .btn-nav { min-height: 2.25rem; padding: 0.25rem 0.9375rem; font-size: 0.8125rem; }
+  /* Pill in the header, sized to match the Menu pill. */
+  .btn-nav { min-height: 2.5rem; padding: 0.25rem 1rem; font-size: 0.8125rem; }
+  /* Floating solid pills: the nav pills and the tile name labels. */
+  .pill-solid { background: var(--color-pill); color: var(--color-on-pill); box-shadow: var(--shadow-pill); }
+  .pill-solid button:focus-visible { outline-color: var(--color-on-pill); outline-offset: -3px; }
 
   /* Secondary action: a text link with a ">" that nudges on hover, like "Learn more >". */
   .link-more {
@@ -221,7 +230,7 @@ html[data-theme="dark"] {
   }
   .field::placeholder { color: var(--color-caption); }
 
-  /* Frosted header bar. Sits on the nav, not the header: a backdrop filter would trap the fixed menu sheet. */
+  /* Frosted glass: the logo chip, the floating "Message us" pill, marquee labels. */
   .frost {
     background: color-mix(in srgb, var(--color-page) 72%, transparent);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -246,47 +255,62 @@ html[data-theme="dark"] {
     }
   }
 
-  /* The hero ring (Orbit.jsx). Each tile carries its whole orbit in one transform: tilt the ring, turn
-     to the tile's place, step out to the rim, turn back to face you. Only the turn animates, as a CSS
-     animation on transform, so it runs on the compositor. Keep it in one list: Safari loses the tilt
-     when this is split across nested 3D layers. Sizes come from the box the ring sits in. */
-  .orbit {
-    position: relative;
-    container-type: size;
-    perspective: clamp(50rem, 100vw, 90rem);
-  }
-  .orbit-layer {
+  /* Hero cluster (Cluster.jsx). Positions and sizes are in units of the box it sits in, so it fits
+     any screen. Each tile's slow float and its glass swirl are CSS animations on transform. */
+  .cluster { position: relative; container-type: size; }
+  .cluster-slot {
+    --u: min(1cqw, 2.3cqh);
+    --x: var(--ax);
+    --y: var(--ay);
+    --s: var(--as);
     position: absolute;
-    inset: 0;
-    transform-style: preserve-3d;
-    --tile: clamp(4.25rem, min(8.6cqw, 19cqh), 6.5rem);
-    --radius: min(28cqw, 58cqh);
-    --tilt: 27deg;
-    --lean: calc(var(--tilt) * 0.72); /* tiles keep a little of the tilt, so they feel like they sit on the ring */
+    left: calc(50% + (var(--x) - var(--s) / 2) * var(--u));
+    top: calc(50% + (var(--y) - var(--s) / 2) * var(--u));
+    width: calc(var(--s) * var(--u));
   }
+  .cluster-slot:hover, .cluster-slot:focus-within { z-index: 10; }
   @container (width < 40rem) {
-    .orbit-layer { --tile: min(19.5cqw, 24cqh); --radius: min(37cqw, 44cqh); --tilt: 58deg; }
+    .cluster-slot { --u: min(1cqw, 0.72cqh); --x: var(--bx); --y: var(--by); --s: var(--bs); }
   }
-  .orbit-slot {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: var(--tile);
-    height: var(--tile);
-    margin: calc(var(--tile) / -2);
-    transform: rotateX(calc(var(--tilt) * -1)) rotateY(var(--t)) translateZ(var(--radius)) rotateY(calc(var(--t) * -1)) rotateX(var(--lean));
-    animation: orbit-turn 64s linear infinite;
-  }
-  .orbit-tile {
+  .cluster-bob { animation: cluster-bob var(--bob) ease-in-out var(--bob-delay) infinite; }
+
+  /* Liquid glass: blobs of the brand's colors turning slowly under a gloss layer. */
+  .liquid {
+    position: relative;
     display: grid;
     place-items: center;
-    width: 100%;
-    height: 100%;
-    border-radius: 23%;
-    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14), 0 14px 28px -14px rgb(0 0 0 / 0.35);
+    aspect-ratio: 1;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 27%;
+    background: var(--c2);
+    box-shadow: 0 16px 30px -16px var(--c3), 0 4px 10px -6px rgb(0 0 0 / 0.25);
   }
-  .is-offscreen .orbit-slot,
-  html.saver .orbit-slot { animation-play-state: paused; }
+  .liquid-flow {
+    position: absolute;
+    inset: -45%;
+    background:
+      radial-gradient(38% 38% at 30% 32%, var(--c1), transparent 72%),
+      radial-gradient(34% 34% at 72% 34%, var(--c4), transparent 72%),
+      radial-gradient(46% 46% at 58% 74%, var(--c3), transparent 74%);
+    animation: liquid-flow var(--flow) linear infinite;
+  }
+  .liquid-gloss {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(85% 50% at 34% -4%, rgb(255 255 255 / 0.55), transparent 66%),
+      radial-gradient(60% 26% at 66% 106%, rgb(255 255 255 / 0.28), transparent 72%);
+    box-shadow:
+      inset 0 1px 1px rgb(255 255 255 / 0.6),
+      inset 0 0 0 1px rgb(255 255 255 / 0.14),
+      inset 0 -12px 18px -12px rgb(0 0 0 / 0.32);
+  }
+  .is-offscreen .cluster-bob,
+  .is-offscreen .liquid-flow,
+  html.saver .cluster-bob,
+  html.saver .liquid-flow { animation-play-state: paused; }
 
   /* Hero "Scroll" cue: a small line that drips downward. */
   .scroll-cue-line { position: relative; display: block; width: 1px; height: 0.875rem; overflow: hidden; background: var(--color-line); }
@@ -359,9 +383,13 @@ html[data-theme="dark"] {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
 }
-@keyframes orbit-turn {
-  from { transform: rotateX(calc(var(--tilt) * -1)) rotateY(var(--t)) translateZ(var(--radius)) rotateY(calc(var(--t) * -1)) rotateX(var(--lean)); }
-  to { transform: rotateX(calc(var(--tilt) * -1)) rotateY(calc(var(--t) + 360deg)) translateZ(var(--radius)) rotateY(calc(var(--t) * -1 - 360deg)) rotateX(var(--lean)); }
+@keyframes cluster-bob {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, var(--rise), 0) rotate(var(--rock)); }
+}
+@keyframes liquid-flow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 @keyframes scroll-cue {
   0% { transform: translateY(-100%); }
@@ -374,7 +402,7 @@ html[data-theme="dark"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .marquee, .orbit-slot, .scroll-cue-line::after { animation: none !important; }
+  .marquee, .cluster-bob, .liquid-flow, .scroll-cue-line::after { animation: none !important; }
   .reveal.is-hidden { transform: none; }
 }
 

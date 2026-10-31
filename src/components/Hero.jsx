@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import Orbit from "./Orbit";
+import Cluster from "./Cluster";
 import Press from "./Press";
 import { usePauseOffscreen } from "../lib/offscreen";
 
-// One screen: the ring of client tiles with a short line in its center, then a huge two-tone
+// One screen: a loose cluster of client tiles around a short center line, then a huge two-tone
 // statement, left-aligned, with the two actions. The text rises once with CSS on first paint.
 export default function Hero() {
   const ref = useRef(null);
@@ -11,13 +11,13 @@ export default function Hero() {
   return (
     <section ref={ref} id="top" className="site-wrap">
       <div className="relative flex h-svh max-h-[60rem] min-h-[34rem] flex-col gap-2 pb-20 pt-[var(--nav-h)] lg:gap-4 lg:pb-12">
-        <Orbit className="min-h-0 flex-1">
-          <div className="absolute inset-0 grid place-items-center">
+        <Cluster className="min-h-0 flex-1">
+          <div className="pointer-events-none absolute inset-0 grid place-items-center">
             <p className="rise max-w-[11rem] text-center text-[0.9375rem] leading-snug tracking-[-0.01em] text-dim lg:max-w-[14rem] lg:text-[1.0625rem]">
               Websites for South Florida businesses.
             </p>
           </div>
-        </Orbit>
+        </Cluster>
 
         <div>
           <h1 className="rise t-hero">

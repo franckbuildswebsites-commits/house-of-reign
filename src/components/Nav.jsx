@@ -17,18 +17,18 @@ const links = [
   { label: "Contact", href: "#contact" },
 ];
 
-// Minimal frosted bar: logo left, one pill in the center ("Menu" + theme switch), one solid pill
-// right. It eases a little thinner once the hero is gone (transforms only: the frosted layer scales,
-// the content rides up with it). "Menu" drops a full-screen sheet with big centered links.
-// The frost is on its own layer so its backdrop filter can't trap the fixed sheet.
+// No bar: everything floats over the page. Logo left, a solid pill in the center ("Menu" + theme
+// switch), a solid "Get Started" pill right (in the menu on phones). The header itself ignores the
+// pointer so the page stays clickable around them. Past the hero the logo gets a small frosted chip
+// behind it, so it stays readable over whatever scrolls underneath.
 export default function Nav() {
   const [open, setOpen] = useState(false);
-  const [thin, setThin] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
     const hero = document.getElementById("top");
     if (!hero || !("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver(([e]) => setThin(!e.isIntersecting), { rootMargin: "-56px 0px 0px 0px" });
+    const io = new IntersectionObserver(([e]) => setPastHero(!e.isIntersecting), { rootMargin: "-56px 0px 0px 0px" });
     io.observe(hero);
     return () => io.disconnect();
   }, []);
@@ -56,45 +56,45 @@ export default function Nav() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div className="relative z-10">
-        <m.div
-          aria-hidden="true"
-          initial={false}
-          animate={{ scaleY: thin ? 0.8 : 1 }}
-          transition={SPRING_SOFT}
-          className="frost absolute inset-x-0 top-0 h-14 origin-top border-b border-ink/10"
-        />
-        <m.nav aria-label="Main" initial={false} animate={{ y: thin ? -5.5 : 0 }} transition={SPRING_SOFT} className="relative">
-          <div className="site-wrap relative flex h-14 items-center justify-between gap-4">
-            <Logo onClick={close} />
-
-            <div className="flex items-center rounded-full border border-line bg-page/60 p-0.5 sm:absolute sm:left-1/2 sm:-translate-x-1/2">
-              <m.button
-                type="button"
-                aria-expanded={open}
-                aria-controls="site-menu"
-                onClick={() => setOpen((o) => !o)}
-                whileTap={{ scale: 0.95 }}
-                transition={SPRING}
-                className="hit flex h-9 items-center gap-2 rounded-full pl-3.5 pr-2.5 text-[0.8125rem] tracking-[-0.01em]"
-              >
-                <span aria-hidden="true" className="relative h-2 w-3.5">
-                  <m.span initial={false} animate={open ? { y: 4, rotate: 45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute left-0 top-0 h-px w-3.5 bg-current" />
-                  <m.span initial={false} animate={open ? { y: -3, rotate: -45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute bottom-0 left-0 h-px w-3.5 bg-current" />
-                </span>
-                {open ? "Close" : "Menu"}
-              </m.button>
-              <span aria-hidden="true" className="h-4 w-px bg-line" />
-              <ThemeToggle />
-            </div>
-
-            <Press href="#contact" onClick={close} className="btn btn-primary btn-nav hidden sm:inline-flex">
-              Start a project
-            </Press>
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
+      <nav aria-label="Main" className="relative z-10">
+        <div className="site-wrap relative flex h-16 items-center justify-between gap-4">
+          <div className="pointer-events-auto relative">
+            <m.span
+              aria-hidden="true"
+              initial={false}
+              animate={{ scale: pastHero && !open ? 1 : 0 }}
+              transition={SPRING}
+              className="frost absolute -inset-x-3 inset-y-1 rounded-full border border-line"
+            />
+            <Logo onClick={close} className="relative" />
           </div>
-        </m.nav>
-      </div>
+
+          <div className="pill-solid pointer-events-auto flex items-center rounded-full p-0.5 sm:absolute sm:left-1/2 sm:-translate-x-1/2">
+            <m.button
+              type="button"
+              aria-expanded={open}
+              aria-controls="site-menu"
+              onClick={() => setOpen((o) => !o)}
+              whileTap={{ scale: 0.95 }}
+              transition={SPRING}
+              className="hit flex h-9 items-center gap-2 rounded-full pl-3.5 pr-2.5 text-[0.8125rem] tracking-[-0.01em]"
+            >
+              <span aria-hidden="true" className="relative h-2 w-3.5">
+                <m.span initial={false} animate={open ? { y: 4, rotate: 45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute left-0 top-0 h-px w-3.5 bg-current" />
+                <m.span initial={false} animate={open ? { y: -3, rotate: -45 } : { y: 0, rotate: 0 }} transition={SPRING} className="absolute bottom-0 left-0 h-px w-3.5 bg-current" />
+              </span>
+              {open ? "Close" : "Menu"}
+            </m.button>
+            <span aria-hidden="true" className="h-4 w-px bg-on-pill/25" />
+            <ThemeToggle />
+          </div>
+
+          <Press href="#contact" onClick={close} className="btn btn-nav pill-solid pointer-events-auto hidden sm:inline-flex">
+            Get Started
+          </Press>
+        </div>
+      </nav>
 
       <AnimatePresence>
         {open && (
@@ -104,7 +104,7 @@ export default function Nav() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ type: "spring", stiffness: 200, damping: 30, mass: 0.9 }}
-            className="fixed inset-0 flex flex-col items-center overflow-y-auto bg-page px-6 pb-10 pt-24"
+            className="pointer-events-auto fixed inset-0 flex flex-col items-center overflow-y-auto bg-page px-6 pb-10 pt-24"
           >
             <ul className="relative my-auto flex flex-col items-center gap-1 py-8 text-center">
               {links.map((l, i) => (
@@ -129,10 +129,15 @@ export default function Nav() {
               transition={{ ...SPRING_SOFT, delay: 0.3 }}
               className="relative flex flex-col items-center gap-6 text-center"
             >
-              <Press href={smsHref} className="btn btn-primary">
-                <Chat className="h-[18px] w-[18px]" />
-                Message us
-              </Press>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Press href="#contact" onClick={go} className="btn pill-solid sm:hidden">
+                  Get Started
+                </Press>
+                <Press href={smsHref} className="btn btn-primary">
+                  <Chat className="h-[18px] w-[18px]" />
+                  Message us
+                </Press>
+              </div>
               <div>
                 <p className="label">Email us</p>
                 <a href={`mailto:${EMAIL}`} className="mt-1 inline-flex min-h-11 items-center break-all text-accent hover:underline focus-visible:underline">
