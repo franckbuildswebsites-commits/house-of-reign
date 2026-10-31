@@ -312,6 +312,16 @@ html[data-theme="dark"] {
   html.saver .cluster-bob,
   html.saver .liquid-flow { animation-play-state: paused; }
 
+  /* Hero services slider: darkest in the middle, melting away toward both edges. */
+  .slider {
+    --edge: linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.3) 24%, #000 50%, rgb(0 0 0 / 0.3) 76%, transparent);
+    -webkit-mask-image: var(--edge);
+    mask-image: var(--edge);
+  }
+  .ticker { animation: ticker-up 48s linear infinite; }
+  .is-offscreen .ticker,
+  html.saver .ticker { animation-play-state: paused; }
+
   /* Hero "Scroll" cue: a small line that drips downward. */
   .scroll-cue-line { position: relative; display: block; width: 1px; height: 0.875rem; overflow: hidden; background: var(--color-line); }
   .scroll-cue-line::after {
@@ -391,6 +401,10 @@ html[data-theme="dark"] {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+@keyframes ticker-up {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -50%, 0); }
+}
 @keyframes scroll-cue {
   0% { transform: translateY(-100%); }
   60%, 100% { transform: translateY(100%); }
@@ -402,7 +416,7 @@ html[data-theme="dark"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .marquee, .cluster-bob, .liquid-flow, .scroll-cue-line::after { animation: none !important; }
+  .marquee, .ticker, .cluster-bob, .liquid-flow, .scroll-cue-line::after { animation: none !important; }
   .reveal.is-hidden { transform: none; }
 }
 

@@ -43,7 +43,7 @@ function CyclingWord() {
   );
 }
 
-// Local time in South Florida, ticking (shown once the page is running).
+// Local time where we are based, ticking (shown once the page is running).
 function LocalTime() {
   const [time, setTime] = useState("");
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function Footer() {
 
           <div className="grid gap-8 sm:grid-cols-2 lg:pt-3">
             <div className="text-sm text-dim">
-              <p className="t-h4 text-ink">South Florida</p>
+              <p className="t-h4 text-ink">Based in South Florida</p>
               <p className="mt-1.5">
                 Local time <LocalTime />
               </p>

@@ -16,4 +16,4 @@ export const WEB3FORMS_KEY = "34d2b10c-64d1-445b-a01a-1e28cf70cdf4"; // from htt
 // Used for the canonical link and Open Graph tags. Leave in brackets until you know it.
 export const SITE_URL = "https://takereign.com";
 
-export const SITE_DESCRIPTION = `${STUDIO_NAME} designs and builds fast, modern websites for local businesses, shops, restaurants, and brands across South Florida.`;
+export const SITE_DESCRIPTION = `${STUDIO_NAME} designs and builds fast, modern websites for local businesses, shops, restaurants, and brands.`;

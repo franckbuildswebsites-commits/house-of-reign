@@ -2,8 +2,30 @@ import { useRef } from "react";
 import Cluster from "./Cluster";
 import { usePauseOffscreen } from "../lib/offscreen";
 
-// One screen: a loose cluster of client tiles around a short center line, then a huge two-tone
-// statement, left-aligned. The floating pills carry the actions. The text rises once with CSS on first paint.
+const services = [
+  "Web Design", "Website Redesigns", "Online Ordering", "Booking Setup", "Google Business Profile", "Logos & Branding",
+  "Social Media Posts", "Menus & Signage", "Flyers & Posters", "Business Cards", "Site Care",
+];
+
+// Everything we do, drifting up the right side (wide screens only; the Services section is right
+// below). The list is doubled so the loop is seamless, and an edge mask softens the top and bottom.
+function ServiceSlider() {
+  return (
+    <div aria-hidden="true" className="slider absolute inset-y-[6%] right-0 hidden w-56 overflow-hidden lg:block">
+      <ul className="ticker flex flex-col items-end">
+        {[...services, ...services].map((s, i) => (
+          <li key={i} className="pb-2">
+            <span className="block rounded-full border border-line px-3 py-1 text-[0.8125rem] leading-snug tracking-[-0.008em]">{s}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// One screen: a loose cluster of client tiles around a short center line, the services drifting up
+// the right side, then a huge two-tone statement, left-aligned. The floating pills carry the actions.
+// The text rises once with CSS on first paint.
 export default function Hero() {
   const ref = useRef(null);
   usePauseOffscreen(ref);
@@ -12,10 +34,11 @@ export default function Hero() {
       <div className="relative flex h-svh max-h-[60rem] min-h-[34rem] flex-col gap-2 pb-20 pt-[var(--nav-h)] lg:gap-4 lg:pb-24">
         <Cluster className="min-h-0 flex-1">
           <div className="pointer-events-none absolute inset-0 grid place-items-center">
-            <p className="rise max-w-[11rem] text-center text-[0.9375rem] leading-snug tracking-[-0.01em] text-dim lg:max-w-[14rem] lg:text-[1.0625rem]">
-              Websites for South Florida businesses.
+            <p className="rise max-w-[11rem] text-balance text-center text-[0.9375rem] leading-snug tracking-[-0.01em] text-dim lg:max-w-[14rem] lg:text-[1.0625rem]">
+              Websites that bring in customers.
             </p>
           </div>
+          <ServiceSlider />
         </Cluster>
 
         <h1 className="rise t-hero">

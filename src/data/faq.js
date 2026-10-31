@@ -37,7 +37,7 @@ export const faq = [
   },
   {
     q: "What kinds of businesses do you work with?",
-    a: "Shops, restaurants, salons, home and professional services. If you serve South Florida, we can help.",
+    a: "Shops, restaurants, salons, home and professional services. If you have customers, we can help, wherever you are.",
   },
   {
     q: "Do you speak Spanish?",

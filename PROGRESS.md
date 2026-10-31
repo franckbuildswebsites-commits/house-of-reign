@@ -36,6 +36,8 @@ Not merged into `main`; the live site is unchanged.
   left, black Menu + theme pill center, black "Get Started" right (in the menu on phones); pills invert in dark mode.
 - **Round 9 (2026-10-31):** hero buttons removed; the "Get Started" and "Message us" pills are the only hero actions.
   Headline scaled up and lifted clear of the "Message us" pill.
+- **Round 10 (2026-10-31):** copy is location-neutral (we work with businesses anywhere; "Based in South Florida" stays
+  once, in the footer; schema `areaServed` is the United States). Services slider added to the right side of the hero.
 - Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
 - Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 
