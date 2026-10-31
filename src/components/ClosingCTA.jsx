@@ -139,7 +139,7 @@ export default function ClosingCTA() {
         </Reveal>
 
         <div className="mt-10 grid gap-4 lg:mt-12 lg:grid-cols-2">
-          <div className="rounded-[24px] bg-page p-6 sm:p-8">
+          <div className="rounded-[24px] border border-line bg-page p-6 sm:p-8">
             <p className="label">Text us directly</p>
             <GetAText />
             <p className="mt-3 flex items-center gap-1.5 text-sm text-dim">
@@ -149,7 +149,7 @@ export default function ClosingCTA() {
               </a>
             </p>
           </div>
-          <a href={telHref} className="group flex flex-col justify-between gap-4 rounded-[24px] bg-page p-6 sm:p-8">
+          <a href={telHref} className="group flex flex-col justify-between gap-4 rounded-[24px] border border-line bg-page p-6 sm:p-8">
             <p className="label">or call us.</p>
             <p className="t-h3 flex items-center gap-3">
               {PHONE}

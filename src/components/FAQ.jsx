@@ -16,7 +16,7 @@ export default function FAQ() {
   const shown = all ? faq : faq.slice(0, FIRST);
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="section-y bg-alt">
+    <section id="faq" aria-labelledby="faq-title" className="section-y">
       <div className="site-wrap grid md:grid-cols-[minmax(0,1fr)_minmax(0,2.6fr)]">
         <div className="pb-4 md:border-r md:border-line md:pr-10">
           <Reveal as="p" className="label md:pt-2">FAQs</Reveal>

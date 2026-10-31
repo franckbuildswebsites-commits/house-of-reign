@@ -27,7 +27,7 @@ function Card({ c, copy }) {
         href={c.href}
         tabIndex={copy ? -1 : undefined}
         {...(c.external && { target: "_blank", rel: "noopener noreferrer" })}
-        className="group relative block aspect-[16/10] overflow-hidden rounded-[18px] bg-alt ring-1 ring-line"
+        className="group relative block aspect-[16/10] overflow-hidden rounded-[18px] bg-page ring-1 ring-line"
       >
         <Photo
           src={`/portfolio/cards/${c.img}.webp`}
@@ -42,7 +42,7 @@ function Card({ c, copy }) {
         <span className="frost absolute inset-x-3 bottom-3 flex translate-y-20 items-center justify-between gap-3 rounded-[14px] px-4 py-3 transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:translate-y-0 group-focus-visible:translate-y-0">
           <span className="min-w-0">
             <span className="t-h4 block truncate">{c.name}</span>
-            <span className="text-sm text-dim">{c.sub}</span>
+            <span className="text-sm text-caption">{c.sub}</span>
           </span>
           <ArrowUpRight className="h-4 w-4 shrink-0 text-accent" />
         </span>

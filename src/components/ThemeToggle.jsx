@@ -1,43 +1,21 @@
 import { useEffect, useState } from "react";
 
-const deviceDark = () => matchMedia("(prefers-color-scheme: dark)").matches;
-
-function apply(dark) {
-  const root = document.documentElement;
-  if (dark) root.dataset.theme = "dark";
-  else delete root.dataset.theme;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#000000" : "#ffffff");
-}
-
-// Small light / dark switch. The site follows the device setting; the switch overrides it, and
-// index.html applies a saved choice before the first paint. Picking what the device already uses
-// clears the choice, so the site goes back to following the device.
+// Small light / dark switch. Everyone opens in light, whatever their device is set to; dark only
+// turns on from this switch. The choice is saved, and index.html applies it before the first paint.
 export default function ThemeToggle({ className = "" }) {
   const [dark, setDark] = useState(false);
 
-  useEffect(() => {
-    setDark(document.documentElement.dataset.theme === "dark");
-    const media = matchMedia("(prefers-color-scheme: dark)");
-    const onChange = (e) => {
-      let saved = null;
-      try {
-        saved = localStorage.getItem("theme");
-      } catch {}
-      if (saved) return;
-      setDark(e.matches);
-      apply(e.matches);
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
+  useEffect(() => setDark(document.documentElement.dataset.theme === "dark"), []);
 
   const toggle = () => {
     const next = !dark;
     setDark(next);
-    apply(next);
+    const root = document.documentElement;
+    if (next) root.dataset.theme = "dark";
+    else delete root.dataset.theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next ? "#000000" : "#ffffff");
     try {
-      if (next === deviceDark()) localStorage.removeItem("theme");
-      else localStorage.setItem("theme", next ? "dark" : "light");
+      localStorage.setItem("theme", next ? "dark" : "light");
     } catch {}
   };
 

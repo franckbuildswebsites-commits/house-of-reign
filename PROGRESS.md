@@ -24,7 +24,10 @@ Not merged into `main`; the live site is unchanged.
   120px / 24px side margins on every section. Nothing fades on scroll. Custom cursor removed. Site copy moved from
   I/me to we/us (About stays in the founder's voice). "From $X" prices on the service cards. Measurements and results
   in `REFERENCE.md`.
-- Lighthouse (mobile, local build, 3 runs): Performance 97–99, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
+- **Round 6 (2026-10-31):** always opens light, even on devices set to dark; dark only from the header switch (saved
+  in localStorage). Less gray: white sections with hairline dividers, `#f5f5f7` only behind the closing section, white
+  hairline cards, secondary text `#424245`, gray `#6e6e73` only for small captions and labels.
+- Lighthouse (mobile, local build, 3 runs): Performance 99, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
 
 ## Decisions (confirmed)
 

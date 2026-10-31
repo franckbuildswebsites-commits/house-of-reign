@@ -27,12 +27,12 @@ function Quote({ t }) {
         </Reveal>
         <Reveal delay={160} className="mt-10 flex max-w-[38rem] flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
           <figcaption className="flex items-center gap-4">
-            <span aria-hidden="true" className="grid h-11 w-11 place-items-center rounded-full bg-page text-[0.9375rem] font-semibold">
+            <span aria-hidden="true" className="grid h-11 w-11 place-items-center rounded-full border border-line text-[0.9375rem] font-semibold">
               {initials}
             </span>
             <span>
               <span className="block font-semibold">{t.name}</span>
-              <span className="text-sm text-dim">
+              <span className="text-sm text-caption">
                 {t.role}
                 {t.role && t.business && ", "}
                 {t.business}
@@ -40,7 +40,7 @@ function Quote({ t }) {
             </span>
           </figcaption>
           {t.original && (
-            <p className="text-sm text-dim">
+            <p className="text-sm text-caption">
               Translated from {t.originalLang} ·{" "}
               <button
                 type="button"
@@ -61,7 +61,7 @@ function Quote({ t }) {
 export default function Testimonials() {
   if (!testimonials.length) return null;
   return (
-    <section aria-label="What clients say" className="section-y bg-alt">
+    <section aria-label="What clients say" className="section-y">
       <div className="site-wrap flex flex-col gap-24">
         {testimonials.map((t) => (
           <Quote key={t.name} t={t} />

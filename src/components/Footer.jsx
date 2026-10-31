@@ -107,7 +107,7 @@ export default function Footer() {
               {EMAIL}
             </a>
           </div>
-          <p className="text-xs text-dim lg:text-right" suppressHydrationWarning>
+          <p className="text-xs text-caption lg:text-right" suppressHydrationWarning>
             © {new Date().getFullYear()} {STUDIO_NAME}. All rights reserved.
           </p>
         </div>

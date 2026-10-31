@@ -121,7 +121,7 @@ function Panel({ s, i, n, progress }) {
           </div>
         </div>
 
-        <div aria-hidden="true" className="@container relative min-h-0 overflow-hidden rounded-[20px] bg-alt p-[4%]">
+        <div aria-hidden="true" className="@container relative min-h-0 overflow-hidden p-[4%]">
           <Mock />
         </div>
       </m.article>
@@ -134,7 +134,7 @@ export default function ServicePanels() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   return (
-    <section id="services" aria-labelledby="services-title" className="section-y bg-alt">
+    <section id="services" aria-labelledby="services-title" className="section-y">
       <div className="site-wrap">
         <SectionHeading id="services-title" label="Services" title="More than websites." dim="Everything matches.">
           One look, everywhere.

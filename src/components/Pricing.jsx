@@ -9,22 +9,22 @@ const promises = ["Free mockup before you pay", "You own your site and domain", 
 // Four plans side by side, then one quiet row with the fine print.
 export default function Pricing() {
   return (
-    <section id="pricing" aria-labelledby="pricing-title" className="section-y bg-alt">
+    <section id="pricing" aria-labelledby="pricing-title" className="section-y">
       <div className="site-wrap">
         <SectionHeading id="pricing-title" label="Pricing" title="Simple pricing." dim="No surprises." />
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {services.map((s, i) => (
-            <Reveal key={s.name} delay={i * 50} className="flex flex-col rounded-[24px] bg-page p-6 sm:p-7">
+            <Reveal key={s.name} delay={i * 50} className="flex flex-col rounded-[24px] border border-line p-6 sm:p-7">
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="t-h4">{s.name}</h3>
-                <span className="text-sm text-dim">{s.timeline}</span>
+                <span className="text-sm text-caption">{s.timeline}</span>
               </div>
               <p className="t-h2 mt-6">
                 {s.price}
-                {s.unit && <span className="ml-1 text-[0.9375rem] font-normal tracking-normal text-dim">{s.unit}</span>}
+                {s.unit && <span className="ml-1 text-[0.9375rem] font-normal tracking-normal text-caption">{s.unit}</span>}
               </p>
-              <p className="mt-0.5 text-sm text-dim">{s.priceLabel === "Monthly" ? "per month" : "starting at"}</p>
+              <p className="mt-0.5 text-sm text-caption">{s.priceLabel === "Monthly" ? "per month" : "starting at"}</p>
               <p className="mt-5 text-[0.9375rem] leading-snug">{s.perfectFor}</p>
               <ul className="mt-5 flex flex-col gap-2 border-t border-line pt-5 text-[0.9375rem] leading-snug">
                 {s.features.map((f) => (

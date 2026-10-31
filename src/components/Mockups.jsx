@@ -19,12 +19,12 @@ function Stars({ className = "" }) {
 export function WebsiteMockup() {
   return (
     <div className="relative h-full w-full text-[clamp(7px,2.05cqw,15px)]">
-      <div className="absolute inset-y-[6%] left-0 right-[14%] overflow-hidden rounded-[1em] bg-[#ffffff] shadow-[var(--shadow-soft)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[2%]">
-        <div className="flex items-center gap-[0.5em] bg-[#e8e8ed] px-[1em] py-[0.8em]">
+      <div className="absolute inset-y-[6%] left-0 right-[14%] overflow-hidden rounded-[1em] bg-[#ffffff] shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[2%]">
+        <div className="flex items-center gap-[0.5em] border-b border-[#d2d2d7] px-[1em] py-[0.8em]">
           <span className="h-[0.7em] w-[0.7em] rounded-full bg-black/15" />
           <span className="h-[0.7em] w-[0.7em] rounded-full bg-black/15" />
           <span className="h-[0.7em] w-[0.7em] rounded-full bg-black/15" />
-          <span className="mx-auto rounded-full bg-white px-[1.5em] py-[0.25em] text-[0.8em] text-black/65">yourbusiness.com</span>
+          <span className="mx-auto rounded-full border border-[#d2d2d7] px-[1.5em] py-[0.25em] text-[0.8em] text-black/65">yourbusiness.com</span>
         </div>
         <div className="flex items-center justify-between px-[1.6em] py-[1em]">
           <span className="text-[1.1em] font-semibold text-[#1d1d1f]">Your Café</span>
@@ -49,11 +49,11 @@ export function WebsiteMockup() {
         </div>
         <div className="mt-[1.6em] grid grid-cols-3 gap-[0.8em] px-[1.6em]">
           {[0, 1, 2].map((i) => (
-            <span key={i} className="h-[4em] rounded-[0.6em] bg-[#f5f5f7]" />
+            <span key={i} className="h-[4em] rounded-[0.6em] border border-[#d2d2d7]" />
           ))}
         </div>
       </div>
-      <div className="absolute bottom-0 right-0 top-[18%] aspect-[9/17] overflow-hidden rounded-[1.4em] border-[0.3em] border-[#1d1d1f] bg-[#ffffff] shadow-[var(--shadow-soft)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[4%] group-hover:rotate-2">
+      <div className="absolute bottom-0 right-0 top-[18%] aspect-[9/17] overflow-hidden rounded-[1.4em] border-[0.3em] border-[#1d1d1f] bg-[#ffffff] shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[4%] group-hover:rotate-2">
         <div className="px-[0.9em] pt-[1.2em]">
           <span className="text-[0.9em] font-semibold text-[#1d1d1f]">Your Café</span>
           <p className="mt-[0.8em] text-[1.45em] font-semibold leading-[0.95] tracking-[-0.03em] text-[#1d1d1f]">
@@ -73,7 +73,7 @@ export function GoogleMockup() {
   const actions = ["Directions", "Call", "Website", "Menu"];
   return (
     <div className="flex h-full w-full flex-col justify-center gap-[1em] text-[clamp(7px,2.2cqw,15px)]">
-      <div className="mx-auto flex w-[82%] items-center gap-[0.8em] rounded-full bg-white px-[1.3em] py-[0.8em] text-[1.1em] text-[#1f1f1f] shadow-[var(--shadow-soft)]">
+      <div className="mx-auto flex w-[82%] items-center gap-[0.8em] rounded-full bg-white px-[1.3em] py-[0.8em] text-[1.1em] text-[#1f1f1f] shadow-[var(--shadow-soft)] ring-1 ring-black/10">
         <svg viewBox="0 0 24 24" className="h-[1.1em] w-[1.1em] fill-none stroke-[#5f6368] stroke-2" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-4-4" />
@@ -81,7 +81,7 @@ export function GoogleMockup() {
         café near me
         <span className="-ml-[0.5em] h-[1.1em] w-px animate-pulse bg-[#1f1f1f]" />
       </div>
-      <div className="mx-auto w-[92%] overflow-hidden rounded-[1em] bg-white text-[#1f1f1f] shadow-[var(--shadow-soft)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[3%]">
+      <div className="mx-auto w-[92%] overflow-hidden rounded-[1em] bg-white text-[#1f1f1f] shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[3%]">
         <div className="relative h-[7em] bg-[#e8eef3]">
           <svg viewBox="0 0 300 80" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden="true">
             <path d="M0 55 C60 40 90 70 150 50 S250 20 300 35" stroke="#fff" strokeWidth="9" fill="none" />
@@ -132,7 +132,7 @@ export function MenuMockup() {
   ];
   return (
     <div className="flex h-full w-full items-center justify-center text-[clamp(7px,2.3cqw,16px)]">
-      <div className="w-[88%] rounded-[1em] border-[0.6em] border-[#d2d2d7] bg-[#1d1d1f] p-[1.8em] text-[#ffffff] shadow-[var(--shadow-soft)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-rotate-1">
+      <div className="w-[88%] rounded-[1em] border-[0.6em] border-[#d2d2d7] bg-[#1d1d1f] p-[1.8em] text-[#ffffff] shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-rotate-1">
         <div className="flex items-end justify-between border-b border-dashed border-[#ffffff]/25 pb-[0.8em]">
           <p className="text-[2.6em] font-semibold leading-none tracking-[-0.02em]">Menu</p>
           <p className="font-hand text-[1.6em] leading-none text-[#a5b4fc]">today's specials</p>
@@ -154,7 +154,7 @@ export function MenuMockup() {
 export function SocialMockup() {
   return (
     <div className="flex h-full w-full items-center justify-center text-[clamp(7px,2.2cqw,15px)]">
-      <div className="w-[min(62%,26em)] overflow-hidden rounded-[1.1em] bg-white text-[#111] shadow-[var(--shadow-soft)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[2%] group-hover:rotate-1">
+      <div className="w-[min(62%,26em)] overflow-hidden rounded-[1.1em] bg-white text-[#111] shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[2%] group-hover:rotate-1">
         <div className="flex items-center gap-[0.6em] px-[1em] py-[0.8em]">
           <span className="h-[2em] w-[2em] rounded-full bg-[#d2d2d7] p-[0.15em]">
             <span className="block h-full w-full rounded-full border-2 border-white bg-[#4338ca]" />
@@ -198,7 +198,7 @@ export function BrandMockup() {
   return (
     <div className="relative h-full w-full text-[clamp(7px,2.2cqw,15px)]">
       {/* flyer */}
-      <div className="absolute left-[6%] top-[6%] w-[44%] -rotate-6 rounded-[0.6em] bg-[#ffffff] p-[1.4em] text-[#1d1d1f] shadow-[var(--shadow-soft)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-rotate-[9deg]">
+      <div className="absolute left-[6%] top-[6%] w-[44%] -rotate-6 rounded-[0.6em] bg-[#ffffff] p-[1.4em] text-[#1d1d1f] shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-rotate-[9deg]">
         <p className="text-[0.85em] font-semibold uppercase tracking-[0.2em] text-[#4338ca]">Weekend only</p>
         <p className="mt-[0.3em] text-[3.6em] font-semibold leading-[0.85] tracking-[-0.04em]">
           20%
@@ -210,13 +210,13 @@ export function BrandMockup() {
         <Bar className="mt-[0.5em] w-[55%] bg-black/15" />
       </div>
       {/* logo mark */}
-      <div className="absolute right-[8%] top-[8%] grid h-[30%] aspect-square place-items-center rounded-full bg-[#1d1d1f] shadow-[var(--shadow-soft)] ring-1 ring-white/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:rotate-12">
+      <div className="absolute right-[8%] top-[8%] grid h-[30%] aspect-square place-items-center rounded-full bg-[#1d1d1f] shadow-[var(--shadow-soft)] ring-1 ring-black/10 ring-1 ring-white/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:rotate-12">
         <span className="text-[3em] font-semibold tracking-[-0.06em] text-[#a5b4fc]">Yb</span>
       </div>
       {/* business cards */}
       <div className="absolute bottom-[8%] right-[10%] w-[46%] rotate-3 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:rotate-6">
         <div className="absolute inset-0 translate-x-[6%] translate-y-[10%] rounded-[0.6em] bg-[#4338ca]" />
-        <div className="relative aspect-[1.75] rounded-[0.6em] bg-[#1d1d1f] p-[1.2em] text-[#ffffff] shadow-[var(--shadow-soft)] ring-1 ring-white/10">
+        <div className="relative aspect-[1.75] rounded-[0.6em] bg-[#1d1d1f] p-[1.2em] text-[#ffffff] shadow-[var(--shadow-soft)] ring-1 ring-black/10 ring-1 ring-white/10">
           <span className="text-[1.2em] font-semibold text-[#a5b4fc]">Yb</span>
           <p className="mt-[1.4em] text-[1.2em] font-semibold">Your Business</p>
           <p className="text-[0.8em] text-[#ffffff]/60">hello@yourbusiness.com</p>
@@ -230,10 +230,10 @@ export function BookingMockup() {
   const slots = ["10:00", "11:30", "1:00", "2:30", "4:00", "5:30"];
   return (
     <div className="flex h-full w-full items-center justify-center text-[clamp(7px,2.2cqw,15px)]">
-      <div className="w-[min(84%,34em)] rounded-[1.1em] bg-white p-[1.6em] text-[#111] shadow-[var(--shadow-soft)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[2%]">
+      <div className="w-[min(84%,34em)] rounded-[1.1em] bg-white p-[1.6em] text-[#111] shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-[2%]">
         <div className="flex items-center justify-between">
           <p className="text-[1.6em] font-semibold tracking-tight">Book a visit</p>
-          <span className="rounded-full bg-[#f5f5f7] px-[0.8em] py-[0.3em] text-[0.9em]">Fri, Nov 6</span>
+          <span className="rounded-full border border-[#d2d2d7] px-[0.8em] py-[0.3em] text-[0.9em]">Fri, Nov 6</span>
         </div>
         <div className="mt-[1em] grid grid-cols-7 gap-[0.4em] text-center text-[0.85em]">
           {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (

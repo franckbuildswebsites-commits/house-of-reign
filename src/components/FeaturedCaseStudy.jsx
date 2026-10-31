@@ -7,7 +7,7 @@ const lift = "transition-transform duration-700 ease-[var(--ease-out-soft)]";
 
 function Shot({ src, alt }) {
   return (
-    <div className="relative aspect-[16/10] bg-alt">
+    <div className="relative aspect-[16/10] bg-page">
       <Photo
         src={src}
         alt={alt}
@@ -60,7 +60,7 @@ function Composition({ project }) {
             <BrowserFrame label={p.label}>
               <Shot src={p.src} alt={`${name}: ${p.alt}`} />
             </BrowserFrame>
-            <figcaption className="mt-2 text-center text-sm text-dim">{p.label}</figcaption>
+            <figcaption className="mt-2 text-center text-sm text-caption">{p.label}</figcaption>
           </figure>
         ))}
       </div>
@@ -74,7 +74,7 @@ export default function FeaturedCaseStudy() {
   const { name, description, url, highlights } = project;
 
   return (
-    <Reveal as="article" className="overflow-hidden rounded-[28px] bg-alt p-6 sm:p-12">
+    <Reveal as="article" className="overflow-hidden rounded-[28px] border border-line p-6 sm:p-12">
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12">
         <div>
           <p className="label">Featured project</p>

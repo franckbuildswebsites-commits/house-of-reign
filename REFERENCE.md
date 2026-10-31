@@ -5,6 +5,10 @@
 visual notes disagree with this section (dark theme, orange palette, Inter Tight, custom cursor, scroll-lit text, panel
 gradients), this section wins.
 
+**Later the same day:** white replaced most of the gray and light became the default for everyone. Those values are
+what the "Reign now" columns below show; Apple's alternating gray sections and device-following dark mode were
+dropped on purpose.
+
 ## Apple pass: measured (2026-10-31)
 
 Playwright, computed styles at 1440×900 and 390×844, light mode. Sources: apple.com/iphone and apple.com/macbook-air,
@@ -29,9 +33,10 @@ Tracking is tighter than Apple's on purpose (the brief asks for tight headlines)
 | Role | Apple | Averlo | Reign before | Reign now (light) | Reign now (dark) |
 | --- | --- | --- | --- | --- | --- |
 | Background | `#ffffff` | `#ffffff` | `#0c0907` | **`#ffffff`** | **`#000000`** |
-| Alternate sections | `#f5f5f7` | — | — | **`#f5f5f7`** | **`#1d1d1f`** |
+| Alternate sections | `#f5f5f7` | — | — | **`#f5f5f7` behind the closing section only**, hairline dividers elsewhere | **`#1d1d1f`** |
 | Text | `#1d1d1f` | `#191b25` | `#f4ecdf` | **`#1d1d1f`** | **`#ffffff`** |
-| Secondary text | `#6e6e73` | — | `#a5978a` | **`#6e6e73`** | **`#a1a1a6`** |
+| Secondary text | `#6e6e73` | — | `#a5978a` | **`#424245`** | **`#a1a1a6`** |
+| Small captions, labels | `#6e6e73` | — | `#a5978a` | **`#6e6e73`** | **`#a1a1a6`** |
 | Hairlines | `#d2d2d7` | 25–35% opacity | 12% opacity | **`#d2d2d7`** | **`#424245`** |
 | Accent | `#0071e3` buttons, `#0066cc` links | none (ink pills) | `#e8622c` | **`#4338ca`**, hover `#3730a3` | **`#818cf8`**, hover `#a5b4fc` |
 | Text on accent | white | — | `#0c0907` | **white** | **black** (white on `#818cf8` fails contrast) |
@@ -46,7 +51,7 @@ Form control borders use `#86868b`, like Apple's, so fields stay visible (3:1) o
 | Header pill | 28px · 12px | 44px | 44px | **28px · 12px** |
 | Secondary action | blue text link with ">" | white pill | outlined pill | **indigo text link with ">"** |
 | Card radius | 28px | 25–30px | 18–28px | **18–28px** |
-| Card style | fill `#f5f5f7` or white, no border, no shadow | image cards, dark fill | hairline, soft shadow | **fill or 1px hairline, no shadow** (one faint shadow on mockups) |
+| Card style | fill `#f5f5f7` or white, no border, no shadow | image cards, dark fill | hairline, soft shadow | **white, 1px hairline, no shadow** (one faint shadow on mockups) |
 | Header | 44 / 48px, translucent (80% fill) | 115 / 84px, transparent | 116 / 80px, transparent | **48px, frosted (72% + saturate 180% + blur 20px)** |
 | Header links | 12px | — (Menu pill) | — (Menu pill) | **12px** on desktop, Menu sheet on phones |
 
@@ -54,7 +59,7 @@ Form control borders use `#86868b`, like Apple's, so fields stay visible (3:1) o
 
 | Measure | Apple | Averlo | Reign before | Reign now |
 | --- | --- | --- | --- | --- |
-| Section padding | 144 / 112px | ≈ 80 / 48px bridges | 160 / 104px, bottom only | **144 / 112px, top and bottom** |
+| Section padding | 144 / 112px | ≈ 80 / 48px bridges | 160 / 104px, bottom only | **112 / 88px, top and bottom**, with a hairline between white sections |
 | Side margin at 1440px | **90px** outer, **247px** text | **60px** | **60px** | **120px** |
 | Side margin at 390px | **24px** | **20px** | **20px** | **24px** |
 | Max content width | **1260px** (87.5%), text 946–980px | **1320px** | **1480–1600px** | **1200px** |
@@ -85,8 +90,10 @@ at 1200px and stays centered.
 
 - **Scroll audit:** effective opacity of every on-screen element, at every scroll step, whole page, both themes, both
   widths: 0 elements below 100%.
-- **Lighthouse mobile (local build, 3 runs):** Performance 97–99, Accessibility 100, Best Practices 100, SEO 100,
-  CLS 0, LCP 2.2–2.5s, TBT 20–70ms.
+- **Lighthouse mobile (local build, 3 runs):** Performance 99, Accessibility 100, Best Practices 100, SEO 100,
+  CLS 0, LCP 2.1–2.2s, TBT 20–60ms.
+- **Light first:** with the device set to dark, in Chromium and WebKit at 1440px and 390px, the site opens white with no
+  dark flash; dark only comes from the switch and is remembered after reload.
 - **Contrast:** axe-core WCAG AA, both themes, both widths, with FAQ open, form step 2 and phone menu open: 0 violations.
 - **Layout:** 11 widths from 320 to 2560px, system font and Inter: same container on every section, no sideways scroll,
   no service card overflow. Service cards pin correctly in Safari's engine.

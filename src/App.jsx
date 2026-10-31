@@ -15,6 +15,13 @@ import Footer from "./components/Footer";
 import FloatingContact from "./components/FloatingContact";
 import { startSmoothScroll } from "./lib/scroll";
 
+// Hairline between white sections, inside the same container as everything else.
+const Divider = () => (
+  <div aria-hidden="true" className="site-wrap">
+    <div className="h-px bg-line" />
+  </div>
+);
+
 // Framer Motion's animation features load in a separate chunk after the page is up.
 const loadFeatures = () => import("./lib/motion-features").then((mod) => mod.default);
 
@@ -35,13 +42,21 @@ export default function App() {
         <Nav />
         <main id="main">
           <Hero />
+          <Divider />
           <ServicePanels />
+          <Divider />
           <Work />
+          <Divider />
           <Testimonials />
+          <Divider />
           <About />
+          <Divider />
           <Pricing />
+          <Divider />
           <Process />
+          <Divider />
           <FAQ />
+          <Divider />
           <Contact />
           <ClosingCTA />
         </main>

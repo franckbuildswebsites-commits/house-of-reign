@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--site-meta-->
     <meta name="theme-color" content="#ffffff" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <script>
-      // Before the first paint: the theme (a saved choice, otherwise the device setting; ThemeToggle.jsx),
-      // and "lite" mode for touch devices, low-core CPUs or Save-Data, which drops the heaviest
+      // Before the first paint: dark mode, only if the visitor chose it with the switch (ThemeToggle.jsx;
+      // the device setting is ignored on purpose, everyone opens in light), and "lite" mode for touch devices, low-core CPUs or Save-Data, which drops the heaviest
       // continuous effects (index.css).
       try {
         var n = navigator, c = n.connection;
@@ -16,10 +16,7 @@
           document.documentElement.classList.add("lite");
       } catch (e) {}
       try {
-        var saved = localStorage.getItem("theme");
-      } catch (e) {}
-      try {
-        if (saved === "dark" || (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches)) {
+        if (localStorage.getItem("theme") === "dark") {
           document.documentElement.dataset.theme = "dark";
           document.querySelector('meta[name="theme-color"]').content = "#000000";
         }

@@ -1,7 +1,7 @@
 # Reign Studio: website (takereign.com)
 
-Vite + React + Tailwind (v4) + Framer Motion (`motion`) + Lenis. Single page, light by default; dark follows the device
-setting, with a small switch in the header.
+Vite + React + Tailwind (v4) + Framer Motion (`motion`) + Lenis. Single page, light for everyone (whatever the device is
+set to); dark only turns on from the small switch in the header, and the choice is remembered.
 Deploys to Cloudflare (Workers static assets, see `wrangler.jsonc`). Design/motion reference and the
 Averlo checklist: `REFERENCE.md`. Project status: `PROGRESS.md`.
 

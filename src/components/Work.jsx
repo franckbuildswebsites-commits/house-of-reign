@@ -29,7 +29,7 @@ const scrollTo = ({ width, height }) => `-${Math.max(0, (1 - (width * FRAME_RATI
 // Pills with a highlight that slides to the chosen one.
 function FilterTabs({ active, onChange }) {
   return (
-    <div role="group" aria-label="Filter projects by industry" className="flex flex-wrap gap-0.5 rounded-[20px] bg-alt p-1 sm:inline-flex sm:rounded-full">
+    <div role="group" aria-label="Filter projects by industry" className="flex flex-wrap gap-0.5 rounded-[20px] border border-line p-1 sm:inline-flex sm:rounded-full">
       {tabs.map((t) => {
         const on = active === t.id;
         return (
@@ -39,18 +39,18 @@ function FilterTabs({ active, onChange }) {
             aria-pressed={on}
             onClick={() => onChange(t.id)}
             className={`relative min-h-9 rounded-full px-3.5 text-sm transition-colors duration-300 [@media(pointer:coarse)]:min-h-11 ${
-              on ? "text-ink" : "text-dim hover:text-ink focus-visible:text-ink"
+              on ? "text-accent" : "text-dim hover:text-ink focus-visible:text-ink"
             }`}
           >
             {on && (
               <m.span
                 layoutId="work-tab"
                 transition={{ type: "spring", stiffness: 420, damping: 36 }}
-                className="absolute inset-0 rounded-full bg-page ring-1 ring-line"
+                className="absolute inset-0 rounded-full bg-accent/10"
               />
             )}
             <span className="relative">
-              {t.label} <span className="text-dim">{countFor(t.id)}</span>
+              {t.label} <span className={on ? "" : "text-caption"}>{countFor(t.id)}</span>
             </span>
           </button>
         );
@@ -93,7 +93,7 @@ function ProjectCard({ project }) {
       <div className="mt-4 flex items-start justify-between gap-3 px-1">
         <div className="min-w-0">
           <h3 className="t-h4 truncate">{name}</h3>
-          <p className="mt-0.5 flex items-center gap-2 text-sm text-dim">
+          <p className="mt-0.5 flex items-center gap-2 text-sm text-caption">
             {categoryLabel[category]}
             {tag === "Concept" && <span className="rounded-full border border-line px-2 py-0.5 text-xs">Concept</span>}
           </p>

@@ -40,7 +40,7 @@ function Field({ label, id, optional, children }) {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={id} className="text-[0.9375rem] font-semibold">
-        {label} {optional && <span className="font-normal text-dim">(optional)</span>}
+        {label} {optional && <span className="font-normal text-caption">(optional)</span>}
       </label>
       {children}
     </div>
@@ -51,7 +51,7 @@ function Group({ legend, hint, children }) {
   return (
     <fieldset className="sm:col-span-2">
       <legend className="text-[0.9375rem] font-semibold">
-        {legend} {hint && <span className="font-normal text-dim">({hint})</span>}
+        {legend} {hint && <span className="font-normal text-caption">({hint})</span>}
       </legend>
       <div className="mt-3">{children}</div>
     </fieldset>
@@ -242,7 +242,7 @@ export default function Contact() {
         </SectionHeading>
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,2.6fr)_minmax(0,1fr)] lg:gap-12">
-          <Reveal className="rounded-[28px] bg-alt p-6 sm:p-10">
+          <Reveal className="rounded-[28px] border border-line p-6 sm:p-10">
             {status === "success" ? (
               <div role="status" className="flex min-h-[420px] flex-col items-start justify-center">
                 <span className="grid h-11 w-11 place-items-center rounded-full bg-accent text-on-accent">
@@ -367,7 +367,7 @@ export default function Contact() {
                   </div>
 
                   {status === "error" && (
-                    <div role="alert" className="rounded-[14px] bg-page px-4 py-3 text-base sm:col-span-2">
+                    <div role="alert" className="rounded-[14px] border border-line px-4 py-3 text-base sm:col-span-2">
                       <strong className="font-semibold">Couldn't send your message.</strong> {error} You can email us directly at{" "}
                       <a href={`mailto:${EMAIL}`} className="text-accent underline underline-offset-2">
                         {EMAIL}

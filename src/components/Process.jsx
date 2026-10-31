@@ -21,7 +21,7 @@ export default function Process() {
   useMotionValueEvent(scrollYProgress, "change", (p) => setActive(Math.min(steps.length - 1, Math.floor(p * steps.length))));
 
   return (
-    <section id="process" aria-labelledby="process-title" className="pt-28 lg:pt-36">
+    <section id="process" aria-labelledby="process-title" className="pt-22 lg:pt-28">
       <div className="site-wrap">
         <SectionHeading id="process-title" variant="end" label="How it works" title="Mockup to launch." dim="Four simple steps." />
       </div>
@@ -47,7 +47,7 @@ export default function Process() {
           {/* step list */}
           <ol className="col-start-1 row-start-3 flex items-center gap-1.5 self-end justify-self-end pb-2 lg:row-span-1 lg:row-start-1 lg:flex-col lg:items-start lg:gap-3 lg:self-center lg:justify-self-auto lg:pb-0">
             {steps.map((st, i) => (
-              <li key={st.n} className={`flex items-center gap-2.5 text-sm transition-colors duration-300 ${i === active ? "text-ink" : "text-dim"}`}>
+              <li key={st.n} className={`flex items-center gap-2.5 text-sm transition-colors duration-300 ${i === active ? "text-ink" : "text-caption"}`}>
                 <span className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${i <= active ? "bg-accent" : "bg-line"}`} />
                 <span className="hidden lg:inline">{st.title}</span>
               </li>
@@ -88,7 +88,7 @@ export default function Process() {
           {/* step number */}
           <div className="relative col-start-1 row-start-3 h-12 overflow-hidden lg:row-start-2">
             {steps.map((st, i) => (
-              <p key={st.n} className="step-slide t-h2 absolute left-0 top-0 tabular-nums text-dim" style={{ transform: textY(i, active) }}>
+              <p key={st.n} className="step-slide t-h2 absolute left-0 top-0 tabular-nums text-caption" style={{ transform: textY(i, active) }}>
                 {st.n}
               </p>
             ))}
