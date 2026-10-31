@@ -48,6 +48,7 @@ Not merged into `main`; the live site is unchanged.
   lower, controls are larger, headline is 80 / 40px at −0.04em. Off Apple devices the font is now Inter Tight.
 - **Round 14 (2026-10-31):** new hero line "Look like you run the place." with a small line under it; page title, meta
   description and link preview updated to match.
+- **Round 15 (2026-10-31):** placeholder "R" mark replaces the header crown and favicon (`src/assets/logo-mark.svg`); tab title is "Reign Studios".
 - Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
 - Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 

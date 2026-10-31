@@ -1,4 +1,5 @@
 import { BRAND, STUDIO_NAME } from "../config";
+import mark from "../assets/logo-mark.svg?raw";
 
 export function Crown({ className = "" }) {
   return (
@@ -20,10 +21,16 @@ export function Wordmark({ className = "", crown = "h-[0.74em] -translate-y-[0.0
   );
 }
 
+// The header logo. To swap in the final logo, replace src/assets/logo-mark.svg (keep
+// fill="currentColor"); the favicon is built from the same file (vite.config.js).
 export default function Logo({ className = "", onClick }) {
   return (
-    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`inline-flex h-11 items-center text-[1.75rem] max-[22rem]:text-[1.375rem] lg:h-12 ${className}`}>
-      <Wordmark crown="h-11" className="gap-2 tracking-[-0.04em]" />
-    </a>
+    <a
+      href="#top"
+      onClick={onClick}
+      aria-label={`${STUDIO_NAME}, back to top`}
+      className={`block h-11 w-[42px] text-ink lg:h-12 lg:w-[46px] [&>svg]:h-full [&>svg]:w-full ${className}`}
+      dangerouslySetInnerHTML={{ __html: mark }}
+    />
   );
 }

@@ -19,19 +19,10 @@ const links = [
 
 // No bar: everything floats over the page. Logo left, a solid pill in the center ("Menu" + theme
 // switch), a solid "Get Started" pill right (in the menu on phones). The header itself ignores the
-// pointer so the page stays clickable around them. Past the hero the logo gets a small frosted chip
-// behind it, so it stays readable over whatever scrolls underneath.
+// pointer so the page stays clickable around them. The logo sits at averlo.co's position, outside
+// the page container (.nav-logo).
 export default function Nav() {
   const [open, setOpen] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
-
-  useEffect(() => {
-    const hero = document.getElementById("top");
-    if (!hero || !("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver(([e]) => setPastHero(!e.isIntersecting), { rootMargin: "-56px 0px 0px 0px" });
-    io.observe(hero);
-    return () => io.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -58,17 +49,9 @@ export default function Nav() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <nav aria-label="Main" className="relative z-10">
+        <Logo onClick={close} className="nav-logo pointer-events-auto" />
         <div className="site-wrap relative flex h-16 items-start justify-between gap-2 pt-5 lg:h-[5.3125rem] lg:items-center lg:pt-[1.875rem]">
-          <div className="pointer-events-auto relative lg:self-start">
-            <m.span
-              aria-hidden="true"
-              initial={false}
-              animate={{ scale: pastHero && !open ? 1 : 0 }}
-              transition={SPRING}
-              className="frost absolute -inset-x-3 -inset-y-1 rounded-full border border-line"
-            />
-            <Logo onClick={close} className="relative" />
-          </div>
+          <span aria-hidden="true" />
 
           <div className="pill-solid nav-pill pointer-events-auto sm:absolute sm:left-1/2 sm:-translate-x-1/2">
             <m.button
