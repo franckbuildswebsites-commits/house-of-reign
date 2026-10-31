@@ -34,6 +34,8 @@ Not merged into `main`; the live site is unchanged.
 - **Round 8 (2026-10-31):** hero ring replaced by a floating cluster of four liquid glass tiles (Go Digital Hero, Token
   Forge, Champions4Character, Reign), each opening its site with a name label on hover. Top bar removed: logo floats
   left, black Menu + theme pill center, black "Get Started" right (in the menu on phones); pills invert in dark mode.
+- **Round 9 (2026-10-31):** hero buttons removed; the "Get Started" and "Message us" pills are the only hero actions.
+  Headline scaled up and lifted clear of the "Message us" pill.
 - Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
 - Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 

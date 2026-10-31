@@ -130,8 +130,8 @@ html[data-theme="dark"] {
      Headlines 600 with tight tracking, everything else 400. */
   .t-hero, .t-h1, .t-h2, .t-h3, .t-card, .t-h4 { font-weight: 600; }
   /* The hero statement. Capped by screen height too, so the whole hero fits on one screen. */
-  .t-hero { font-size: clamp(2.5rem, min(6.4vw, 10.5svh), 5.75rem); line-height: 1.04; letter-spacing: -0.032em; }
-  @media (width < 40rem) { .t-hero { font-size: min(11.3vw, 6.4svh); } }
+  .t-hero { font-size: clamp(2.5rem, min(6.9vw, 11svh), 6.25rem); line-height: 1.04; letter-spacing: -0.032em; }
+  @media (width < 40rem) { .t-hero { font-size: min(12.3vw, 6.9svh); } }
   .t-h1 { font-size: clamp(2.75rem, 5.6vw, 5rem); line-height: 1.05; letter-spacing: -0.03em; }
   .t-h2 { font-size: clamp(2.25rem, 3.9vw, 3.5rem); line-height: 1.07; letter-spacing: -0.026em; }
   .t-h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1.1; letter-spacing: -0.022em; }
