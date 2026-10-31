@@ -13,6 +13,9 @@ dropped on purpose.
 wall, pinned service panels, nav links). Motion is now spring-based; rules that still hold: transform only, nothing fades
 on scroll, light first. Round 8 then swapped the ring for a floating cluster and removed the top bar. Lesson from the ring:
 Safari drops transforms split across nested 3D layers, so check painted pixels in WebKit, not just layout numbers.
+Round 12 replaced the hero visual with a WebGL drop. Tuning notes: keep the noise wide and its time slow (fast morphing reads
+as a screensaver), keep one soft window highlight (several spots read as plastic), and re-export `public/blob/` after any
+shader change so the image-to-live hand-over stays invisible.
 
 ## Apple pass: measured (2026-10-31)
 

@@ -9,8 +9,8 @@
     <script>
       // Before the first paint: dark mode, only if the visitor chose it with the switch (ThemeToggle.jsx;
       // the device setting is ignored on purpose, everyone opens in light); "lite" mode for touch
-      // devices, low-core CPUs or Save-Data, which skips scroll parallax (Parallax.jsx); and "saver"
-      // for Save-Data, which also holds the hero cards still (index.css).
+      // devices, low-core CPUs or Save-Data, which skips scroll parallax (Parallax.jsx) and draws the hero
+      // drop at lower resolution; and "saver" for Save-Data.
       try {
         var n = navigator, c = n.connection;
         if (matchMedia("(hover: none)").matches || (n.hardwareConcurrency || 8) <= 4 || (n.deviceMemory || 8) <= 4 || (c && c.saveData))
@@ -22,6 +22,13 @@
           document.documentElement.dataset.theme = "dark";
           document.querySelector('meta[name="theme-color"]').content = "#000000";
         }
+      } catch (e) {}
+      // The hero drop's first frame, for this theme and screen size (index.css, Blob.jsx).
+      try {
+        var img = document.createElement("link");
+        img.rel = "preload"; img.as = "image"; img.type = "image/avif"; img.fetchPriority = "high";
+        img.href = "/blob/drop-" + (document.documentElement.dataset.theme === "dark" ? "dark" : "light") + (matchMedia("(max-width: 639px)").matches ? "-640" : "-1100") + ".avif";
+        document.head.appendChild(img);
       } catch (e) {}
       // Apple devices use the system font; everyone else needs Inter right away (no layout shift).
       try {

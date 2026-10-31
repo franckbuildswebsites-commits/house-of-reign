@@ -257,78 +257,47 @@ html[data-theme="dark"] {
     }
   }
 
-  /* Hero fan (Deck.jsx). Everything scales from the box it sits in, so it fits any screen. Each card
-     opens from the stack with the spring on first paint, then floats, both CSS on transform. */
-  .deck-stage { container-type: size; }
-  .deck {
-    --h: min(17.5rem, 68cqh, 46cqw);
-    --w: calc(var(--h) * 0.786);
-    position: relative;
-    width: calc(var(--w) * 2.3);
-    height: var(--h);
-    flex-shrink: 0;
-  }
-  .deck-slot {
-    --fan: translateX(calc(var(--side) * var(--w) * 0.62)) translateY(calc(var(--side) * var(--side) * var(--h) * 0.03)) rotate(calc(var(--side) * 10deg));
+  /* Hero drop (Blob.jsx). The static image paints first; the canvas replaces it on the matching
+     frame. The canvas is wider than the drop itself, which fills about 68% of it, so the drop has
+     room to lean. Sized from the box it sits in, so it fits any screen. */
+  .blob-stage { container-type: size; }
+  .blob {
+    --drop: min(36cqw, 82cqh);
     position: absolute;
     left: 50%;
-    top: 0;
-    width: var(--w);
-    height: var(--h);
-    margin-left: calc(var(--w) / -2);
-    z-index: calc(2 - var(--side) * var(--side));
-    transform-origin: 50% 120%;
-    transform: var(--fan);
-    animation: deck-open 1s var(--spring) 120ms backwards;
-  }
-  .deck-slot:hover, .deck-slot:focus-within { z-index: 10; }
-  .deck-bob { animation: deck-bob var(--bob) ease-in-out var(--bob-delay) infinite; }
-  .deck-card {
-    position: relative;
-    display: block;
-    height: 100%;
-    overflow: hidden;
-    border-radius: 20px;
-    border: 1px solid var(--color-line);
-    background: var(--color-page);
-    box-shadow: 0 24px 44px -24px rgb(0 0 0 / 0.42), 0 6px 14px -8px rgb(0 0 0 / 0.16);
-  }
-  /* The logo's glossy little badge: the brand's colors under a highlight. */
-  .deck-badge {
-    position: absolute;
-    left: 7%;
-    bottom: 6%;
-    width: 21%;
-    min-width: 2.125rem;
-  }
-  .liquid {
-    display: grid;
-    place-items: center;
+    top: 50%;
+    width: calc(var(--drop) / 0.68);
     aspect-ratio: 1;
-    overflow: hidden;
-    isolation: isolate;
-    border-radius: 27%;
-    background:
-      radial-gradient(70% 70% at 25% 25%, var(--c1), transparent 72%),
-      radial-gradient(55% 55% at 85% 25%, var(--c4), transparent 72%),
-      radial-gradient(75% 75% at 60% 90%, var(--c3), transparent 74%),
-      var(--c2);
-    box-shadow: 0 6px 12px -6px rgb(0 0 0 / 0.5);
+    margin-left: calc(var(--drop) / -1.36);
+    margin-top: calc(var(--drop) / -1.36);
   }
-  .liquid-gloss {
+  @container (width < 40rem) {
+    .blob { --drop: min(74cqw, 72cqh); }
+  }
+  .blob-frame { position: relative; width: 100%; height: 100%; }
+  .blob-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; visibility: hidden; }
+  .blob-still {
     position: absolute;
     inset: 0;
-    border-radius: inherit;
-    background:
-      radial-gradient(85% 50% at 34% -4%, rgb(255 255 255 / 0.55), transparent 66%),
-      radial-gradient(60% 26% at 66% 106%, rgb(255 255 255 / 0.28), transparent 72%);
-    box-shadow:
-      inset 0 1px 1px rgb(255 255 255 / 0.6),
-      inset 0 0 0 1px rgb(255 255 255 / 0.14),
-      inset 0 -6px 9px -6px rgb(0 0 0 / 0.32);
+    background: center / contain no-repeat url("/blob/drop-light-1100.webp");
+    background-image: image-set(url("/blob/drop-light-1100.avif") type("image/avif"), url("/blob/drop-light-1100.webp") type("image/webp"));
   }
-  .is-offscreen .deck-bob,
-  html.saver .deck-bob { animation-play-state: paused; }
+  html[data-theme="dark"] .blob-still {
+    background-image: url("/blob/drop-dark-1100.webp");
+    background-image: image-set(url("/blob/drop-dark-1100.avif") type("image/avif"), url("/blob/drop-dark-1100.webp") type("image/webp"));
+  }
+  @media (width < 40rem) {
+    .blob-still {
+      background-image: url("/blob/drop-light-640.webp");
+      background-image: image-set(url("/blob/drop-light-640.avif") type("image/avif"), url("/blob/drop-light-640.webp") type("image/webp"));
+    }
+    html[data-theme="dark"] .blob-still {
+      background-image: url("/blob/drop-dark-640.webp");
+      background-image: image-set(url("/blob/drop-dark-640.avif") type("image/avif"), url("/blob/drop-dark-640.webp") type("image/webp"));
+    }
+  }
+  .blob-frame.is-live .blob-canvas { visibility: visible; }
+  .blob-frame.is-live .blob-still { visibility: hidden; }
 
   /* Hero services slider: darkest in the middle, melting away toward both edges. */
   .slider {
@@ -411,13 +380,6 @@ html[data-theme="dark"] {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
 }
-@keyframes deck-open {
-  from { transform: translateY(1rem) scale(0.96); }
-}
-@keyframes deck-bob {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, -5px, 0) rotate(0.5deg); }
-}
 @keyframes ticker-up {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(0, -50%, 0); }
@@ -433,7 +395,7 @@ html[data-theme="dark"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .marquee, .ticker, .deck-slot, .deck-bob, .scroll-cue-line::after { animation: none !important; }
+  .marquee, .ticker, .scroll-cue-line::after { animation: none !important; }
   .reveal.is-hidden { transform: none; }
 }
 

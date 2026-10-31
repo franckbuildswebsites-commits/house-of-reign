@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import Deck from "./Deck";
+import Blob from "./Blob";
 import { usePauseOffscreen } from "../lib/offscreen";
 
 const services = [
@@ -11,7 +11,7 @@ const services = [
 // below). The list is doubled so the loop is seamless, and an edge mask softens the top and bottom.
 function ServiceSlider() {
   return (
-    <div aria-hidden="true" className="slider absolute inset-y-[6%] right-0 hidden w-56 overflow-hidden xl:block">
+    <div aria-hidden="true" className="slider absolute inset-y-[6%] right-0 hidden w-56 overflow-hidden lg:block">
       <ul className="ticker flex flex-col items-end">
         {[...services, ...services].map((s, i) => (
           <li key={i} className="pb-2">
@@ -23,26 +23,21 @@ function ServiceSlider() {
   );
 }
 
-// One screen: a fan of client cards with a quiet line under it, the services drifting up the right
-// side, then a huge two-tone statement, left-aligned. The floating pills carry the actions. The text
-// rises once with CSS on first paint.
+// One screen: the liquid glass drop in the middle, the services drifting up the right side, and a
+// huge two-tone statement in front of it, left-aligned. The floating pills carry the actions. The
+// text rises once with CSS on first paint.
 export default function Hero() {
   const ref = useRef(null);
   usePauseOffscreen(ref);
   return (
     <section ref={ref} id="top" className="site-wrap">
       <div className="relative flex h-svh max-h-[60rem] min-h-[34rem] flex-col gap-2 pb-20 pt-[var(--nav-h)] lg:gap-4 lg:pb-24">
-        <div className="deck-stage relative min-h-0 flex-1">
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
-            <Deck />
-            <p className="rise text-center text-[0.9375rem] leading-snug tracking-[-0.01em] text-dim" style={{ "--d": "260ms" }}>
-              Websites that bring in customers.
-            </p>
-          </div>
+        <div className="blob-stage relative min-h-0 flex-1">
+          <Blob />
           <ServiceSlider />
         </div>
 
-        <h1 className="rise t-hero">
+        <h1 className="rise t-hero relative">
           <span className="block">Websites that get you</span>
           <span className="block text-caption">more clients.</span>
         </h1>

@@ -20,8 +20,9 @@ npm run preview  # serve the production build locally
 | Colors (light + dark theme), fonts, type scale, the one page container (`.site-wrap`), motion helpers | `src/index.css` (system font first; Inter + Caveat self-hosted in `public/fonts/`) |
 | Logo / "Reign" wordmark (indigo crown + 600 weight text) | `src/components/Logo.jsx` |
 | Floating logo and pills, full-screen menu, theme switch | `src/components/Nav.jsx`, `src/components/ThemeToggle.jsx` |
-| Hero (fan of client cards, services slider, headline) | `src/components/Hero.jsx`, `src/components/Deck.jsx` |
-| Client cards: link and badge colors (the `cards` list in `Deck.jsx`), homepage shots, logos | `public/portfolio/hero/`, `public/portfolio/tiles/` |
+| Hero (liquid glass drop, services slider, headline) | `src/components/Hero.jsx`, `src/components/Blob.jsx` |
+| The drop: shaders, colors, morph speed, render loop | `src/lib/blob-engine.js` (WebGL via OGL, loaded after the page is up) |
+| The drop's static fallback (exported from the shader at `START_TIME`; re-export if the shader changes) | `public/blob/` |
 | Services: Websites card, grouped small cards with prices | `src/components/Services.jsx` (mockup in `src/components/Mockups.jsx`) |
 | Hover / tap / menu springs (`SPRING`, `SPRING_SOFT`, `<Press>`) | `src/components/Press.jsx` (`--spring` in `src/index.css` is the CSS version) |
 | Scroll parallax on images | `src/components/Parallax.jsx` |
@@ -74,10 +75,10 @@ In `src/data/projects.js`, set `published: false` to hide it or `true` to show i
 `npm run build` builds the site, then renders every section to plain HTML (`scripts/prerender.js`). The deployed
 page shows all of its content before any JavaScript runs, so search engines, link previews and slow phones see
 everything. The hero rises in with CSS alone; Framer Motion's animation engine loads in a separate chunk after the page
-is up. Everything animates transform only, so text stays at full strength while scrolling. The hero cards float on CSS
-animations (no JavaScript per frame); hover adds a spring spread on desktop. Looping animations pause when off screen
+is up. Everything animates transform only, so text stays at full strength while scrolling. The hero drop paints as an image first, then WebGL
+takes over when the browser is idle. Looping animations and the drop pause when off screen
 (`src/lib/offscreen.js`), phones and low-power devices skip scroll parallax (`html.lite`, set in `index.html`), Save-Data
-also holds the cards still (`html.saver`), and with reduced motion nothing moves at all.
+keeps the drop as a static image, and with reduced motion nothing moves at all.
 
 ## Deploy
 
