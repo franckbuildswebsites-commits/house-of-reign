@@ -341,8 +341,27 @@ html[data-theme="dark"] {
   }
 
 
-  /* Process stage (Process.jsx): every step is stacked in place and slides, never fades. */
-  .step-slide { transition: transform 0.75s var(--spring); }
+  /* Process stage (Process.jsx): every step is stacked in place and slides on one easing. */
+  .step-slide {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .step-slide[data-step="past"] { transform: translate3d(0, -110%, 0); }
+  .step-slide[data-step="next"] { transform: translate3d(0, 110%, 0); }
+  .step-slide.step-card[data-step="past"] { transform: none; } /* an opaque card, covered by the next one */
+  .step-glow {
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity;
+  }
+  .step-glow[data-on] { opacity: 1; }
+  /* Tall enough for the digits at any size. It keeps a 48px place in the layout and hangs lower into
+     the stage's bottom padding, so the numbers stay where they were. */
+  .step-number {
+    --number: clamp(2.25rem, 3.9vw, 3.5rem);
+    height: calc(var(--number) * 1.25);
+    margin-bottom: calc(3rem - var(--number) * 1.25);
+  }
 
   /* FAQ "+" that turns into "−" (FAQ.jsx) */
   .plus { position: relative; width: 16px; height: 16px; flex-shrink: 0; }
@@ -382,6 +401,10 @@ html[data-theme="dark"] {
     transition-duration: 0.01ms !important;
   }
   .ticker, .scroll-cue-line::after { animation: none !important; }
+  /* Process stage: no sliding, a simple fade between steps. */
+  .step-slide { transform: none !important; opacity: 0; transition: opacity 0.3s ease !important; transition-duration: 0.3s !important; will-change: auto; }
+  .step-slide[data-step="now"] { opacity: 1; }
+  .step-glow { transition-duration: 0.3s !important; }
   .reveal.is-hidden { transform: none; }
 }
 
