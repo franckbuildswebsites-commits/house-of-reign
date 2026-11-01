@@ -27,8 +27,8 @@ npm run preview  # serve the production build locally
 | Services: Websites card, grouped small cards with prices | `src/components/Services.jsx` (mockup in `src/components/Mockups.jsx`) |
 | Hover / tap / menu springs (`SPRING`, `SPRING_SOFT`, `<Press>`) | `src/components/Press.jsx` (`--spring` in `src/index.css` is the CSS version) |
 | Scroll parallax on images | `src/components/Parallax.jsx` |
-| Work: marquee rows, featured case study, filterable grid | `src/components/WorkMarquee.jsx`, `src/components/Work.jsx`, `src/data/projects.js` |
-| Marquee / closing-section card images (600×375 crops) | `public/portfolio/cards/` |
+| Featured case study | `src/components/FeaturedCaseStudy.jsx`, `src/data/projects.js` |
+| Closing-section card images (600×375 crops) | `public/portfolio/cards/` |
 | Image formats | every `.webp` in `public/portfolio/` has a smaller `.avif` twin; add both when you add an image |
 | Full-page screenshots (grid) and Go Digital Hero shots | `public/portfolio/` |
 | Testimonial | `src/data/testimonials.js` |
@@ -47,29 +47,6 @@ npm run preview  # serve the production build locally
 
 The page title, description, canonical URL, Open Graph tags and schema in `index.html` are generated from
 `src/config.js` at build time. Restart `npm run dev` after editing the config to see those changes.
-
-## Add a project card
-
-1. Take a full-page screenshot of the site at 1440px wide (desktop), resize it to 720px wide and save it as WebP: `public/portfolio/sunset-events-full.webp`. Note its height in pixels.
-2. Add an entry to the `projects` array in `src/data/projects.js`:
-
-```js
-{
-  id: "sunset-events",
-  name: "Sunset Events",
-  category: "professional",                         // id from `categories` (filter tabs)
-  tag: "Client",                                     // "Concept" shows a Concept tag on the card
-  url: "https://sunsetevents.com",                   // the card opens this in a new tab
-  full: full("sunset-events", 3200),                 // screenshot height at 720px wide
-  published: true,
-},
-```
-
-On hover (desktop) or when it's on screen (phones), the card scrolls through the whole screenshot. To add a filter tab, add a category to `categories` in the same file.
-
-## Hide or show a case study
-
-In `src/data/projects.js`, set `published: false` to hide it or `true` to show it.
 
 ## How the build works
 

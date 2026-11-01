@@ -241,7 +241,7 @@ html[data-theme="dark"] {
   }
   .field::placeholder { color: var(--color-caption); }
 
-  /* Frosted glass: the logo chip, marquee labels. */
+  /* Frosted glass: unused by the header now. */
   .frost {
     background: color-mix(in srgb, var(--color-page) 72%, transparent);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -330,35 +330,12 @@ html[data-theme="dark"] {
   .is-offscreen .scroll-cue-line::after { animation-play-state: paused; }
 
   /* Any looping animation stops while its section is off screen (lib/offscreen.js adds .is-offscreen). */
-  .is-offscreen .marquee { animation-play-state: paused; }
 
   /* An odd card at the end of a two-up grid on phones takes the whole row. */
   @media (width < 48rem) {
     .group-cards > :last-child:nth-child(odd) { grid-column: 1 / -1; }
   }
 
-  /* Horizontal marquee rows (WorkMarquee.jsx); pause on hover. */
-  .marquee { animation: marquee var(--dur, 60s) linear infinite; }
-  .marquee.reverse { animation-direction: reverse; }
-  .marquee-row:hover .marquee,
-  .marquee-row:focus-within .marquee { animation-play-state: paused; }
-
-  /* Work grid (Work.jsx): the full-page screenshot scrolls inside its frame on hover/focus (desktop)
-     or while the card is on screen (touch). Reduced motion: never moves. */
-  @media (prefers-reduced-motion: no-preference) {
-    .shot-img { transition: transform 0.9s var(--ease-out-soft); }
-    .shot.is-scrolling .shot-img,
-    a:focus-visible .shot-img {
-      transform: translate3d(0, var(--scroll-to), 0);
-      transition: transform 7s cubic-bezier(0.45, 0, 0.55, 1);
-    }
-    @media (hover: hover) {
-      a:hover .shot-img {
-        transform: translate3d(0, var(--scroll-to), 0);
-        transition: transform 7s cubic-bezier(0.45, 0, 0.55, 1);
-      }
-    }
-  }
 
   /* Process stage (Process.jsx): every step is stacked in place and slides, never fades. */
   .step-slide { transition: transform 0.75s var(--spring); }
@@ -385,10 +362,6 @@ html[data-theme="dark"] {
   from { transform: translate3d(0, 16px, 0); }
   to { transform: none; }
 }
-@keyframes marquee {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
-}
 @keyframes ticker-up {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(0, -50%, 0); }
@@ -404,7 +377,7 @@ html[data-theme="dark"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .marquee, .ticker, .scroll-cue-line::after { animation: none !important; }
+  .ticker, .scroll-cue-line::after { animation: none !important; }
   .reveal.is-hidden { transform: none; }
 }
 

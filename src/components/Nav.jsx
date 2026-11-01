@@ -9,7 +9,6 @@ import { smsHref } from "../lib/utils";
 import { pauseScroll, resumeScroll, scrollToHash } from "../lib/scroll";
 
 const links = [
-  { label: "Work", href: "#work" },
   { label: "Services", href: "#services" },
   { label: "Pricing", href: "#pricing" },
   { label: "Process", href: "#process" },

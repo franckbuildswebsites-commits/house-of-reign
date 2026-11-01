@@ -6,7 +6,6 @@ import { STUDIO_NAME, EMAIL, PHONE } from "../config";
 import { smsHref } from "../lib/utils";
 
 const links = [
-  ["Work", "#work"],
   ["Services", "#services"],
   ["Pricing", "#pricing"],
   ["Process", "#process"],

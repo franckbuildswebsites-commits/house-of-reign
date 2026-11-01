@@ -50,6 +50,7 @@ Not merged into `main`; the live site is unchanged.
   description and link preview updated to match.
 - **Round 15 (2026-10-31):** placeholder "R" mark replaces the header crown and favicon (`src/assets/logo-mark.svg`); tab title is "Reign Studios".
 - **Round 16 (2026-10-31):** final logo files in `public/brand/`; name is "Reign Studios" everywhere.
+- **Round 17 (2026-10-31):** "Recent work" marquee and project grid removed; only the Go Digital Hero case study remains. Merged to `main`.
 - Lighthouse (mobile, local build, 3 runs): Performance 100, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 0.9s.
 - Throttled phone scroll test (4× CPU, whole page, headless): steady 16.7ms frames, 0 long tasks.
 
@@ -68,8 +69,5 @@ Not merged into `main`; the live site is unchanged.
 - **Connect takereign.com** to the Cloudflare Worker (custom domain) after the merge; canonical/OG URLs and the sitemap already point there.
 - **Test the contact form and "Get a text"** with a real submission (both send to Web3Forms; not tested by me on purpose).
 - Automatic Cloudflare preview builds for branches still fail (log not readable with the current login); previews are uploaded by hand (README → Deploy).
-- **Two project links are dead:** Wicked Bread (`wicked-bread-co.pages.dev` no longer resolves) and Past Present Future
-  (`ppf-comics.franckbuildswebsites.workers.dev` returns 404; that Worker no longer exists). Both Work cards still link to
-  them from the grid and marquee. Redeploy the sites or update `url` in `src/data/projects.js`.
 - Champions4Character links to its Netlify address; update `src/data/projects.js` if they get a real domain.
 - Spanish version, footer social icons (add Instagram to `src/config.js`), privacy page, `public/me.jpg` (your photo).

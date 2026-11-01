@@ -1,7 +1,7 @@
 import Lenis from "lenis";
 
 // Smooth scrolling (Lenis), like the reference site. Skipped with reduced motion and on touch
-// screens (native scrolling feels better there). Anchor links (#work, #contact…) glide too.
+// screens (native scrolling feels better there). Anchor links (#pricing, #contact…) glide too.
 let lenis = null;
 
 // Space to leave above a section when jumping to it: the fixed header plus a little air.
