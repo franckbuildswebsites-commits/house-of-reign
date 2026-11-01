@@ -91,10 +91,14 @@ html[data-theme="dark"] {
 }
 
 @layer base {
+  /* Every jump target stops below the floating nav. The single place this offset is set: plain
+     anchors, Lenis and scrollToHash (lib/scroll.js) all read it. */
+  section[id], #main, #site-footer { scroll-margin-top: 6rem; }
+  @media (width >= 64rem) {
+    section[id], #main, #site-footer { scroll-margin-top: 7.5rem; }
+  }
   html {
     -webkit-text-size-adjust: 100%;
-    /* Anchor jumps land just under the fixed header. */
-    scroll-padding-top: calc(var(--nav-h) + 1.5rem);
     background: var(--color-page);
     color-scheme: light;
   }
