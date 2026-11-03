@@ -1,0 +1,62 @@
+import Reveal from "./Reveal";
+import Press from "./Press";
+import SectionHeading from "./SectionHeading";
+import { Check } from "./Icons";
+import { monthlyPlans, MONTHLY_NOTE } from "../data/services";
+import { selectProject } from "../lib/utils";
+
+// Two monthly plans after the website plans, built like the Pricing cards. The featured plan uses
+// the pill colors (black here, white in dark mode), like the floating nav pills.
+export default function MonthlyPlans() {
+  return (
+    <section id="monthly" aria-labelledby="monthly-title" className="section-y">
+      <div className="site-wrap">
+        <SectionHeading id="monthly-title" label="Monthly plans" title="Look the part." dim="Every month.">
+          Your website is the start. We keep you looking the part every month: fresh content, a sharp Google profile, and a site that stays current.
+        </SectionHeading>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {monthlyPlans.map((p, i) => {
+            const dark = p.featured;
+            const soft = dark ? "text-on-pill/65" : "text-caption";
+            return (
+              <Reveal key={p.name} delay={i * 50} className="h-full">
+                <Press
+                  as="div"
+                  lift={3}
+                  press={0.99}
+                  className={`flex h-full flex-col rounded-[24px] border p-6 sm:p-7 ${dark ? "border-pill bg-pill text-on-pill" : "border-line"}`}
+                >
+                  <h3 className="t-h4">{p.name}</h3>
+                  <p className="t-h2 mt-6">{p.price}</p>
+                  <p className={`mt-0.5 text-sm ${soft}`}>per month</p>
+                  <ul className={`mt-5 flex flex-col gap-2 border-t pt-5 text-[0.9375rem] leading-snug ${dark ? "border-on-pill/20" : "border-line"}`}>
+                    {p.features.map((f) => (
+                      <li key={f} className="flex gap-2">
+                        <Check className={`mt-0.5 h-4 w-4 shrink-0 ${dark ? "text-on-pill" : "text-accent"}`} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-7">
+                    <Press
+                      href="#contact"
+                      onClick={() => selectProject(p.project)}
+                      className={`btn ${dark ? "bg-on-pill text-pill" : "bg-pill text-on-pill"}`}
+                    >
+                      Get started
+                    </Press>
+                  </div>
+                </Press>
+              </Reveal>
+            );
+          })}
+        </div>
+
+        <Reveal as="p" className="t-small mt-6 max-w-[40rem]">
+          {MONTHLY_NOTE}
+        </Reveal>
+      </div>
+    </section>
+  );
+}

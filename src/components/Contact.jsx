@@ -9,7 +9,10 @@ import { isPlaceholder, showInstagram, instagramHandle, instagramUrl, smsHref, P
 // Questions are built for people who aren't sure what they need: short choices, few required typing fields.
 const REACH = ["Text", "Call", "Email"];
 const CUSTOM = "Bigger custom build";
-const NEEDS = ["New website", "Redo my current website", "Changes to my site", CUSTOM, "Not sure yet"];
+const PRESENCE = "Monthly plan: Presence";
+const GROWTH = "Monthly plan: Growth";
+const NEEDS = ["New website", "Redo my current website", "Changes to my site", CUSTOM, PRESENCE, GROWTH, "Not sure yet"];
+const isMonthly = (n) => n === PRESENCE || n === GROWTH;
 const HAS_SITE = ["Yes", "No", "Just Facebook or Instagram"];
 const BUSINESS_TYPES = [
   "Restaurant or café",
@@ -31,7 +34,7 @@ const CUSTOM_BUDGET = "$2,500+";
 const TIMELINES = ["ASAP", "Within a month", "Just exploring"];
 
 // Pricing cards send their plan name; map it to the matching "What do you need?" card.
-const PROJECT_TO_NEED = { "Custom Build": CUSTOM };
+const PROJECT_TO_NEED = { "Custom Build": CUSTOM, Presence: PRESENCE, Growth: GROWTH };
 
 // Tap targets are at least 44px tall. The real input stays in the DOM (visually hidden) for keyboard and form data.
 const pill =
@@ -216,7 +219,7 @@ export default function Contact() {
           "Current website": site,
           "Type of business": type,
           "Site should help with": goals.length ? goals.join(", ") : "(none picked)",
-          Budget: or(budget),
+          Budget: isMonthly(need) ? "(monthly plan)" : or(budget),
           Timeline: or(data.timeline),
           "Anything else": or(data.message, "(nothing added)"),
         }),
@@ -344,10 +347,12 @@ export default function Contact() {
                     <Pills name="goals" type="checkbox" options={GOALS} />
                   </Group>
 
-                  {/* 6. Budget */}
-                  <Group legend="Budget" hint="optional">
-                    <Pills name="budget" options={BUDGETS} value={budget} onChange={setBudget} />
-                  </Group>
+                  {/* 6. Budget (one-off builds only: a monthly plan already has its price) */}
+                  {!isMonthly(need) && (
+                    <Group legend="Budget" hint="optional">
+                      <Pills name="budget" options={BUDGETS} value={budget} onChange={setBudget} />
+                    </Group>
+                  )}
 
                   {/* 7. Timeline */}
                   <Group legend="Timeline">

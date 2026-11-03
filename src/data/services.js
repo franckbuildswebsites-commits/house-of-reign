@@ -25,16 +25,6 @@ export const services = [
     style: "dark",
   },
   {
-    name: "Site Care",
-    perfectFor: "If you'd rather not touch your site.",
-    priceLabel: "Monthly",
-    price: "$125",
-    unit: "/month",
-    features: ["Hosting oversight", "Monthly updates", "Up to 2 update rounds a month"],
-    timeline: "Ongoing",
-    style: "light",
-  },
-  {
     name: "Custom Build",
     perfectFor: "Ordering, payments, memberships or 5+ pages.",
     priceLabel: "Starting at",
@@ -47,3 +37,39 @@ export const services = [
     project: "Custom Build",
   },
 ];
+
+// Site upkeep on its own: shown as one small line under the website plans, not a card.
+export const SITE_CARE = "$125/month";
+
+// Monthly plans (MonthlyPlans.jsx). `featured` gets the dark card. `project` pre-selects the plan
+// in the contact form.
+export const monthlyPlans = [
+  {
+    name: "Presence",
+    price: "$750",
+    features: [
+      "1 on-site content shoot per month",
+      "8 posts + 4 Reels, edited and scheduled",
+      "Google Business Profile posts + review replies",
+      "Website upkeep included",
+      "Monthly recap of your results",
+    ],
+    project: "Presence",
+  },
+  {
+    name: "Growth",
+    price: "$1,200",
+    features: [
+      "2 on-site content shoots per month",
+      "12 posts + 8 Reels, edited and scheduled",
+      "Google Business Profile posts + review replies",
+      "Website upkeep included",
+      "Monthly recap + strategy call",
+    ],
+    featured: true,
+    project: "Growth",
+  },
+];
+
+export const MONTHLY_NOTE =
+  "3-month minimum. Billed monthly, upfront. You keep full ownership of your accounts and content. Spots are limited so every client gets real attention.";

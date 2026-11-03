@@ -24,6 +24,18 @@ export const faq = [
     a: "Take it from there, or add Site Care ($125/month): hosting, updates and changes. Cancel with 30 days' notice.",
   },
   {
+    q: "Do you take over my Instagram?",
+    a: "No. You add us as a partner in Meta Business Suite. We plan, shoot, edit and schedule; you approve each month's posts before anything goes live. You keep full ownership.",
+  },
+  {
+    q: "Do you answer DMs and comments?",
+    a: "No, you know your customers best. We handle the content and your Google profile; you keep the conversations.",
+  },
+  {
+    q: "Do I need a website first?",
+    a: "No. Monthly plans work on their own. If you need a site, we build it and Presence keeps it current.",
+  },
+  {
     q: "Are there other costs?",
     a: "Only things in your name, like your domain (about $10–20/year). You pay those directly.",
   },

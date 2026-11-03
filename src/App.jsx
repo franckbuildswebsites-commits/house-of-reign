@@ -7,6 +7,7 @@ import Work from "./components/Work";
 import Testimonials from "./components/Testimonials";
 import About from "./components/About";
 import Pricing from "./components/Pricing";
+import MonthlyPlans from "./components/MonthlyPlans";
 import Process from "./components/Process";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
@@ -52,6 +53,8 @@ export default function App() {
           <About />
           <Divider />
           <Pricing />
+          <Divider />
+          <MonthlyPlans />
           <Divider />
           <Process />
           <Divider />
