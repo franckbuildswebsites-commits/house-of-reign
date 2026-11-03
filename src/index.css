@@ -432,3 +432,60 @@ html[data-theme="dark"] {
 /* Press-in for the small things that aren't Framer Motion components (form choices). */
 .tap { transition: transform 0.5s var(--spring); }
 .tap:active { transform: scale(0.97); }
+
+/* Pill buttons with an icon ("Message us"): text left, the icon in its own small circle on the right.
+   Hover swaps the icon inside that circle only (out to the right, a copy in from the left), the
+   circle brightens a little, the text nudges 2px left and the pill grows to 1.02. Press: 0.97.
+   Colors never change; the circle is a tint of the text color. On touch, a tap plays the same swap.
+   Reduced motion: only the circle brightens. */
+@layer components {
+  .icon-pill {
+    --ip-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 9999px;
+    padding: 0.25rem 0.25rem 0.25rem 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition: transform 350ms var(--ip-ease);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .icon-pill-text { display: block; transition: transform 350ms var(--ip-ease); }
+  .icon-pill-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: color-mix(in srgb, currentColor 15%, transparent);
+    transition: background-color 350ms var(--ip-ease);
+  }
+  .icon-pill-icon > svg { grid-area: 1 / 1; width: 1rem; height: 1rem; transition: transform 350ms var(--ip-ease); }
+  .icon-pill-icon > svg + svg { transform: translateX(-2rem); }
+
+  @media (hover: hover) {
+    .icon-pill:hover { transform: scale(1.02); }
+    .icon-pill:hover .icon-pill-text { transform: translateX(-2px); }
+    .icon-pill:hover .icon-pill-icon { background-color: color-mix(in srgb, currentColor 25%, transparent); }
+    .icon-pill:hover .icon-pill-icon > svg:first-child { transform: translateX(2rem); }
+    .icon-pill:hover .icon-pill-icon > svg + svg { transform: none; }
+  }
+  .icon-pill:focus-visible .icon-pill-text, .icon-pill:active .icon-pill-text, .icon-pill[data-tap] .icon-pill-text { transform: translateX(-2px); }
+  .icon-pill:focus-visible .icon-pill-icon, .icon-pill:active .icon-pill-icon, .icon-pill[data-tap] .icon-pill-icon { background-color: color-mix(in srgb, currentColor 25%, transparent); }
+  .icon-pill:focus-visible .icon-pill-icon > svg:first-child, .icon-pill:active .icon-pill-icon > svg:first-child, .icon-pill[data-tap] .icon-pill-icon > svg:first-child { transform: translateX(2rem); }
+  .icon-pill:focus-visible .icon-pill-icon > svg + svg, .icon-pill:active .icon-pill-icon > svg + svg, .icon-pill[data-tap] .icon-pill-icon > svg + svg { transform: none; }
+  .icon-pill:active, .icon-pill:hover:active { transform: scale(0.97); }
+  .icon-pill[data-tap] { animation: icon-pill-tap 350ms var(--ip-ease); }
+  @keyframes icon-pill-tap { 40% { transform: scale(0.97); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .icon-pill, .icon-pill * { transition-property: background-color !important; transform: none !important; }
+    .icon-pill-icon > svg + svg { display: none; }
+  }
+}

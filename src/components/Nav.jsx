@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import Press, { SPRING, SPRING_SOFT } from "./Press";
 import ThemeToggle from "./ThemeToggle";
 import { Chat } from "./Icons";
+import IconPill from "./IconPill";
 import { EMAIL } from "../config";
 import { smsHref } from "../lib/utils";
 import { pauseScroll, resumeScroll, scrollToHash } from "../lib/scroll";
@@ -115,10 +116,9 @@ export default function Nav() {
                 <Press href="#contact" onClick={go} className="btn pill-solid sm:hidden">
                   Get Started
                 </Press>
-                <Press href={smsHref} className="btn btn-primary">
-                  <Chat className="h-[18px] w-[18px]" />
-                  Message us
-                </Press>
+                <IconPill href={smsHref} className="min-h-11 bg-accent text-on-accent" Icon={Chat}>
+            Message us
+          </IconPill>
               </div>
               <div>
                 <p className="label">Email us</p>
