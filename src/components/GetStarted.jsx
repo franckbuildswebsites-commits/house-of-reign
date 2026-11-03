@@ -8,7 +8,7 @@ import {
   Dumbbell, Layout, MapPin, Phone, Question, Refresh, Repeat, Rocket, Scissors, Spark, Sprout, Store, Ticket, Users,
 } from "./Icons";
 import { STUDIO_NAME, EMAIL, PHONE, WEB3FORMS_KEY, CALENDLY_URL } from "../config";
-import { services, monthlyPlans, serviceGroups } from "../data/services";
+import { services, monthlyPlans, serviceGroups, SITE_CARE } from "../data/services";
 import { isPlaceholder, showInstagram, instagramHandle, instagramUrl, smsHref, telHref, PLAN_EVENT, SERVICE_EVENT } from "../lib/utils";
 import { scrollToHash } from "../lib/scroll";
 
@@ -57,35 +57,99 @@ const STEPS = ["help", "business", "goal", "today", "plan", "timeline", "contact
 const PLAN_STEP = STEPS.indexOf("plan");
 const DONE = STEPS.length;
 
-// ── Plans, from the same data as the Pricing and Monthly plans sections ─────────────────────
-const brandingItems = serviceGroups.flatMap((g) => g.items).filter((it) => it.help === "branding");
-const PLANS = Object.fromEntries([
-  ...services.map((s) => [s.id, { id: s.id, name: s.name, price: s.price, unit: "starting at", features: s.features }]),
-  ...monthlyPlans.map((p) => [p.id, { id: p.id, name: p.name, price: p.price, unit: "per month", features: p.features, featured: p.featured, monthly: true }]),
-  ["branding", { id: "branding", name: "Branding & print", items: brandingItems }],
+// ── The package: one website, one monthly plan, any add-ons. Prices come from the same data as
+// the Pricing, Monthly plans and Services sections. `from` marks a starting price.
+const dollars = (price) => Number(String(price).replace(/[^\d]/g, "").slice(0, 6)) || 0;
+const fmt = (n) => `$${n.toLocaleString("en-US")}`;
+const site = (id) => services.find((s) => s.id === id);
+const monthlyPlan = (id) => monthlyPlans.find((p) => p.id === id);
+const serviceItem = (name) => serviceGroups.flatMap((g) => g.items).find((it) => it.name === name);
+
+const SITES = [
+  { id: "launch", name: "Launch Page", amount: dollars(site("launch").price), line: site("launch").perfectFor },
+  { id: "business", name: "Business Site", amount: dollars(site("business").price), line: site("business").perfectFor },
+  { id: "custom", name: "Custom Build", amount: dollars(site("custom").price), from: true, line: site("custom").perfectFor },
+  { id: "have", name: "I already have a site" },
+];
+const MONTHLY = [
+  { id: "presence", name: "Presence", amount: dollars(monthlyPlan("presence").price), line: monthlyPlan("presence").tagline, upkeep: true },
+  { id: "growth", name: "Growth", amount: dollars(monthlyPlan("growth").price), line: monthlyPlan("growth").tagline, upkeep: true },
+  { id: "sitecare", name: "Site Care only", amount: dollars(SITE_CARE), line: "Hosting, updates and changes." },
+  { id: "none", name: "Not right now" },
+];
+const ADDONS = [
+  ["logo", "Logo", "Logos & branding"],
+  ["menus", "Menus/signage", "Menus & signage"],
+  ["flyers", "Flyers", "Flyers & posters"],
+  ["cards", "Business cards", "Business cards"],
+  ["ordering", "Ordering/booking setup", "Online ordering & booking"],
+].map(([id, name, source]) => ({ id, name, amount: dollars(serviceItem(source).price), from: true }));
+
+const ITEMS = Object.fromEntries([
+  ...SITES.map((o) => [o.id, { ...o, kind: "one-time" }]),
+  ...MONTHLY.map((o) => [o.id, { ...o, kind: "monthly" }]),
+  ...ADDONS.map((o) => [o.id, { ...o, kind: "one-time" }]),
 ]);
-const planLabel = (id) => {
-  const p = PLANS[id];
-  if (!p.price) return p.name;
-  return `${p.name} (${p.price}${p.monthly ? "/month" : ", starting at"})`;
+const PRICED = (id) => ITEMS[id]?.amount > 0;
+const priceText = (o, monthly) => `${o.from ? "from " : ""}${fmt(o.amount)}${monthly ? "/mo" : ""}`;
+// "Business Site: $1,200 (one-time)" for the email and confirmation.
+const itemLine = (id) => {
+  const o = ITEMS[id];
+  return `${o.name}: ${priceText(o, o.kind === "monthly")}${o.kind === "monthly" ? "" : " (one-time)"}`;
 };
+
+// Totals for a package: one-time and monthly, each flagged when a from-price is in it.
+function totals({ site: siteId, monthly, addons }) {
+  const oneTime = [siteId, ...addons].filter(PRICED).map((id) => ITEMS[id]);
+  const month = PRICED(monthly) ? ITEMS[monthly] : null;
+  return {
+    items: [siteId, monthly, ...addons].filter(PRICED),
+    oneTime: oneTime.reduce((n, o) => n + o.amount, 0),
+    oneTimeFrom: oneTime.some((o) => o.from),
+    monthly: month?.amount ?? 0,
+  };
+}
+const totalText = (n, from, monthly) => `${from ? "from " : ""}${fmt(n)}${monthly ? "/mo" : ""}`;
 
 const titleOf = (list, id) => list.find((o) => o.id === id)?.title;
 
-// The recommendation rules. `pick` is a plan chosen from a button elsewhere on the site.
+// The recommendation rules, turned into a preselected package. `pick` is a plan chosen from a
+// button elsewhere on the site.
 function recommend({ help, business, goal }, pick) {
-  const site = goal === "launch" || business === "restaurant" || business === "retail" ? "custom" : "business";
-  if (pick) return PLANS[pick].monthly ? { cards: ["growth", "presence"] } : { cards: [pick], pair: pick };
+  const siteId = goal === "launch" || business === "restaurant" || business === "retail" ? "custom" : "business";
+  if (pick) return monthlyPlan(pick) ? { site: "", monthly: pick, addons: [] } : { site: pick, monthly: "", addons: [] };
   const has = (x) => help.includes(x);
-  if (has("unsure")) return { cards: [site, "presence"], bundle: site };
-  if (help.length === 1 && has("branding")) return { cards: ["branding"], mention: true };
-
-  const cards = [];
-  if (has("website")) cards.push(site);
+  if (has("unsure")) return { site: siteId, monthly: "presence", addons: [] };
   const monthly = has("content") || has("google") || goal === "consistent" || goal === "customers";
-  if (monthly) cards.push("growth", "presence");
-  if (has("branding")) cards.push("branding");
-  return { cards, pair: has("website") && !monthly ? site : null };
+  return { site: has("website") ? siteId : "", monthly: monthly ? "growth" : "", addons: has("branding") ? ["logo"] : [] };
+}
+
+// Counts to a new number instead of jumping (skipped with reduced motion).
+function useTween(value, ms = 450) {
+  const [shown, setShown] = useState(value);
+  const from = useRef(value);
+  useEffect(() => {
+    const start = from.current;
+    if (start === value) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      from.current = value;
+      setShown(value);
+      return;
+    }
+    const t0 = performance.now();
+    let raf;
+    const tick = (t) => {
+      const k = Math.min(1, (t - t0) / ms);
+      const eased = 1 - Math.pow(1 - k, 4);
+      const n = Math.round(start + (value - start) * eased);
+      from.current = n;
+      setShown(n);
+      if (k < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, ms]);
+  return shown;
 }
 
 // ── Pieces ───────────────────────────────────────────────────────────────────────────────────
@@ -140,50 +204,75 @@ function Ask({ id, title, hint, children }) {
   );
 }
 
-function PlanCard({ plan, picked, wide, onChoose }) {
-  const dark = plan.featured;
-  const soft = dark ? "text-on-pill/65" : "text-caption";
+const Tag = ({ children }) => (
+  <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[0.75rem] font-medium leading-snug text-accent">{children}</span>
+);
+
+// One choice in a package group: single-select, and tapping the selected one clears it.
+function PackOption({ option, monthly, selected, tag, onClick }) {
   return (
-    <div
-      className={`flex h-full flex-col rounded-[24px] border p-6 ${wide ? "sm:col-span-2" : ""} ${dark ? "border-pill bg-pill text-on-pill" : "border-line"} ${picked ? "ring-2 ring-accent ring-offset-2 ring-offset-page" : ""}`}
+    <Press
+      as="button"
+      type="button"
+      lift={0}
+      press={0.98}
+      aria-pressed={selected}
+      onClick={onClick}
+      className="flex min-h-14 w-full items-start gap-3 rounded-[18px] border border-line px-4 py-3.5 text-left transition-[border-color,background-color] duration-200 hover:border-accent aria-pressed:border-accent aria-pressed:bg-accent/[0.06]"
     >
-      <div className="flex items-baseline justify-between gap-3">
-        <h4 className="t-h4">{plan.name}</h4>
-        {picked && <span className={`text-sm ${soft}`}>Your pick</span>}
-      </div>
-      {plan.price && (
-        <>
-          <p className="t-h3 mt-4">{plan.price}</p>
-          <p className={`mt-0.5 text-sm ${soft}`}>{plan.unit}</p>
-        </>
-      )}
-      <ul className={`mt-4 flex flex-col gap-2 border-t pt-4 text-[0.9375rem] leading-snug ${dark ? "border-on-pill/20" : "border-line"} ${wide && plan.items ? "sm:grid sm:grid-cols-2 sm:gap-x-6" : ""}`}>
-        {plan.features?.map((f) => (
-          <li key={f} className="flex gap-2">
-            <Check className={`mt-0.5 h-4 w-4 shrink-0 ${dark ? "text-on-pill" : "text-accent"}`} />
-            {f}
-          </li>
-        ))}
-        {plan.items?.map((it) => (
-          <li key={it.name} className="flex gap-2">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-            <span>
-              {it.name} <span className="text-caption">· {it.price}</span>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto pt-6">
-        <Press
-          as="button"
-          type="button"
-          onClick={onChoose}
-          aria-label={`Choose this: ${plan.name}`}
-          className={`btn ${dark ? "bg-on-pill text-pill" : "bg-pill text-on-pill"}`}
-        >
-          Choose this
-        </Press>
-      </div>
+      <span
+        aria-hidden="true"
+        className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border transition-colors duration-200 ${selected ? "border-accent bg-accent text-on-accent" : "border-field"}`}
+      >
+        {selected && <Check className="h-3.5 w-3.5" />}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+          <span className="font-semibold leading-snug tracking-[-0.012em]">{option.name}</span>
+          {option.amount > 0 && <span className="text-[0.9375rem] text-dim">{priceText(option, monthly)}</span>}
+        </span>
+        {option.line && <span className="mt-0.5 block text-sm leading-snug text-dim">{option.line}</span>}
+        {option.upkeep && (
+          <span className="mt-1 flex items-center gap-1.5 text-sm text-accent">
+            <Check className="h-3.5 w-3.5" />
+            Includes website upkeep
+          </span>
+        )}
+        {tag && <span className="mt-2 block"><Tag>{tag}</Tag></span>}
+      </span>
+    </Press>
+  );
+}
+
+// The live package summary: sticky at the bottom of the screen on phones, beside the choices on
+// wide screens. Totals count to their new value.
+function Summary({ pack, onContinue }) {
+  const t = totals(pack);
+  const oneTime = useTween(t.oneTime);
+  const monthly = useTween(t.monthly);
+  const names = t.items.map((id) => ITEMS[id].name);
+  return (
+    <div className="rounded-[20px] border border-line bg-page p-3.5 shadow-soft lg:p-5 lg:shadow-none">
+      <p className="label max-lg:hidden">Your plan</p>
+      <p className="line-clamp-2 font-semibold leading-snug tracking-[-0.012em] lg:mt-1" aria-live="polite">
+        <span className="lg:hidden">Your plan: </span>
+        {names.length ? names.join(" + ") : "Nothing picked yet"}
+      </p>
+      <p className="mt-1 text-sm tabular-nums text-dim lg:mt-1.5 lg:text-[0.9375rem]">
+        <span className="whitespace-nowrap">One-time: {t.oneTime || oneTime ? totalText(oneTime, t.oneTimeFrom) : "none"}</span>
+        <span aria-hidden="true"> · </span>
+        <span className="whitespace-nowrap">Monthly: {t.monthly || monthly ? totalText(monthly, false, true) : "none"}</span>
+      </p>
+      <Press
+        as="button"
+        type="button"
+        onClick={onContinue}
+        disabled={!t.items.length}
+        className="btn mt-2.5 w-full bg-pill text-on-pill disabled:opacity-40 lg:mt-4"
+      >
+        Continue with this plan
+      </Press>
+      <p className="mt-2 text-[0.75rem] leading-snug text-caption lg:mt-2.5 lg:text-[0.8125rem]">Final pricing confirmed on a quick call before anything is billed.</p>
     </div>
   );
 }
@@ -219,7 +308,9 @@ function openCalendly(prefill) {
 
 // The confirmation shows the email's answers with labels written for the customer.
 const SHOWN_AS = {
-  "Chosen plan": "Your plan",
+  "Your plan": "Your plan",
+  "One-time total": "One-time",
+  "Monthly total": "Monthly",
   "What they need help with": "Help with",
   "Type of business": "Business",
   "What matters most": "Top priority",
@@ -240,7 +331,10 @@ export default function GetStarted() {
   const [goal, setGoal] = useState("");
   const [today, setToday] = useState("");
   const [pick, setPick] = useState(""); // plan from a button elsewhere on the site
-  const [chosen, setChosen] = useState(""); // what they chose on the recommendation step
+  const [pack, setPack] = useState({ site: "", monthly: "", addons: [] }); // the package they build
+  const [recPack, setRecPack] = useState(null); // what we preselected, for the tags and the email
+  const [upkeepNote, setUpkeepNote] = useState(false);
+  const [decideOnCall, setDecideOnCall] = useState(false); // "Not sure? We'll help you decide"
   const [timeline, setTimeline] = useState("");
   const [contact, setContact] = useState(blankContact);
   const [errors, setErrors] = useState({});
@@ -251,7 +345,6 @@ export default function GetStarted() {
   const busy = useRef(false);
   const timer = useRef(0);
 
-  const rec = recommend({ help, business, goal }, pick);
   const phrase = BUSINESS.find((b) => b.id === business)?.phrase ?? "your business";
 
   function goTo(next, { back = false } = {}) {
@@ -260,7 +353,17 @@ export default function GetStarted() {
     if (!back) setTrail((t) => [...t, step]);
     setStep(next);
   }
-  const forward = () => goTo(step + 1);
+  // Arriving at the recommendation from the questions preselects what we'd recommend.
+  function preselect(rec) {
+    setPack(rec);
+    setRecPack(rec);
+    setUpkeepNote(false);
+    setDecideOnCall(false);
+  }
+  const forward = () => {
+    if (step + 1 === PLAN_STEP) preselect(recommend({ help, business, goal }, pick));
+    goTo(step + 1);
+  };
   function back() {
     const prev = trail.at(-1) ?? 0;
     setTrail((t) => t.slice(0, -1));
@@ -292,11 +395,11 @@ export default function GetStarted() {
   // Plan buttons elsewhere: open on the recommendation with that plan picked.
   useEffect(() => {
     const onPlan = (e) => {
-      if (!PLANS[e.detail]) return;
+      if (!site(e.detail) && !monthlyPlan(e.detail)) return;
       clearTimeout(timer.current);
       busy.current = false;
       setPick(e.detail);
-      setChosen("");
+      preselect(recommend({ help: [] }, e.detail));
       setTrail([0]);
       setDir(1);
       moved.current = true;
@@ -328,10 +431,32 @@ export default function GetStarted() {
       const rest = h.filter((x) => x !== "unsure");
       return rest.includes(id) ? rest.filter((x) => x !== id) : [...rest, id];
     });
-  const choose = (label) => {
-    setChosen(label);
+  // Single-select inside each group; tapping the selected one clears it. Presence and Growth
+  // include upkeep, so they and Site Care replace each other (with a note when that happens).
+  const pickSite = (id) => setPack((p) => ({ ...p, site: p.site === id ? "" : id }));
+  const pickMonthly = (id) =>
+    setPack((p) => {
+      const next = p.monthly === id ? "" : id;
+      const swapsUpkeep = (p.monthly === "sitecare" && ITEMS[next]?.upkeep) || (ITEMS[p.monthly]?.upkeep && next === "sitecare");
+      if (swapsUpkeep) setUpkeepNote(true);
+      return { ...p, monthly: next };
+    });
+  const toggleAddon = (id) =>
+    setPack((p) => ({ ...p, addons: p.addons.includes(id) ? p.addons.filter((x) => x !== id) : [...p.addons, id] }));
+  const continueWithPlan = () => {
+    setDecideOnCall(false);
     forward();
   };
+  const decideLater = () => {
+    setDecideOnCall(true);
+    forward();
+  };
+  const tagFor = (group, id) => {
+    if (!recPack || !id || recPack[group] !== id && !(group === "addons" && recPack.addons.includes(id))) return null;
+    return pick === id ? "Your pick" : "Recommended for you";
+  };
+  const t = totals(pack);
+  const planName = decideOnCall ? "Help me decide on a call" : t.items.map((id) => ITEMS[id].name).join(" + ") || "Help me decide on a call";
 
   const setField = (k) => (e) => {
     setContact((c) => ({ ...c, [k]: e.target.value }));
@@ -369,15 +494,19 @@ export default function GetStarted() {
       return;
     }
 
-    const plan = chosen || (pick ? planLabel(pick) : "Help me decide on a call");
+    const packageLines = decideOnCall ? [] : t.items.map(itemLine);
     const summary = {
-      "Chosen plan": plan,
+      "Your plan": decideOnCall ? "Help me decide on a call" : packageLines.join("\n") || "(nothing picked)",
+      "One-time total": decideOnCall || !t.oneTime ? "(none)" : totalText(t.oneTime, t.oneTimeFrom),
+      "Monthly total": decideOnCall || !t.monthly ? "(none)" : totalText(t.monthly, false, true),
       "What they need help with": help.length ? help.map((id) => titleOf(HELP, id)).join(", ") : "(skipped)",
       "Type of business": or(titleOf(BUSINESS, business), "(skipped)"),
       "What matters most": or(titleOf(GOALS, goal), "(skipped)"),
       "Where they are today": or(titleOf(TODAY, today), "(skipped)"),
       "When they want to start": or(titleOf(TIMELINE, timeline), "(skipped)"),
     };
+    const extra = [pack.site === "have" && "Already has a site", pack.monthly === "none" && "No monthly plan for now"].filter(Boolean);
+    const recommended = recPack ? totals(recPack).items.map((id) => ITEMS[id].name).join(" + ") : "";
 
     setStatus("sending");
     try {
@@ -386,12 +515,13 @@ export default function GetStarted() {
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: `New lead: ${contact.business.trim()} · ${plan}`,
+          subject: `New lead: ${contact.business.trim()} · ${planName}`,
           from_name: `${STUDIO_NAME} website`,
           ...(contact.email.trim() && { replyto: contact.email.trim() }),
           ...summary,
-          "We recommended": rec.cards.map(planLabel).join(" · "),
-          "Came from": pick ? `The "${PLANS[pick].name}" button` : "The questions",
+          ...(extra.length && { "Also noted": extra.join(", ") }),
+          "We recommended": or(recommended, "(nothing preselected)"),
+          "Came from": pick ? `The "${ITEMS[pick].name}" button` : "The questions",
           Name: contact.name.trim(),
           "Business name": contact.business.trim(),
           Phone: or(contact.phone),
@@ -415,7 +545,9 @@ export default function GetStarted() {
     setGoal("");
     setToday("");
     setPick("");
-    setChosen("");
+    setPack({ site: "", monthly: "", addons: [] });
+    setRecPack(null);
+    setDecideOnCall(false);
     setTimeline("");
     setContact(blankContact);
     setErrors({});
@@ -473,44 +605,83 @@ export default function GetStarted() {
         <h3 id="gs-q" tabIndex={-1} className="t-card mt-1.5 outline-none">
           Here's what we'd do for {phrase}.
         </h3>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {rec.cards.map((id) => {
-            const plan = PLANS[id];
-            const wide = !plan.monthly && rec.cards.length % 2 === 1;
-            return <PlanCard key={id} plan={plan} wide={wide} picked={pick === id} onChoose={() => choose(planLabel(id))} />;
-          })}
-        </div>
-        {rec.pair && (
-          <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span>Pair it with Presence to keep it looking sharp every month.</span>
-            <button type="button" onClick={() => choose(`${planLabel(rec.pair)} + ${planLabel("presence")}`)} className="link-more">
-              Add Presence
+        <p className="mt-1.5 text-sm text-caption">We've picked what we'd recommend. Change anything you like.</p>
+
+        <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_15.5rem] lg:gap-6">
+          <div className="flex flex-col gap-7">
+            <div role="group" aria-labelledby="gs-site">
+              <div className="flex items-baseline justify-between gap-3">
+                <h4 id="gs-site" className="t-h4">Your website</h4>
+                <span className="text-sm text-caption">One-time</span>
+              </div>
+              <div className="mt-3 grid gap-2.5">
+                {SITES.map((o) => (
+                  <PackOption key={o.id} option={o} selected={pack.site === o.id} tag={tagFor("site", o.id)} onClick={() => pickSite(o.id)} />
+                ))}
+              </div>
+            </div>
+
+            <div role="group" aria-labelledby="gs-monthly">
+              <div className="flex items-baseline justify-between gap-3">
+                <h4 id="gs-monthly" className="t-h4">Every month</h4>
+                <span className="text-sm text-caption">Monthly</span>
+              </div>
+              <div className="mt-3 grid gap-2.5">
+                {MONTHLY.map((o) => (
+                  <PackOption key={o.id} option={o} monthly selected={pack.monthly === o.id} tag={tagFor("monthly", o.id)} onClick={() => pickMonthly(o.id)} />
+                ))}
+              </div>
+              <p className="mt-2.5 min-h-5 text-sm text-accent" aria-live="polite">
+                {upkeepNote && "Website upkeep is included in Presence and Growth."}
+              </p>
+            </div>
+
+            <div role="group" aria-labelledby="gs-addons">
+              <div className="flex items-baseline justify-between gap-3">
+                <h4 id="gs-addons" className="t-h4">Add-ons</h4>
+                <span className="text-sm text-caption">One-time · optional</span>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {ADDONS.map((o) => {
+                  const on = pack.addons.includes(o.id);
+                  const tag = tagFor("addons", o.id);
+                  return (
+                    <Press
+                      key={o.id}
+                      as="button"
+                      type="button"
+                      lift={0}
+                      press={0.96}
+                      aria-pressed={on}
+                      onClick={() => toggleAddon(o.id)}
+                      aria-label={`${o.name}, ${priceText(o)}${tag ? `, ${tag.toLowerCase()}` : ""}`}
+                      className="flex min-h-11 items-center gap-2 rounded-full border border-field px-4 py-2 text-[0.9375rem] transition-colors duration-200 hover:border-accent aria-pressed:border-accent aria-pressed:bg-accent/10"
+                    >
+                      <span aria-hidden="true" className={`grid h-4 w-4 place-items-center rounded border ${on ? "border-accent bg-accent text-on-accent" : "border-field"}`}>
+                        {on && <Check className="h-3 w-3" />}
+                      </span>
+                      {o.name}
+                      <span className="text-caption">{priceText(o)}</span>
+                      {tag && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />}
+                    </Press>
+                  );
+                })}
+              </div>
+              {pack.addons.some((id) => recPack?.addons.includes(id)) && (
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-caption">
+                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" /> Recommended for you
+                </p>
+              )}
+            </div>
+
+            <button type="button" onClick={decideLater} className="link-more self-start text-left">
+              Not sure? We'll help you decide on a quick call.
             </button>
-          </p>
-        )}
-        {rec.bundle && (
-          <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span>
-              Or take both: {PLANS[rec.bundle].name} + Presence.
-            </span>
-            <button type="button" onClick={() => choose(`${planLabel(rec.bundle)} + ${planLabel("presence")}`)} className="link-more">
-              Choose both
-            </button>
-          </p>
-        )}
-        {rec.mention && (
-          <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span className="text-dim">Want it showing up every month too? Presence is $750/month.</span>
-            <button type="button" onClick={() => choose(`${planLabel("branding")} + ${planLabel("presence")}`)} className="link-more">
-              Add Presence
-            </button>
-          </p>
-        )}
-        <div className="mt-6 flex flex-col gap-2 border-t border-line pt-5">
-          <button type="button" onClick={() => choose("Help me decide on a call")} className="link-more self-start text-left">
-            Not sure? We'll help you decide on a quick call.
-          </button>
-          <p className="t-small !max-w-none">No pressure: we'll confirm everything on a quick call before anything is billed.</p>
+          </div>
+
+          <div className="sticky bottom-3 z-10 -mx-2 self-end lg:top-28 lg:bottom-auto lg:mx-0 lg:self-start">
+            <Summary pack={pack} onContinue={continueWithPlan} />
+          </div>
         </div>
       </div>
     ),
@@ -526,7 +697,7 @@ export default function GetStarted() {
         <h3 id="gs-q" tabIndex={-1} className="t-card outline-none">
           Where should we send your plan?
         </h3>
-        {(chosen || pick) && <p className="mt-1.5 text-sm text-caption">Your plan: {chosen || planLabel(pick)}</p>}
+        <p className="mt-1.5 text-sm text-caption">Your plan: {planName}</p>
         <input
           type="text"
           name="botcheck"
@@ -630,7 +801,7 @@ export default function GetStarted() {
         {Object.entries(sent.summary).map(([k, v]) => (
           <div key={k} className="contents">
             <dt className="pt-2.5 text-caption sm:py-1.5">{SHOWN_AS[k]}</dt>
-            <dd className={`sm:py-1.5 ${k === "Chosen plan" ? "font-semibold" : ""}`}>{v}</dd>
+            <dd className={`whitespace-pre-line sm:py-1.5 ${k === "Your plan" ? "font-semibold" : ""}`}>{v}</dd>
           </div>
         ))}
       </dl>
@@ -649,7 +820,7 @@ export default function GetStarted() {
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,2.6fr)_minmax(0,1fr)] lg:gap-12">
           <Reveal>
-            <div id="flow" ref={card} className="scroll-mt-24 overflow-hidden rounded-[28px] border border-line lg:scroll-mt-30">
+            <div id="flow" ref={card} className="scroll-mt-24 overflow-clip rounded-[28px] border border-line lg:scroll-mt-30">
               {/* Progress */}
               <div
                 role="progressbar"
