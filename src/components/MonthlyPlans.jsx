@@ -1,8 +1,8 @@
 import Reveal from "./Reveal";
 import Press from "./Press";
 import SectionHeading from "./SectionHeading";
-import { Check } from "./Icons";
-import { monthlyPlans, MONTHLY_NOTE } from "../data/services";
+import { Check, Layout } from "./Icons";
+import { monthlyPlans, MONTHLY_NOTE, BUNDLE_NOTE } from "../data/services";
 import { selectPlan } from "../lib/utils";
 
 // Two monthly plans after the website plans, built like the Pricing cards. The featured plan uses
@@ -32,6 +32,12 @@ export default function MonthlyPlans() {
                   <p className="t-h2 mt-6">{p.price}</p>
                   <p className={`mt-0.5 text-sm ${soft}`}>per month</p>
                   <p className="mt-5 text-[0.9375rem] leading-snug">{p.line}</p>
+                  <p
+                    className={`mt-4 flex items-start gap-2 rounded-[14px] px-3 py-2.5 text-[0.9375rem] font-medium leading-snug ${dark ? "bg-on-pill/10 text-on-pill" : "bg-accent/[0.07] text-accent"}`}
+                  >
+                    <Layout className="mt-0.5 h-4 w-4 shrink-0" />
+                    {p.bundle}
+                  </p>
                   <ul className={`mt-5 flex flex-col gap-2 border-t pt-5 text-[0.9375rem] leading-snug ${dark ? "border-on-pill/20" : "border-line"}`}>
                     {p.features.map((f) => (
                       <li key={f} className="flex gap-2">
@@ -55,8 +61,9 @@ export default function MonthlyPlans() {
           })}
         </div>
 
-        <Reveal as="p" className="t-small mt-6 max-w-[40rem]">
-          {MONTHLY_NOTE}
+        <Reveal className="mt-6 flex max-w-[40rem] flex-col gap-1.5">
+          <p className="t-small !max-w-none">{BUNDLE_NOTE}</p>
+          <p className="t-small !max-w-none">{MONTHLY_NOTE}</p>
         </Reveal>
       </div>
     </section>

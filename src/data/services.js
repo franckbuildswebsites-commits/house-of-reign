@@ -51,6 +51,7 @@ export const monthlyPlans = [
   {
     name: "Presence",
     tagline: "Look the part, every week.",
+    bundle: "Website 50% off when you join (6-month plan)",
     line: "For businesses ready to stop posting when they remember and start showing up like the best spot in town.",
     price: "$750",
     features: [
@@ -65,6 +66,7 @@ export const monthlyPlans = [
   {
     name: "Growth",
     tagline: "Become the place people talk about.",
+    bundle: "Business Site included free (6-month plan)",
     line: "Twice the content, a monthly strategy call, and a plan for what's next. For businesses ready to grow.",
     price: "$1,200",
     features: [
@@ -110,3 +112,8 @@ export const serviceGroups = [
     ],
   },
 ];
+
+// Website bundle deal: a new website costs less when it comes with a monthly plan, which then runs
+// at least 6 months. The Get started summary applies it (bundleDeal in GetStarted.jsx).
+export const BUNDLE_NOTE = "Joining with a new website? Plans with a site have a 6-month minimum. Without a site, 3 months.";
+export const BUNDLE_BANNER = "Save on your site: 50% off with Presence, or free with Growth.";

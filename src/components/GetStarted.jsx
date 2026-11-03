@@ -93,20 +93,43 @@ const ITEMS = Object.fromEntries([
 const PRICED = (id) => ITEMS[id]?.amount > 0;
 const priceText = (o, monthly) => `${o.from ? "from " : ""}${fmt(o.amount)}${monthly ? "/mo" : ""}`;
 // "Business Site: $1,200 (one-time)" for the email and confirmation.
-const itemLine = (id) => {
+const itemLine = (id, deal) => {
   const o = ITEMS[id];
+  if (deal && deal.site.id === id)
+    return `${o.name}: ${priceText(o)} → ${deal.included ? "included" : `${deal.site.from ? "from " : ""}${fmt(deal.price)}`} with the bundle (one-time)`;
   return `${o.name}: ${priceText(o, o.kind === "monthly")}${o.kind === "monthly" ? "" : " (one-time)"}`;
 };
 
 // Totals for a package: one-time and monthly, each flagged when a from-price is in it.
+// Website bundle deal: with Presence the site is 50% off; with Growth a Launch Page or Business
+// Site is free and a Custom Build costs what a Business Site would. Either way the monthly plan
+// runs 6 months.
+const BUSINESS_PRICE = dollars(site("business").price);
+function bundleDeal(siteId, monthly) {
+  const s = ITEMS[siteId];
+  if (!s?.amount || s.kind !== "one-time" || !SITES.some((o) => o.id === siteId) || !ITEMS[monthly]?.upkeep) return null;
+  if (monthly === "presence") {
+    const discount = Math.round(s.amount / 2);
+    return { site: s, discount, price: s.amount - discount, label: "50% off", line: `${s.name} 50% off with Presence` };
+  }
+  // Growth: Launch Page and Business Site are free; a Custom Build comes down to the Business Site
+  // price ($2,500 → $1,200, so $1,300 off).
+  const discount = siteId === "custom" ? s.amount - BUSINESS_PRICE : s.amount;
+  const included = discount === s.amount;
+  return { site: s, discount, price: s.amount - discount, included, label: included ? "Included" : `${fmt(discount)} off`, line: `${s.name} ${included ? "included free" : `${fmt(discount)} off`} with Growth` };
+}
+
 function totals({ site: siteId, monthly, addons }) {
   const oneTime = [siteId, ...addons].filter(PRICED).map((id) => ITEMS[id]);
   const month = PRICED(monthly) ? ITEMS[monthly] : null;
+  const deal = bundleDeal(siteId, monthly);
   return {
     items: [siteId, monthly, ...addons].filter(PRICED),
-    oneTime: oneTime.reduce((n, o) => n + o.amount, 0),
-    oneTimeFrom: oneTime.some((o) => o.from),
+    oneTime: oneTime.reduce((n, o) => n + o.amount, 0) - (deal?.discount ?? 0),
+    oneTimeFrom: oneTime.some((o) => o.from && !(deal?.included && o.id === siteId)),
     monthly: month?.amount ?? 0,
+    deal,
+    term: ITEMS[monthly]?.upkeep ? (deal ? "6-month plan (website bundle)" : "3-month minimum") : null,
   };
 }
 const totalText = (n, from, monthly) => `${from ? "from " : ""}${fmt(n)}${monthly ? "/mo" : ""}`;
@@ -244,6 +267,36 @@ function PackOption({ option, monthly, selected, tag, onClick }) {
   );
 }
 
+// The bundle deal as it applies to the site they picked:
+//   Presence + any site     ~$1,200~ $600   50% off
+//   Growth + Business Site  $1,200 → Included
+//   Growth + Custom Build   $1,300 off
+//   Growth + Launch Page    Included
+function DealRow({ deal }) {
+  const { site: s } = deal;
+  const full = priceText(s);
+  let shown;
+  if (deal.label === "50% off")
+    shown = (
+      <>
+        <s className="text-caption">
+          <span className="sr-only">was </span>
+          {full}
+        </s>
+        <span>{`${s.from ? "from " : ""}${fmt(deal.price)}`}</span>
+      </>
+    );
+  else if (deal.included && s.id === "business") shown = <span>{full} <span aria-hidden="true">→</span><span className="sr-only">,</span> Included</span>;
+  else shown = <span>{deal.label}</span>;
+  return (
+    <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-sm tabular-nums lg:text-[0.9375rem]">
+      <span className="text-dim">{s.name}:</span>
+      {shown}
+      <span className="rounded-full bg-accent/10 px-2 py-px text-[0.75rem] font-medium text-accent">{deal.label === "50% off" ? "50% off" : "Bundle deal"}</span>
+    </p>
+  );
+}
+
 // The live package summary: sticky at the bottom of the screen on phones, beside the choices on
 // wide screens. Totals count to their new value.
 function Summary({ pack, onContinue }) {
@@ -258,10 +311,13 @@ function Summary({ pack, onContinue }) {
         <span className="lg:hidden">Your plan: </span>
         {names.length ? names.join(" + ") : "Nothing picked yet"}
       </p>
-      <p className="mt-1 text-sm tabular-nums text-dim lg:mt-1.5 lg:text-[0.9375rem]">
-        <span className="whitespace-nowrap">One-time: {t.oneTime || oneTime ? totalText(oneTime, t.oneTimeFrom) : "none"}</span>
-        <span aria-hidden="true"> · </span>
-        <span className="whitespace-nowrap">Monthly: {t.monthly || monthly ? totalText(monthly, false, true) : "none"}</span>
+      {t.deal && <DealRow deal={t.deal} />}
+      <p className="mt-1 flex flex-col text-sm tabular-nums text-dim lg:mt-1.5 lg:text-[0.9375rem]">
+        <span>One-time: {t.oneTime || oneTime ? totalText(oneTime, t.oneTimeFrom) : "none"}</span>
+        <span className="flex flex-wrap items-center gap-x-1.5">
+          Monthly: {t.monthly || monthly ? totalText(monthly, false, true) : "none"}
+          {t.deal && <span className="rounded-full border border-line px-1.5 py-px text-[0.75rem]">6-month plan</span>}
+        </span>
       </p>
       <Press
         as="button"
@@ -311,6 +367,8 @@ const SHOWN_AS = {
   "Your plan": "Your plan",
   "One-time total": "One-time",
   "Monthly total": "Monthly",
+  "Website deal": "Website deal",
+  "Monthly plan term": "Plan term",
   "What they need help with": "Help with",
   "Type of business": "Business",
   "What matters most": "Top priority",
@@ -494,11 +552,13 @@ export default function GetStarted() {
       return;
     }
 
-    const packageLines = decideOnCall ? [] : t.items.map(itemLine);
+    const packageLines = decideOnCall ? [] : t.items.map((id) => itemLine(id, t.deal));
     const summary = {
       "Your plan": decideOnCall ? "Help me decide on a call" : packageLines.join("\n") || "(nothing picked)",
       "One-time total": decideOnCall || !t.oneTime ? "(none)" : totalText(t.oneTime, t.oneTimeFrom),
       "Monthly total": decideOnCall || !t.monthly ? "(none)" : totalText(t.monthly, false, true),
+      ...(!decideOnCall && t.deal && { "Website deal": `${t.deal.line}: ${fmt(t.deal.discount)} off` }),
+      ...(!decideOnCall && t.term && { "Monthly plan term": t.term }),
       "What they need help with": help.length ? help.map((id) => titleOf(HELP, id)).join(", ") : "(skipped)",
       "Type of business": or(titleOf(BUSINESS, business), "(skipped)"),
       "What matters most": or(titleOf(GOALS, goal), "(skipped)"),

@@ -1,8 +1,8 @@
 import Reveal from "./Reveal";
 import Press from "./Press";
 import SectionHeading from "./SectionHeading";
-import { Check } from "./Icons";
-import { services, HOURLY_RATE, REVISION_NOTE, SITE_CARE } from "../data/services";
+import { Check, Layout } from "./Icons";
+import { services, HOURLY_RATE, REVISION_NOTE, SITE_CARE, BUNDLE_BANNER } from "../data/services";
 import { selectPlan } from "../lib/utils";
 
 const promises = ["Free mockup before you pay", "You own your site and domain", "Replies within 24 hours", "You work with us directly"];
@@ -13,6 +13,16 @@ export default function Pricing() {
     <section id="pricing" aria-labelledby="pricing-title" className="section-y">
       <div className="site-wrap">
         <SectionHeading id="pricing-title" label="Pricing" title="Simple pricing." dim="No surprises." />
+
+        <Reveal className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 rounded-[18px] border border-line px-5 py-3.5">
+          <p className="flex items-center gap-2.5 text-[0.9375rem] font-medium text-accent">
+            <Layout className="h-4 w-4 shrink-0" />
+            {BUNDLE_BANNER}
+          </p>
+          <a href="#monthly" className="link-more !mt-0 text-[0.9375rem]">
+            See monthly plans
+          </a>
+        </Reveal>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 md:[&>:last-child]:col-span-2 lg:[&>:last-child]:col-span-1">
           {services.map((s, i) => (
