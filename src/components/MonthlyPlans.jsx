@@ -3,7 +3,7 @@ import Press from "./Press";
 import SectionHeading from "./SectionHeading";
 import { Check } from "./Icons";
 import { monthlyPlans, MONTHLY_NOTE } from "../data/services";
-import { selectProject } from "../lib/utils";
+import { selectPlan } from "../lib/utils";
 
 // Two monthly plans after the website plans, built like the Pricing cards. The featured plan uses
 // the pill colors (black here, white in dark mode), like the floating nav pills.
@@ -43,7 +43,7 @@ export default function MonthlyPlans() {
                   <div className="mt-auto pt-7">
                     <Press
                       href="#contact"
-                      onClick={() => selectProject(p.project)}
+                      onClick={() => selectPlan(p.id)}
                       className={`btn ${dark ? "bg-on-pill text-pill" : "bg-pill text-on-pill"}`}
                     >
                       Get started

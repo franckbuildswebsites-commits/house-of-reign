@@ -14,6 +14,6 @@ const e164 = `${digits.length === 10 ? "+1" : "+"}${digits}`;
 export const smsHref = `sms:${e164}`;
 export const telHref = `tel:${e164}`;
 
-// A pricing card's button fires this so the contact form pre-selects that project type.
-export const PROJECT_EVENT = "hor:select-project";
-export const selectProject = (project) => window.dispatchEvent(new CustomEvent(PROJECT_EVENT, { detail: project }));
+// A plan button fires this so the Get started flow opens on its recommendation with that plan picked.
+export const PLAN_EVENT = "reign:select-plan";
+export const selectPlan = (id) => window.dispatchEvent(new CustomEvent(PLAN_EVENT, { detail: id }));

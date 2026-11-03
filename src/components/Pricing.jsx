@@ -3,7 +3,7 @@ import Press from "./Press";
 import SectionHeading from "./SectionHeading";
 import { Check } from "./Icons";
 import { services, HOURLY_RATE, REVISION_NOTE, SITE_CARE } from "../data/services";
-import { selectProject } from "../lib/utils";
+import { selectPlan } from "../lib/utils";
 
 const promises = ["Free mockup before you pay", "You own your site and domain", "Replies within 24 hours", "You work with us directly"];
 
@@ -37,7 +37,7 @@ export default function Pricing() {
                 ))}
               </ul>
               <div className="mt-auto pt-7">
-                <Press href="#contact" onClick={s.project ? () => selectProject(s.project) : undefined} className="btn btn-primary">
+                <Press href="#contact" onClick={() => selectPlan(s.id)} className="btn btn-primary">
                   {s.cta ?? "Get a free mockup"}
                 </Press>
               </div>

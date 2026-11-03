@@ -10,7 +10,7 @@ import Pricing from "./components/Pricing";
 import MonthlyPlans from "./components/MonthlyPlans";
 import Process from "./components/Process";
 import FAQ from "./components/FAQ";
-import Contact from "./components/Contact";
+import GetStarted from "./components/GetStarted";
 import ClosingCTA from "./components/ClosingCTA";
 import Footer from "./components/Footer";
 import FloatingContact from "./components/FloatingContact";
@@ -60,7 +60,7 @@ export default function App() {
           <Divider />
           <FAQ />
           <Divider />
-          <Contact />
+          <GetStarted />
           <ClosingCTA />
         </main>
         <Footer />

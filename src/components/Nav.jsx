@@ -6,7 +6,7 @@ import ThemeToggle from "./ThemeToggle";
 import { Chat } from "./Icons";
 import IconPill from "./IconPill";
 import { EMAIL } from "../config";
-import { smsHref } from "../lib/utils";
+
 import { pauseScroll, resumeScroll, scrollToHash } from "../lib/scroll";
 
 const links = [
@@ -116,7 +116,7 @@ export default function Nav() {
                 <Press href="#contact" onClick={go} className="btn pill-solid sm:hidden">
                   Get Started
                 </Press>
-                <IconPill href={smsHref} className="min-h-11 bg-accent text-on-accent" Icon={Chat}>
+                <IconPill href="#contact" onClick={go} className="min-h-11 bg-accent text-on-accent" Icon={Chat}>
             Message us
           </IconPill>
               </div>

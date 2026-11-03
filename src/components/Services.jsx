@@ -3,37 +3,10 @@ import Reveal from "./Reveal";
 import Press from "./Press";
 import Parallax from "./Parallax";
 import { WebsiteMockup } from "./Mockups";
-import { Calendar, MapPin, Shield, Spark, Grid, MenuBoard, Flyer, IdCard } from "./Icons";
-import { HOURLY_RATE } from "../data/services";
+import { HOURLY_RATE, serviceGroups as groups } from "../data/services";
 
 // Built to be scanned: websites first in one big card, then everything else in three labeled groups
 // of small cards (icon, name, one short line, starting price). Website plans live in Pricing.jsx.
-const groups = [
-  {
-    label: "Online",
-    items: [
-      { name: "Online ordering & booking", line: "Orders and bookings in a few taps.", price: "From $150", Icon: Calendar },
-      { name: "Google Business Profile", line: "Get found by locals on Google Maps.", price: "From $150", Icon: MapPin },
-      { name: "Site care", line: "Hosting, updates and changes.", price: "$125/mo", Icon: Shield, href: "#pricing" },
-    ],
-  },
-  {
-    label: "Brand",
-    items: [
-      { name: "Logos & branding", line: "A simple mark that works everywhere.", price: "From $150", Icon: Spark },
-      { name: "Social media posts", line: "On-brand templates, ready to post.", price: "5 templates from $100", Icon: Grid },
-    ],
-  },
-  {
-    label: "Print",
-    items: [
-      { name: "Menus & signage", line: "Print-ready boards and signs.", price: "From $100", Icon: MenuBoard },
-      { name: "Flyers & posters", line: "Print that matches your brand.", price: "From $50", Icon: Flyer },
-      { name: "Business cards", line: "Cards that match your logo.", price: "From $60, printing extra", Icon: IdCard },
-    ],
-  },
-];
-
 function Card({ item: { name, line, price, Icon, href = "#contact" }, delay }) {
   return (
     <Reveal delay={delay} className="h-full">

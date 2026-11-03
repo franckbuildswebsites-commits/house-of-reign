@@ -85,3 +85,62 @@ export const Flyer = (p) => (
 export const IdCard = (p) => (
   <svg {...line} {...p}><rect x="2.5" y="5.5" width="19" height="13" rx="2.5" /><circle cx="8" cy="11" r="2" /><path d="M5 15.5c.6-1.3 1.7-2 3-2s2.4.7 3 2M14 10h4.5M14 13.5h4.5" /></svg>
 );
+
+// Get started flow
+export const Camera = (p) => (
+  <svg {...line} {...p}><path d="M4 8h3l1.5-2.5h7L17 8h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>
+);
+export const Question = (p) => (
+  <svg {...line} {...p}><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01" /></svg>
+);
+export const Cup = (p) => (
+  <svg {...line} {...p}><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10.5h1.5a2.5 2.5 0 0 1 0 5H17M8 3.5v2M12 3.5v2" /></svg>
+);
+export const Store = (p) => (
+  <svg {...line} {...p}><path d="M4 10v10h16V10M3.5 4.5h17L21 10H3z" /><path d="M10 20v-5h4v5" /></svg>
+);
+export const Scissors = (p) => (
+  <svg {...line} {...p}><circle cx="6" cy="7" r="2.5" /><circle cx="6" cy="17" r="2.5" /><path d="M8 8.5 20 18M8 15.5 20 6" /></svg>
+);
+export const Dumbbell = (p) => (
+  <svg {...line} {...p}><path d="M6.5 7v10M4 9v6M17.5 7v10M20 9v6M6.5 12h11" /></svg>
+);
+export const Ticket = (p) => (
+  <svg {...line} {...p}><path d="M3.5 7.5h17v3a1.5 1.5 0 0 0 0 3v3h-17v-3a1.5 1.5 0 0 0 0-3z" /><path d="M14 7.5v9" strokeDasharray="1.5 2" /></svg>
+);
+export const Briefcase = (p) => (
+  <svg {...line} {...p}><rect x="3.5" y="7" width="17" height="12.5" rx="2" /><path d="M9 7V5h6v2M3.5 12.5h17" /></svg>
+);
+export const Dots = (p) => (
+  <svg {...line} {...p}><path d="M6 12h.01M12 12h.01M18 12h.01" strokeWidth="3" /></svg>
+);
+export const Users = (p) => (
+  <svg {...line} {...p}><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.7a3.5 3.5 0 0 1 0 6.6M18 14a6.5 6.5 0 0 1 3.5 6" /></svg>
+);
+export const Award = (p) => (
+  <svg {...line} {...p}><circle cx="12" cy="9" r="5.5" /><path d="m8.5 13.5-1.5 7 5-2.5 5 2.5-1.5-7" /></svg>
+);
+export const Repeat = (p) => (
+  <svg {...line} {...p}><path d="M4 11V9.5A3.5 3.5 0 0 1 7.5 6H19m0 0-3-3m3 3-3 3M20 13v1.5a3.5 3.5 0 0 1-3.5 3.5H5m0 0 3 3m-3-3 3-3" /></svg>
+);
+export const Rocket = (p) => (
+  <svg {...line} {...p}><path d="M13.5 17.5 9.5 13.5C11 8 14.5 4.5 20 4c-.5 5.5-4 9-6.5 13.5z" /><path d="M9.5 13.5 6 13l2.5-4H12M13.5 17.5l.5 3.5 4-2.5V15M6.5 17.5 4 20" /></svg>
+);
+export const Refresh = (p) => (
+  <svg {...line} {...p}><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12a8 8 0 0 1 14.3-4.9M18.5 3v4.5H14M5.5 21v-4.5H10" /></svg>
+);
+export const Phone = (p) => (
+  <svg {...line} {...p}><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" /><path d="M11 18.5h2" /></svg>
+);
+export const Sprout = (p) => (
+  <svg {...line} {...p}><path d="M12 21v-9M12 12C12 8 9 5.5 4.5 5.5 4.5 10 7.5 12 12 12zM12 14c0-3.5 2.5-6 7-6 0 4-3 6-7 6z" /></svg>
+);
+export const Bolt = (p) => (
+  <svg {...line} {...p}><path d="M13 2.5 4.5 13.5H12l-1 8 8.5-11H12z" /></svg>
+);
+export const Compass = (p) => (
+  <svg {...line} {...p}><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5z" /></svg>
+);
+export const ArrowLeft = (p) => (
+  <svg {...base} {...p}><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+);
