@@ -11,8 +11,8 @@ export default function MonthlyPlans() {
   return (
     <section id="monthly" aria-labelledby="monthly-title" className="section-y">
       <div className="site-wrap">
-        <SectionHeading id="monthly-title" label="Monthly plans" title="Look the part." dim="Every month.">
-          Your website is the start. We keep you looking the part every month: fresh content, a sharp Google profile, and a site that stays current.
+        <SectionHeading id="monthly-title" label="Monthly plans" title="Your business, at its best." dim="Every month.">
+          A great website gets you found. What keeps customers coming back is showing up looking sharp, week after week. We shoot your content, run your posts, keep your Google profile working, and keep your site current, so you can focus on running the place.
         </SectionHeading>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -28,8 +28,10 @@ export default function MonthlyPlans() {
                   className={`flex h-full flex-col rounded-[24px] border p-6 sm:p-7 ${dark ? "border-pill bg-pill text-on-pill" : "border-line"}`}
                 >
                   <h3 className="t-h4">{p.name}</h3>
+                  <p className={`mt-1 text-sm ${soft}`}>{p.tagline}</p>
                   <p className="t-h2 mt-6">{p.price}</p>
                   <p className={`mt-0.5 text-sm ${soft}`}>per month</p>
+                  <p className="mt-5 text-[0.9375rem] leading-snug">{p.line}</p>
                   <ul className={`mt-5 flex flex-col gap-2 border-t pt-5 text-[0.9375rem] leading-snug ${dark ? "border-on-pill/20" : "border-line"}`}>
                     {p.features.map((f) => (
                       <li key={f} className="flex gap-2">

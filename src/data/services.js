@@ -46,6 +46,8 @@ export const SITE_CARE = "$125/month";
 export const monthlyPlans = [
   {
     name: "Presence",
+    tagline: "Look the part, every week.",
+    line: "For businesses ready to stop posting when they remember and start showing up like the best spot in town.",
     price: "$750",
     features: [
       "1 on-site content shoot per month",
@@ -58,6 +60,8 @@ export const monthlyPlans = [
   },
   {
     name: "Growth",
+    tagline: "Become the place people talk about.",
+    line: "Twice the content, a monthly strategy call, and a plan for what's next. For businesses ready to grow.",
     price: "$1,200",
     features: [
       "2 on-site content shoots per month",
@@ -72,4 +76,4 @@ export const monthlyPlans = [
 ];
 
 export const MONTHLY_NOTE =
-  "3-month minimum. Billed monthly, upfront. You keep full ownership of your accounts and content. Spots are limited so every client gets real attention.";
+  "3-month minimum · Billed monthly · You own your accounts and content · Limited spots so every client gets real attention.";
