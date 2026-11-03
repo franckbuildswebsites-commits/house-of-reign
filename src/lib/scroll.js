@@ -4,12 +4,9 @@ import Lenis from "lenis";
 // screens (native scrolling feels better there). Anchor links (#pricing, #contact…) glide too.
 let lenis = null;
 
-// Space to leave above a section when jumping to it: the fixed header plus a little air.
-export const headerOffset = () => (window.innerWidth >= 1024 ? 139 : 108);
-
 export function startSmoothScroll() {
   if (lenis || matchMedia("(prefers-reduced-motion: reduce)").matches || matchMedia("(hover: none)").matches) return;
-  // Lenis honors the CSS scroll-padding-top (index.css), so anchors need no extra offset here.
+  // Offsets come from scroll-margin-top in index.css.
   lenis = new Lenis({ duration: 1.1, anchors: true, autoRaf: true });
 }
 
@@ -19,7 +16,7 @@ export function scrollToHash(hash) {
   const el = document.querySelector(hash);
   if (!el) return;
   if (lenis) lenis.scrollTo(el);
-  else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - headerOffset(), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  else el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
 }
 
 // The full-screen menu freezes the page behind it.

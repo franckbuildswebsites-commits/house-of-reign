@@ -1,97 +1,110 @@
-import { useRef, useState } from "react";
-import { useMotionValueEvent, useScroll } from "motion/react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { m, useScroll } from "motion/react";
 import SectionHeading from "./SectionHeading";
-import { CallMock, BuildMock, LaunchMock, CareMock } from "./StepMockups";
 import { steps } from "../data/process";
 
-const media = [CallMock, BuildMock, LaunchMock, CareMock];
+const reduced = () => typeof window !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Where step i sits while step `active` is showing. Text slides out both ways in its clipped box.
-const textY = (i, active) => (i === active ? "translateY(0)" : i < active ? "translateY(-110%)" : "translateY(110%)");
-// Illustrations are opaque cards: each new one slides up and covers the last.
-const cardY = (i, active) => (i <= active ? "translateY(0)" : "translateY(110%)");
-
-// A pinned stage, after the reference: step list on the left, the step's illustration in the middle,
-// the step's text top-right and the step number bottom-left. Scrolling moves through the steps.
-// Every step is stacked in place and slides on transforms, so nothing ever fades.
-export default function Process() {
+// One step: its number on the rail, its text beside it. The first time it comes into view the number
+// darkens and the text rises 16px into place (CSS, .tl-step in index.css). The prerendered HTML shows
+// everything as finished; only steps still below the fold after hydration wait for their entrance,
+// and the space they take never changes.
+function Step({ step }) {
   const ref = useRef(null);
-  const [active, setActive] = useState(0);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  useMotionValueEvent(scrollYProgress, "change", (p) => setActive(Math.min(steps.length - 1, Math.floor(p * steps.length))));
+  const [state, setState] = useState("seen");
+
+  useLayoutEffect(() => {
+    const el = ref.current?.querySelector(".tl-number"); // the number meets the rail's tip
+    if (!el || reduced() || !("IntersectionObserver" in window)) return;
+    if (el.getBoundingClientRect().top + el.offsetHeight / 2 < window.innerHeight * 0.7) return;
+    setState("waiting");
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setState("seen");
+        io.disconnect();
+      },
+      { rootMargin: "0px 0px -30% 0px", threshold: 0.5 }, // its middle at 70% of the screen, where the rail fills to
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <section id="process" aria-labelledby="process-title" className="pt-22 lg:pt-28">
-      <div className="site-wrap">
-        <SectionHeading id="process-title" variant="end" label="How it works" title="Mockup to launch." dim="Four simple steps." />
+    <li ref={ref} data-state={state} className="tl-step grid grid-cols-[var(--tl-col)_minmax(0,1fr)] gap-x-5 pb-14 last:pb-0 sm:gap-x-8 lg:pb-20">
+      {/* The number sits on the page color so the rail shows only between numbers. */}
+      <p aria-hidden="true" className="tl-number relative z-10 justify-self-center bg-page py-2 tabular-nums">
+        {step.n}
+      </p>
+      <div className="tl-body max-w-[36rem] pt-2 lg:pt-3.5">
+        <h3 className="t-h4 font-semibold">
+          <span className="sr-only">Step {step.n}: </span>
+          {step.title}
+        </h3>
+        <p className="mt-2 text-dim">{step.body}</p>
       </div>
+    </li>
+  );
+}
 
-      {/* The stage below is visual only; this list carries every step for search engines and screen readers. */}
-      <ol className="sr-only">
-        {steps.map((st) => (
-          <li key={st.n}>
-            <h3>
-              Step {st.n}: {st.title} ({st.timing})
-            </h3>
-            <p>You: {st.you}</p>
-            <p>Us: {st.us}</p>
-          </li>
-        ))}
-      </ol>
+// A vertical timeline with plain page scrolling (nothing pinned). A hairline runs down between the
+// step numbers and an indigo line fills it as you scroll: scroll-linked scaleY from the top, a
+// transform only. With reduced motion the line is simply full and every step is already in place.
+export default function Process() {
+  const list = useRef(null);
+  const rail = useRef(null);
+  const [span, setSpan] = useState(null); // where the rail starts and ends, measured from the numbers
+  const { scrollYProgress } = useScroll({ target: rail, offset: ["start 70%", "end 70%"] });
 
-      <div ref={ref} className="relative -mt-10 lg:-mt-24" style={{ height: `${steps.length * 85 + 15}svh` }}>
-        <div
-          aria-hidden="true"
-          className="site-wrap sticky top-0 grid h-svh grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] gap-x-10 gap-y-5 overflow-hidden pb-20 pt-24 lg:grid-cols-[10rem_minmax(0,1fr)_17rem] lg:grid-rows-[minmax(0,1fr)_auto] lg:pb-10 lg:pt-[7.5rem]"
-        >
-          {/* step list */}
-          <ol className="col-start-1 row-start-3 flex items-center gap-1.5 self-end justify-self-end pb-2 lg:row-span-1 lg:row-start-1 lg:flex-col lg:items-start lg:gap-3 lg:self-center lg:justify-self-auto lg:pb-0">
-            {steps.map((st, i) => (
-              <li key={st.n} className={`flex items-center gap-2.5 text-sm transition-colors duration-300 ${i === active ? "text-ink" : "text-caption"}`}>
-                <span className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${i <= active ? "bg-accent" : "bg-line"}`} />
-                <span className="hidden lg:inline">{st.title}</span>
-              </li>
-            ))}
-          </ol>
+  // The rail runs from the middle of 01 to the middle of 04, whatever the text wraps to.
+  useLayoutEffect(() => {
+    const ol = list.current;
+    if (!ol) return;
+    const measure = () => {
+      const nums = ol.querySelectorAll(".tl-number");
+      const first = nums[0];
+      const last = nums[nums.length - 1];
+      const top = first.offsetTop + first.offsetHeight / 2;
+      const bottom = last.offsetTop + last.offsetHeight / 2;
+      setSpan((s) => (s && s.top === top && s.height === bottom - top ? s : { top, height: bottom - top }));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(ol);
+    return () => ro.disconnect();
+  }, []);
 
-          {/* step text */}
-          <div className="relative row-start-1 grid overflow-hidden lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:self-center">
-            {steps.map((st, i) => (
-              <div key={st.n} className="step-slide col-start-1 row-start-1" style={{ transform: textY(i, active) }}>
-                <p className="t-h3">{st.title}</p>
-                <p className="t-small mt-1">{st.timing}</p>
-                <dl className="mt-4 grid grid-cols-2 gap-4 text-[0.9375rem] leading-snug lg:grid-cols-1">
-                  <div>
-                    <dt className="label">You</dt>
-                    <dd className="mt-0.5">{st.you}</dd>
-                  </div>
-                  <div>
-                    <dt className="label !text-accent">Us</dt>
-                    <dd className="mt-0.5">{st.us}</dd>
-                  </div>
-                </dl>
+  return (
+    <section id="process" aria-labelledby="process-title" className="section-y">
+      <div className="site-wrap">
+        <SectionHeading id="process-title" label="How it works" title="From first message" dim="to looking the part.">
+          Simple, fast, and you see everything before you pay for the rest.
+        </SectionHeading>
+
+        <div className="md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,2.6fr)]">
+          <div aria-hidden="true" className="hidden md:block" />
+          <div className="md:pl-12">
+            <ol ref={list} className="relative">
+              <div
+                ref={rail}
+                aria-hidden="true"
+                className="pointer-events-none absolute left-[calc(var(--tl-col)/2)] w-px -translate-x-1/2 bg-line"
+                style={span ? { top: span.top, height: span.height } : { top: "2rem", bottom: "2rem" }}
+              >
+                {/* Reduced motion: CSS overrides the scroll link and shows the line full. */}
+                <m.div className="absolute inset-0 origin-top bg-accent motion-reduce:!transform-none" style={{ scaleY: scrollYProgress }} />
               </div>
-            ))}
-          </div>
-
-          {/* illustration */}
-          <div className="relative row-start-2 grid min-h-0 place-items-center lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <div className="@container relative aspect-[4/4.4] max-h-full w-[min(100%,20rem)] overflow-hidden rounded-[24px] border border-line bg-page lg:w-[min(100%,24rem)]">
-              {media.map((Media, i) => (
-                <div key={i} className="step-slide absolute inset-0" style={{ transform: cardY(i, active) }}>
-                  <Media />
-                </div>
+              {steps.map((st) => (
+                <Step key={st.n} step={st} />
               ))}
-            </div>
-          </div>
+            </ol>
 
-          {/* step number */}
-          <div className="relative col-start-1 row-start-3 h-12 overflow-hidden lg:row-start-2">
-            {steps.map((st, i) => (
-              <p key={st.n} className="step-slide t-h2 absolute left-0 top-0 tabular-nums text-caption" style={{ transform: textY(i, active) }}>
-                {st.n}
-              </p>
-            ))}
+            <div className="mt-12 grid grid-cols-[var(--tl-col)_minmax(0,1fr)] gap-x-5 sm:gap-x-8 lg:mt-16">
+              <span />
+              <a href="#contact" className="link-more !mt-0 justify-self-start">
+                Get started
+              </a>
+            </div>
           </div>
         </div>
       </div>

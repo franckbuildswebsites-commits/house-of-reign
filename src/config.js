@@ -10,6 +10,9 @@ export const OWNER = "Francisco"; // shown as the founder
 export const EMAIL = "franckbuildswebsites@gmail.com";
 export const PHONE = "(754) 277-6110"; // shown as written; the "Message us" buttons use the digits
 export const INSTAGRAM = ""; // handle without the @. Leave "" to keep Instagram off the site.
+// Calendly scheduling link (e.g. "https://calendly.com/yourname/15min"). When set, "Book a quick call"
+// after the Get started flow opens it in a popup; left "", that button calls the phone number instead.
+export const CALENDLY_URL = "";
 export const WEB3FORMS_KEY = "34d2b10c-64d1-445b-a01a-1e28cf70cdf4"; // from https://web3forms.com (meant to be public)
 
 // Full public URL once deployed, no trailing slash (e.g. "https://yourdomain.com").
