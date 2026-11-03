@@ -144,3 +144,6 @@ export const Compass = (p) => (
 export const ArrowLeft = (p) => (
   <svg {...base} {...p}><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
 );
+export const Star = (p) => (
+  <svg {...line} {...p}><path d="m12 3.5 2.6 5.3 5.9.9-4.25 4.1 1 5.8L12 16.9l-5.25 2.7 1-5.8L3.5 9.7l5.9-.9z" /></svg>
+);

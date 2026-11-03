@@ -17,3 +17,7 @@ export const telHref = `tel:${e164}`;
 // A plan button fires this so the Get started flow opens on its recommendation with that plan picked.
 export const PLAN_EVENT = "reign:select-plan";
 export const selectPlan = (id) => window.dispatchEvent(new CustomEvent(PLAN_EVENT, { detail: id }));
+
+// A service card fires this so the Get started flow opens on its first question with that answer picked.
+export const SERVICE_EVENT = "reign:select-service";
+export const selectService = (id) => window.dispatchEvent(new CustomEvent(SERVICE_EVENT, { detail: id }));

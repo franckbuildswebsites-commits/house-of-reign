@@ -3,8 +3,11 @@ import Blob from "./Blob";
 import { usePauseOffscreen } from "../lib/offscreen";
 
 const services = [
-  "Web Design", "Website Redesigns", "Online Ordering", "Booking Setup", "Google Business Profile", "Logos & Branding",
-  "Social Media Posts", "Menus & Signage", "Flyers & Posters", "Business Cards", "Site Care",
+  // Build
+  "Web Design", "Website Redesigns", "Online Ordering", "Booking Setup", "Google Profile Setup", "Logos & Branding",
+  "Social Post Designs", "Menus & Signage", "Flyers & Posters", "Business Cards",
+  // Grow, every month
+  "Content Shoots", "Social Media", "Google Profile", "Site Care",
 ];
 
 // Everything we do, drifting up the right side (wide screens only; the Services section is right

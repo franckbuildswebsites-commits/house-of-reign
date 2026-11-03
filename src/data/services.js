@@ -1,4 +1,4 @@
-import { Calendar, MapPin, Shield, Spark, Grid, MenuBoard, Flyer, IdCard } from "../components/Icons";
+import { Calendar, MapPin, Shield, Spark, Grid, MenuBoard, Flyer, IdCard, Camera, Phone, Star } from "../components/Icons";
 
 // Every build includes one revision round; extra changes are billed hourly.
 export const HOURLY_RATE = "$75/hr";
@@ -82,30 +82,31 @@ export const monthlyPlans = [
 export const MONTHLY_NOTE =
   "3-month minimum · Billed monthly · You own your accounts and content · Limited spots so every client gets real attention.";
 
-// Smaller services (Services.jsx), grouped. Branding and Print also feed the Get started
-// recommendation, so the from-prices live here once.
+// Smaller services (Services.jsx) in two groups: one-time builds, then what we do every month.
+// `help` is the "What can we help with?" answer a card picks when it opens the Get started flow.
+// Branding items also feed that flow's Branding & print recommendation, so their from-prices live
+// here once. Monthly services show no price: pricing lives in Monthly plans.
 export const serviceGroups = [
   {
-    label: "Online",
+    label: "Build",
     items: [
-      { name: "Online ordering & booking", line: "Orders and bookings in a few taps.", price: "From $150", Icon: Calendar },
-      { name: "Google Business Profile", line: "Get found by locals on Google Maps.", price: "From $150", Icon: MapPin },
-      { name: "Site care", line: "Hosting, updates and changes.", price: "$125/mo", Icon: Shield, href: "#pricing" },
+      { name: "Online ordering & booking", line: "Orders and bookings in a few taps.", price: "From $150", Icon: Calendar, help: "website" },
+      { name: "Google profile setup", line: "Get found by locals on Google Maps.", price: "From $150", Icon: MapPin, help: "google" },
+      { name: "Logos & branding", line: "A simple mark that works everywhere.", price: "From $150", Icon: Spark, help: "branding" },
+      { name: "Social post designs", line: "On-brand templates, ready to post.", price: "5 templates from $100", Icon: Grid, help: "branding" },
+      { name: "Menus & signage", line: "Print-ready boards and signs.", price: "From $100", Icon: MenuBoard, help: "branding" },
+      { name: "Flyers & posters", line: "Print that matches your brand.", price: "From $50", Icon: Flyer, help: "branding" },
+      { name: "Business cards", line: "Cards that match your logo.", price: "From $60, printing extra", Icon: IdCard, help: "branding" },
     ],
   },
   {
-    label: "Brand",
+    label: "Grow, every month",
+    monthly: true,
     items: [
-      { name: "Logos & branding", line: "A simple mark that works everywhere.", price: "From $150", Icon: Spark },
-      { name: "Social media posts", line: "On-brand templates, ready to post.", price: "5 templates from $100", Icon: Grid },
-    ],
-  },
-  {
-    label: "Print",
-    items: [
-      { name: "Menus & signage", line: "Print-ready boards and signs.", price: "From $100", Icon: MenuBoard },
-      { name: "Flyers & posters", line: "Print that matches your brand.", price: "From $50", Icon: Flyer },
-      { name: "Business cards", line: "Cards that match your logo.", price: "From $60, printing extra", Icon: IdCard },
+      { name: "Content shoots", line: "Photos and Reels shot at your place, every month.", price: "In every monthly plan", Icon: Camera, help: "content" },
+      { name: "Social media management", line: "Posts and Reels edited, written, and scheduled for you.", price: "In every monthly plan", Icon: Phone, help: "content" },
+      { name: "Google Business Profile", line: "Posts, review replies, and a profile that gets you found.", price: "In every monthly plan", Icon: Star, help: "google" },
+      { name: "Website upkeep", line: "Hosting, updates and changes.", price: "$125/mo, or in every monthly plan", Icon: Shield, help: "website" },
     ],
   },
 ];

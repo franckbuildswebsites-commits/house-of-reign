@@ -9,7 +9,7 @@ import {
 } from "./Icons";
 import { STUDIO_NAME, EMAIL, PHONE, WEB3FORMS_KEY, CALENDLY_URL } from "../config";
 import { services, monthlyPlans, serviceGroups } from "../data/services";
-import { isPlaceholder, showInstagram, instagramHandle, instagramUrl, smsHref, telHref, PLAN_EVENT } from "../lib/utils";
+import { isPlaceholder, showInstagram, instagramHandle, instagramUrl, smsHref, telHref, PLAN_EVENT, SERVICE_EVENT } from "../lib/utils";
 import { scrollToHash } from "../lib/scroll";
 
 // "Get started": a short consultation instead of a form. One question per screen, tap to answer,
@@ -58,7 +58,7 @@ const PLAN_STEP = STEPS.indexOf("plan");
 const DONE = STEPS.length;
 
 // ── Plans, from the same data as the Pricing and Monthly plans sections ─────────────────────
-const brandingItems = serviceGroups.filter((g) => g.label !== "Online").flatMap((g) => g.items);
+const brandingItems = serviceGroups.flatMap((g) => g.items).filter((it) => it.help === "branding");
 const PLANS = Object.fromEntries([
   ...services.map((s) => [s.id, { id: s.id, name: s.name, price: s.price, unit: "starting at", features: s.features }]),
   ...monthlyPlans.map((p) => [p.id, { id: p.id, name: p.name, price: p.price, unit: "per month", features: p.features, featured: p.featured, monthly: true }]),
@@ -302,8 +302,24 @@ export default function GetStarted() {
       moved.current = true;
       setStep(PLAN_STEP);
     };
+    // Service cards: back to the first question with that answer picked (added to any others).
+    const onService = (e) => {
+      if (!HELP.some((h) => h.id === e.detail)) return;
+      clearTimeout(timer.current);
+      busy.current = false;
+      setPick("");
+      setHelp((h) => (h.includes(e.detail) ? h : [...h.filter((x) => x !== "unsure"), e.detail]));
+      setTrail([]);
+      setDir(-1);
+      moved.current = true;
+      setStep(0);
+    };
     window.addEventListener(PLAN_EVENT, onPlan);
-    return () => window.removeEventListener(PLAN_EVENT, onPlan);
+    window.addEventListener(SERVICE_EVENT, onService);
+    return () => {
+      window.removeEventListener(PLAN_EVENT, onPlan);
+      window.removeEventListener(SERVICE_EVENT, onService);
+    };
   }, []);
 
   const toggleHelp = (id) =>
