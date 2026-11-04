@@ -29,7 +29,7 @@ export default function FloatingContact() {
     // The wrapper rises in on load; the inner layer slides away (an animation's fill would override it).
     <aside aria-label="Quick contact" className="rise fixed left-1/2 z-40 -translate-x-1/2" style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))", "--d": "900ms" }}>
       <m.div initial={false} animate={{ y: hidden ? 110 : 0 }} transition={SPRING_SOFT}>
-        <IconPill href="#contact" inert={hidden || undefined} className="pill-solid" Icon={Chat}>
+        <IconPill href="/contact" inert={hidden || undefined} className="pill-solid" Icon={Chat}>
             Message us
           </IconPill>
       </m.div>

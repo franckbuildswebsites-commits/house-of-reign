@@ -3,7 +3,6 @@ import Press from "./Press";
 import SectionHeading from "./SectionHeading";
 import { Check, Layout } from "./Icons";
 import { services, HOURLY_RATE, REVISION_NOTE, SITE_CARE, BUNDLE_BANNER } from "../data/services";
-import { selectPlan } from "../lib/utils";
 
 const promises = ["Free mockup before you pay", "You own your site and domain", "Replies within 24 hours", "You work with us directly"];
 
@@ -19,7 +18,7 @@ export default function Pricing() {
             <Layout className="h-4 w-4 shrink-0" />
             {BUNDLE_BANNER}
           </p>
-          <a href="#monthly" className="link-more !mt-0 text-[0.9375rem]">
+          <a href="/pricing" data-section="monthly" className="link-more !mt-0 text-[0.9375rem]">
             See monthly plans
           </a>
         </Reveal>
@@ -47,7 +46,7 @@ export default function Pricing() {
                 ))}
               </ul>
               <div className="mt-auto pt-7">
-                <Press href="#contact" onClick={() => selectPlan(s.id)} className="btn btn-primary">
+                <Press href={`/contact?plan=${s.id}`} className="btn btn-primary">
                   {s.cta ?? "Get a free mockup"}
                 </Press>
               </div>

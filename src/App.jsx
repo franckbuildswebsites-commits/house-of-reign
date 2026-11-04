@@ -15,6 +15,7 @@ import ClosingCTA from "./components/ClosingCTA";
 import Footer from "./components/Footer";
 import FloatingContact from "./components/FloatingContact";
 import { startSmoothScroll } from "./lib/scroll";
+import { startRouter } from "./lib/router";
 
 // Hairline between white sections, inside the same container as everything else.
 const Divider = () => (
@@ -29,7 +30,10 @@ const loadFeatures = () => import("./lib/motion-features").then((mod) => mod.def
 // Section order: hero → services → pricing → monthly plans → featured work → testimonial →
 // how it works → note → FAQ → Get started → closing call to action → footer.
 export default function App() {
-  useEffect(() => startSmoothScroll(), []);
+  useEffect(() => {
+    startSmoothScroll();
+    return startRouter();
+  }, []);
 
   return (
     <LazyMotion features={loadFeatures} strict>

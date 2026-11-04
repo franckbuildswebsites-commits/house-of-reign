@@ -24,7 +24,7 @@ export function Wordmark({ className = "" }) {
 // Header logo: the mark 48px tall (44 on phones), the name beside it. Below 375px only the mark fits.
 export default function Logo({ className = "", onClick }) {
   return (
-    <a href="#top" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`flex h-11 items-center gap-2 text-ink lg:h-12 ${className}`}>
+    <a href="/" onClick={onClick} aria-label={`${STUDIO_NAME}, back to top`} className={`flex h-11 items-center gap-2 text-ink lg:h-12 ${className}`}>
       <img src={MARK} alt="" width="118" height="96" className="h-full w-auto" />
       <span className="whitespace-nowrap text-[1.125rem] font-semibold leading-none tracking-[-0.03em] max-[23.4rem]:hidden min-[26rem]:text-[1.375rem] lg:text-[1.75rem]">{STUDIO_NAME}</span>
     </a>
