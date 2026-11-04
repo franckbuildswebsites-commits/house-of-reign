@@ -1,4 +1,4 @@
-# Reign Studio: website (takereign.com)
+# Reign Studios: website (reignstudios.co)
 
 Vite + React + Tailwind (v4) + Framer Motion (`motion`) + Lenis. Single page, light for everyone (whatever the device is
 set to); dark only turns on from the small switch in the header, and the choice is remembered.

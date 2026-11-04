@@ -125,7 +125,7 @@ export default function ClosingCTA() {
               <li key={x}>{x}</li>
             ))}
           </ul>
-          <p className="hidden text-dim lg:block">takereign.com</p>
+          <p className="hidden text-dim lg:block">reignstudios.co</p>
           <p className="hidden text-dim lg:block lg:text-right" lang="es">
             Hablamos español
           </p>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://takereign.com/sitemap.xml
+Sitemap: https://reignstudios.co/sitemap.xml
