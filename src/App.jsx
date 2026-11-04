@@ -26,7 +26,7 @@ const Divider = () => (
 // Framer Motion's animation features load in a separate chunk after the page is up.
 const loadFeatures = () => import("./lib/motion-features").then((mod) => mod.default);
 
-// Section order: hero → services → featured work → testimonial → pricing → monthly plans →
+// Section order: hero → services → pricing → monthly plans → featured work → testimonial →
 // how it works → note → FAQ → Get started → closing call to action → footer.
 export default function App() {
   useEffect(() => startSmoothScroll(), []);
@@ -46,13 +46,13 @@ export default function App() {
           <Divider />
           <Services />
           <Divider />
-          <Work />
-          <Divider />
-          <Testimonials />
-          <Divider />
           <Pricing />
           <Divider />
           <MonthlyPlans />
+          <Divider />
+          <Work />
+          <Divider />
+          <Testimonials />
           <Divider />
           <Process />
           <Divider />
