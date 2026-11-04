@@ -4,7 +4,6 @@ import Press from "./Press";
 import Parallax from "./Parallax";
 import { WebsiteMockup } from "./Mockups";
 import { HOURLY_RATE, serviceGroups as groups } from "../data/services";
-import { selectService } from "../lib/utils";
 
 // Built to be scanned, in two labeled groups: "Build" (websites in one big card, then small cards
 // with a starting price) and "Grow, every month". Every small card opens the Get started flow with
@@ -12,7 +11,7 @@ import { selectService } from "../lib/utils";
 function Card({ item: { name, line, price, Icon, help }, delay }) {
   return (
     <Reveal delay={delay} className="h-full">
-      <Press href="#contact" onClick={() => selectService(help)} lift={3} className="flex h-full flex-col rounded-[20px] border border-line p-4 sm:p-5">
+      <Press href={`/contact?service=${help}`} lift={3} className="flex h-full flex-col rounded-[20px] border border-line p-4 sm:p-5">
         <Icon className="h-6 w-6 text-accent" />
         <h4 className="mt-3 text-[0.9375rem] font-semibold leading-snug tracking-[-0.012em] sm:text-[1.0625rem]">{name}</h4>
         <p className="mt-1 text-sm leading-snug text-dim">{line}</p>
@@ -35,7 +34,7 @@ export default function Services() {
                 <Reveal as="h3" className="t-h4">{label}</Reveal>
                 {monthly && (
                   <Reveal as="p">
-                    <a href="#monthly" className="link-more">
+                    <a href="/pricing" data-section="monthly" className="link-more">
                       See monthly plans
                     </a>
                   </Reveal>
@@ -48,7 +47,7 @@ export default function Services() {
                     <h4 className="label">Websites</h4>
                     <p className="t-h3 mt-2 max-w-[17ch]">Fast, mobile-first sites that bring in customers.</p>
                     <p className="mt-3 text-caption">From $750</p>
-                    <a href="#pricing" className="link-more">
+                    <a href="/pricing" className="link-more">
                       See plans
                     </a>
                   </div>

@@ -41,3 +41,8 @@
 - The closing section's fan still shows Wicked Bread and Past Present Future screenshots (decorative, no links).
 - The header logo sits at 60px while page content uses a 120px margin (requested, but uneven).
 - `src/components/Parallax 2.jsx` is an untracked stray copy, not committed. Safe to delete.
+
+## Clean URLs (2026-11-04)
+- One page, clean paths: /services, /pricing (website + monthly plans), /work, /how-it-works, /about, /faq, /contact. Map and logic in `src/lib/router.js`: pushState on clicks, back/forward, deep links on load, old `/#section` links rewritten, URL follows the section on screen (replaceState via IntersectionObserver).
+- Plan/service buttons link to `/contact?plan=<id>` / `/contact?service=<id>`.
+- `wrangler.jsonc` uses `not_found_handling: "single-page-application"`, so unknown paths serve the homepage (public/404.html is no longer used).

@@ -6,7 +6,7 @@ export default function Work() {
     <section id="featured" aria-label="Featured project" className="section-y">
       <div className="site-wrap">
         <FeaturedCaseStudy />
-        <a href="#contact" className="link-more mt-8 md:mt-10">
+        <a href="/contact" className="link-more mt-8 md:mt-10">
           Get started
         </a>
       </div>

@@ -101,7 +101,7 @@ export default function Process() {
 
             <div className="mt-12 grid grid-cols-[var(--tl-col)_minmax(0,1fr)] gap-x-5 sm:gap-x-8 lg:mt-16">
               <span />
-              <a href="#contact" className="link-more !mt-0 justify-self-start">
+              <a href="/contact" className="link-more !mt-0 justify-self-start">
                 Get started
               </a>
             </div>

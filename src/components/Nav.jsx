@@ -7,16 +7,17 @@ import { Chat } from "./Icons";
 import IconPill from "./IconPill";
 import { EMAIL } from "../config";
 
-import { pauseScroll, resumeScroll, scrollToHash } from "../lib/scroll";
+import { pauseScroll, resumeScroll } from "../lib/scroll";
 
 const links = [
-  { label: "Services", href: "#services" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Monthly plans", href: "#monthly" },
-  { label: "Work", href: "#featured" },
-  { label: "Process", href: "#process" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/services" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Monthly plans", href: "/pricing", section: "monthly" },
+  { label: "Work", href: "/work" },
+  { label: "How it works", href: "/how-it-works" },
+  { label: "About", href: "/about" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
 ];
 
 // No bar: everything floats over the page. Logo left, a solid pill in the center ("Menu" + theme
@@ -38,14 +39,11 @@ export default function Nav() {
   }, [open]);
 
   const close = () => setOpen(false);
-  // Menu links: close the sheet, unfreeze the page, then glide to the section under the header.
-  const go = (e) => {
-    const hash = e.currentTarget.getAttribute("href");
-    e.preventDefault();
+  // Menu links: close the sheet and unfreeze the page; the router (lib/router.js) then pushes
+  // the clean path and glides to the section under the header.
+  const go = () => {
     setOpen(false);
     resumeScroll();
-    requestAnimationFrame(() => scrollToHash(hash));
-    history.replaceState(null, "", hash);
   };
 
   return (
@@ -74,7 +72,7 @@ export default function Nav() {
             <ThemeToggle />
           </div>
 
-          <Press href="#contact" onClick={close} className="btn btn-nav pill-solid pointer-events-auto hidden sm:inline-flex">
+          <Press href="/contact" onClick={close} className="btn btn-nav pill-solid pointer-events-auto hidden sm:inline-flex">
             Get Started
           </Press>
         </div>
@@ -92,9 +90,10 @@ export default function Nav() {
           >
             <ul className="relative my-auto flex flex-col items-center gap-1 py-8 text-center">
               {links.map((l, i) => (
-                <li key={l.href} className="overflow-hidden">
+                <li key={l.label} className="overflow-hidden">
                   <m.a
                     href={l.href}
+                    data-section={l.section}
                     onClick={go}
                     initial={{ y: "105%" }}
                     animate={{ y: 0 }}
@@ -114,10 +113,10 @@ export default function Nav() {
               className="relative flex flex-col items-center gap-6 text-center"
             >
               <div className="flex flex-wrap justify-center gap-3">
-                <Press href="#contact" onClick={go} className="btn pill-solid sm:hidden">
+                <Press href="/contact" onClick={go} className="btn pill-solid sm:hidden">
                   Get Started
                 </Press>
-                <IconPill href="#contact" onClick={go} className="min-h-11 bg-accent text-on-accent" Icon={Chat}>
+                <IconPill href="/contact" onClick={go} className="min-h-11 bg-accent text-on-accent" Icon={Chat}>
             Message us
           </IconPill>
               </div>

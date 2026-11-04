@@ -50,7 +50,7 @@ export default function Hero() {
           </p>
         </div>
 
-        <a href="#services" className="scroll-cue label absolute bottom-6 right-0 flex items-center gap-1.5">
+        <a href="/services" className="scroll-cue label absolute bottom-6 right-0 flex items-center gap-1.5">
           Scroll
           <span aria-hidden="true" className="scroll-cue-line" />
         </a>

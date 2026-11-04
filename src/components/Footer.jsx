@@ -6,11 +6,11 @@ import { STUDIO_NAME, EMAIL, PHONE } from "../config";
 import { smsHref } from "../lib/utils";
 
 const links = [
-  ["Services", "#services"],
-  ["Pricing", "#pricing"],
-  ["Process", "#process"],
-  ["FAQ", "#faq"],
-  ["Contact", "#contact"],
+  ["Services", "/services"],
+  ["Pricing", "/pricing"],
+  ["How it works", "/how-it-works"],
+  ["FAQ", "/faq"],
+  ["Contact", "/contact"],
 ];
 
 const cycle = ["business.", "café.", "shop.", "salon.", "brand."];
