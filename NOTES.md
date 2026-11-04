@@ -26,7 +26,7 @@
 - Still in from before: Recent Work grid removed, Go Digital Hero featured case study kept, one scroll offset for every jump target.
 
 **Pending**
-- Connect takereign.com, with www as main and the root redirecting. It currently serves a different site, "Reign - Booking Software", so first confirm who controls the domain. Canonical, sitemap and share URLs already point to takereign.com.
+- Connect reignstudios.co to the Worker (custom domain). Canonical, sitemap, share URLs and schema already point to https://reignstudios.co; the contact email is hello@reignstudios.co.
 - Swap in the blob logo where placeholders remain: the crown is still the fallback in the founder avatar (`Photo.jsx`), shown because `public/me.jpg` is missing. Add the photo or use the blob mark.
 - Real Google reviews or testimonials, if there are any. Only the Go Digital Hero quote is on the site.
 - Calendly: set `CALENDLY_URL` in `src/config.js`. Until then "Book a quick call" after a submission says "Call us" and dials the phone.

@@ -7,7 +7,7 @@
 export const BRAND = "Reign"; // the wordmark (logo, footer)
 export const STUDIO_NAME = "Reign Studios"; // full name: titles, meta tags, legal text
 export const OWNER = "Francisco"; // shown as the founder
-export const EMAIL = "franckbuildswebsites@gmail.com";
+export const EMAIL = "hello@reignstudios.co";
 export const PHONE = "(754) 277-6110"; // shown as written; the "Message us" buttons use the digits
 export const INSTAGRAM = ""; // handle without the @. Leave "" to keep Instagram off the site.
 // Calendly scheduling link (e.g. "https://calendly.com/yourname/15min"). When set, "Book a quick call"
@@ -17,6 +17,6 @@ export const WEB3FORMS_KEY = "34d2b10c-64d1-445b-a01a-1e28cf70cdf4"; // from htt
 
 // Full public URL once deployed, no trailing slash (e.g. "https://yourdomain.com").
 // Used for the canonical link and Open Graph tags. Leave in brackets until you know it.
-export const SITE_URL = "https://takereign.com";
+export const SITE_URL = "https://reignstudios.co";
 
 export const SITE_DESCRIPTION = "Websites, branding, and everything in between for local businesses.";
